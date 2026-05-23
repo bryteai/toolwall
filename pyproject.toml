@@ -1,6 +1,6 @@
 [project]
 name = "toolwall"
-version = "0.1.0"
+version = "0.1.1"
 description = "A tool-boundary firewall for AI agents. Blocks indirect prompt injection at the tool–response boundary in four lines of code."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -89,6 +89,17 @@ ignore = ["E501"]
 # Training + scoring entrypoints use uppercase names that mirror
 # ML-paper convention (BASE_MODEL, LABELS, MAX_LEN, etc.).
 "training/*.py" = ["N806"]
+# The homoglyph normalization table in patterns.py contains ambiguous
+# Unicode characters (Cyrillic/Greek/Armenian/Cherokee look-alikes) BY
+# DESIGN — they are the literal keys we map back to ASCII before scoring.
+# Lint warning RUF001 ("ambiguous character in string") would flag every
+# entry in that table; the file is reviewed manually for correctness.
+"src/toolwall/detect/patterns.py" = ["RUF001"]
+# Eval + scoring scripts use single-letter loop variables (l for label,
+# j for inner index) following ML-paper convention. They're entrypoints,
+# not library code.
+"eval/*.py" = ["E741", "B007", "B905"]
+"scripts/*.py" = ["E741"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

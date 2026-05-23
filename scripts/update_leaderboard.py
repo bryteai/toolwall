@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import json
 import math
-from collections import defaultdict
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -53,18 +52,18 @@ def main():
         ],
     }
 
-    # Add wilson CIs to existing toolwall entries
-    n_attack_total = 185
-    n_benign_total = 15
+    # Add wilson CIs to existing toolwall entries. The bench split is fixed
+    # at n_attack=185, n_benign=15 (see lb["bench"] above) — recorded here for
+    # the human reader, not used directly because each entry carries its own n.
     for e in lb["entries"]:
         if "n_attack" in e and "asr_wilson95" not in e:
             n = e["n_attack"]
-            asr_k = int(round(e["asr"] * n))
+            asr_k = round(e["asr"] * n)
             e["asr_wilson95"] = wilson(asr_k, n)
         if "n_benign" in e and "utility_wilson95" not in e:
             n = e["n_benign"]
             if n > 0 and e.get("utility") is not None:
-                util_k = int(round(e["utility"] * n))
+                util_k = round(e["utility"] * n)
                 e["utility_wilson95"] = wilson(util_k, n)
 
     # Insert PromptGuard baseline (skip if already present)

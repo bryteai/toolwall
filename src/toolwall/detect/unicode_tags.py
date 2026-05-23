@@ -12,6 +12,11 @@ in code-point ranges that render invisibly or below the perception threshold:
   IPI literature and ATTESTMCP attack corpus.
 * **Bidirectional overrides** (U+202A--U+202E, U+2066--U+2069). Same class of
   homoglyph / display-reversal attack as `CVE-2021-42574 "Trojan Source"`_.
+* **Sneaky Bits (U+2062 INVISIBLE TIMES, U+2064 INVISIBLE PLUS).** Johann
+  Rehberger / Embracethered.com (2024) showed that invisible mathematical
+  operators can encode arbitrary binary payload that is utterly invisible
+  in any modern renderer. Used to smuggle commands or markers into LLM
+  context windows. Any run of 8+ such glyphs is hostile by construction.
 
 The detector returns a positive hit when any such character is found in a
 tool response. The threat model (§4.2) discusses the false-positive trade
@@ -34,6 +39,11 @@ _ZWSP = re.compile(r"[​‌‍⁠﻿]+")
 
 # Bidi overrides --- the Trojan Source family.
 _BIDI = re.compile(r"[‪-‮⁦-⁩]+")
+
+# Sneaky Bits: invisible math operators (Rehberger 2024).
+# U+2062 INVISIBLE TIMES, U+2064 INVISIBLE PLUS, U+2061 FUNCTION APPLICATION,
+# U+2063 INVISIBLE SEPARATOR. Runs of 8+ encode binary smuggle payload.
+_SNEAKY_BITS = re.compile(r"[⁡⁢⁣⁤]{8,}")
 
 
 def detect(text: str) -> list[Detection]:
@@ -77,6 +87,20 @@ def detect(text: str) -> list[Detection]:
                 },
             )
         )
+    for m in _SNEAKY_BITS.finditer(text):
+        run = m.end() - m.start()
+        hits.append(
+            Detection(
+                kind="sneaky-bits",
+                span=(m.start(), m.end()),
+                score=0.88,
+                evidence={
+                    "length": run,
+                    "codepoints": sorted({hex(ord(c)) for c in m.group(0)}),
+                    "source": "Rehberger / Embracethered Sneaky Bits 2024",
+                },
+            )
+        )
     return hits
 
 
@@ -89,6 +113,7 @@ def strip(text: str) -> str:
     text = _TAG_BLOCK.sub("", text)
     text = _ZWSP.sub("", text)
     text = _BIDI.sub("", text)
+    text = _SNEAKY_BITS.sub("", text)
     return text
 
 
