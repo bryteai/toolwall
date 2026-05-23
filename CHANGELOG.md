@@ -111,6 +111,15 @@ prompt-leak canary.
   defense-in-depth sanitized via `_safe_log_path()` and documented
   in `.snyk` with annual-review expiration.
 
+### CI
+
+- The `test` matrix on Python 3.10 has been moved to a dedicated
+  `test-py310-core` job that runs core detectors with pip (no
+  adapter extras), because the adapter extras' transitive
+  `onnxruntime` dropped cp310 wheels at 1.24+. The main test matrix
+  now runs on 3.11 / 3.12 / 3.13. `requires-python` in
+  `pyproject.toml` remains `>=3.10`.
+
 ---
 
 ## [v0.1.0]
