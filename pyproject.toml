@@ -93,7 +93,7 @@ ignore = ["E501"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
-addopts = "-ra --strict-markers --cov=toolwall --cov-report=term-missing"
+addopts = "-ra --strict-markers"
 
 [tool.mypy]
 python_version = "3.10"

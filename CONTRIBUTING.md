@@ -39,21 +39,28 @@ These items are parked in `ROADMAP.md` and will open up later:
 1. Open an issue first for non-trivial work. A short design note
    beats a surprising PR.
 2. Branch off `main`. Keep PRs ≤500 LOC where possible.
-3. Run the local checks:
+3. One-time prerequisites (skip if you already have `uv` + `pnpm`):
+   ```bash
+   # Python: uv ≥0.4
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   # Node ≥20 + pnpm 9 via corepack (bundled with Node, not always enabled)
+   corepack enable && corepack prepare pnpm@9 --activate
+   ```
+4. Run the local checks:
    ```bash
    uv sync --all-extras --dev
    ruff check . && ruff format --check .
    mypy src/toolwall
-   pytest -q
+   pytest -q --cov=toolwall --cov-report=term-missing
    pnpm --filter @bryteai/toolwall-core test
    pnpm --filter @toolwall/recorder test
    python -m eval.run_pipeline --inhouse-only --force
    ```
-4. Sign your commits (`git commit -s`). This adds a `Signed-off-by:`
+5. Sign your commits (`git commit -s`). This adds a `Signed-off-by:`
    line and constitutes the Developer Certificate of Origin
    (https://developercertificate.org/) — your statement that you
    have the right to contribute the code under Apache-2.0.
-5. Open a PR against `main`. Reference any related issue.
+6. Open a PR against `main`. Reference any related issue.
 
 ## Code style
 
