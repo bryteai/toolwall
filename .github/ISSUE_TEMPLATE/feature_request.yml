@@ -1,0 +1,42 @@
+name: Feature request
+description: Suggest a feature, a new detector pattern, or a new attack family
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before opening, please skim `ROADMAP.md`. The v0.1 API surface is
+        intentionally minimal — many ideas are deliberately deferred to a
+        later milestone.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What threat, workflow, or integration gap does this address?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: What would the public API or detector look like? Code sketches welcome.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches you weighed and why you set them aside.
+
+  - type: textarea
+    id: citation
+    attributes:
+      label: Public citation
+      description: |
+        **Required** if proposing a new attack family or detector pattern.
+        Link to the CVE, vendor blog, paper, or other public disclosure
+        that motivates this change. Patterns without provenance are declined.

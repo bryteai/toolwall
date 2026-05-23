@@ -1,0 +1,102 @@
+[project]
+name = "toolwall"
+version = "0.1.0"
+description = "A tool-boundary firewall for AI agents. Blocks indirect prompt injection at the tool–response boundary in four lines of code."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "Muhammad Hasnain", email = "hasnain@bryteai.studio" },
+]
+keywords = [
+    "ai-security",
+    "prompt-injection",
+    "indirect-prompt-injection",
+    "ipi",
+    "agents",
+    "mcp",
+    "claude",
+    "llm-security",
+    "owasp-llm",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pydantic>=2.6",
+    "regex>=2024.5.15",
+]
+
+[project.urls]
+Homepage = "https://fence.bryteai.studio"
+Repository = "https://github.com/bryteai/toolwall"
+Documentation = "https://fence.bryteai.studio/docs"
+Issues = "https://github.com/bryteai/toolwall/issues"
+Changelog = "https://github.com/bryteai/toolwall/releases"
+
+[project.scripts]
+toolwall = "toolwall.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.23",
+    "pytest-cov>=5",
+    "hypothesis>=6.100",
+    "ruff>=0.5",
+    "mypy>=1.10",
+]
+adapters = [
+    "anthropic>=0.40",
+    "openai>=1.50",
+    "crewai>=0.80",
+    "langgraph>=0.2",
+    "mcp>=1.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/toolwall"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "N", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+# `Blocked` is the documented public-API exception name; we keep it short
+# on purpose — see the README four-line example.
+"src/toolwall/exceptions.py" = ["N818"]
+# Training + scoring entrypoints use uppercase names that mirror
+# ML-paper convention (BASE_MODEL, LABELS, MAX_LEN, etc.).
+"training/*.py" = ["N806"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-ra --strict-markers --cov=toolwall --cov-report=term-missing"
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_return_any = true
+warn_unused_configs = true

@@ -1,0 +1,71 @@
+{
+  "name": "@bryteai/toolwall-core",
+  "version": "0.1.0",
+  "description": "Tool-boundary firewall for AI agents — feature-parity TypeScript port of the Python `toolwall`.",
+  "license": "Apache-2.0",
+  "author": "Muhammad Hasnain <hasnain@bryteai.studio>",
+  "homepage": "https://fence.bryteai.studio",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bryteai/toolwall.git",
+    "directory": "packages/toolwall-core"
+  },
+  "keywords": [
+    "ai",
+    "security",
+    "prompt-injection",
+    "agent",
+    "mcp",
+    "guardrails",
+    "firewall"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./adapters/mcp": {
+      "types": "./dist/adapters/mcp.d.ts",
+      "import": "./dist/adapters/mcp.js",
+      "require": "./dist/adapters/mcp.cjs"
+    },
+    "./adapters/vercel-ai": {
+      "types": "./dist/adapters/vercel-ai.d.ts",
+      "import": "./dist/adapters/vercel-ai.js",
+      "require": "./dist/adapters/vercel-ai.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --max-warnings 0",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@typescript-eslint/eslint-plugin": "^8.7.0",
+    "@typescript-eslint/parser": "^8.7.0",
+    "eslint": "^9.11.1",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.1"
+  }
+}

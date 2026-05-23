@@ -1,0 +1,31 @@
+# Cloudflare Workers configuration for an MCP server with toolwall.
+#
+# `wrangler kv namespace create AUDIT` and `wrangler kv namespace create OAUTH`,
+# then paste the returned IDs below before deploy.
+
+name = "__PROJECT_NAME__"
+main = "src/index.ts"
+compatibility_date = "2026-05-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[durable_objects.bindings]]
+name = "MCP_SESSION"
+class_name = "McpSession"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["McpSession"]
+
+[[kv_namespaces]]
+binding = "AUDIT"
+id = "REPLACE_WITH_AUDIT_KV_ID"
+
+[[kv_namespaces]]
+binding = "OAUTH"
+id = "REPLACE_WITH_OAUTH_KV_ID"
+
+[vars]
+# Public OAuth metadata. Set via `wrangler secret put OAUTH_CLIENT_SECRET`
+# in addition; never commit the secret.
+OAUTH_ISSUER = "https://__PROJECT_NAME__.workers.dev"
+OAUTH_CLIENT_ID = "REPLACE_WITH_CLIENT_ID"

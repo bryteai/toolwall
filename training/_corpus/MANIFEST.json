@@ -1,0 +1,24 @@
+{
+  "budgets": {
+    "base64_payload": 200,
+    "benign": 1950,
+    "full_schema_poisoning": 200,
+    "markdown_exfil": 230,
+    "multi_hop": 200,
+    "rug_pull": 200,
+    "suspicious_borderline": 600,
+    "tool_poisoning": 220,
+    "unicode_tag": 200
+  },
+  "corpus_version": "train_v0_1",
+  "disjoint_from": "bench/build_artifacts/v0_1_inhouse/test.jsonl",
+  "fingerprint": "68550159e6fc97f8e4f131c39e9336fe8ae871be7dfbc93bb4f53b721ff71bd8",
+  "label_counts": {
+    "attack": 1450,
+    "benign": 1950,
+    "suspicious": 600
+  },
+  "shuffle_seed": 20260524,
+  "spec_frozen": "2026-05-24",
+  "total": 4000
+}

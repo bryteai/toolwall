@@ -1,0 +1,53 @@
+{
+  "base_model": "Qwen/Qwen2.5-7B-Instruct",
+  "classification_report": {
+    "accuracy": 1.0,
+    "attack": {
+      "f1-score": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "support": 134.0
+    },
+    "benign": {
+      "f1-score": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "support": 133.0
+    },
+    "macro avg": {
+      "f1-score": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "support": 400.0
+    },
+    "suspicious": {
+      "f1-score": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "support": 133.0
+    },
+    "weighted avg": {
+      "f1-score": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "support": 400.0
+    }
+  },
+  "dev_size": 400,
+  "labels": [
+    "benign",
+    "suspicious",
+    "attack"
+  ],
+  "metrics": {
+    "accuracy": 1.0,
+    "attack_f1": 1.0,
+    "eval_loss": 3.5890936942450935e-06,
+    "macro_f1": 1.0
+  },
+  "shippable": true,
+  "spec_thresholds": {
+    "accuracy": 0.92,
+    "attack_f1": 0.85
+  }
+}

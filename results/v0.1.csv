@@ -1,0 +1,6 @@
+defense,asr,utility,n_attack,n_benign,asr_base64_payload,asr_full_schema_poisoning,asr_markdown_exfil,asr_multi_hop,asr_rug_pull,asr_tool_poisoning,asr_unicode_tag
+no_defense,1.0000,1.0000,185,15,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000
+prompt_sandwich,1.0000,1.0000,185,15,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000
+spotlight,1.0000,1.0000,185,15,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000
+toolwall_rule_only,0.7784,1.0000,185,15,1.0000,1.0000,0.4667,1.0000,1.0000,1.0000,0.0000
+toolwall,0.0973,0.9333,185,15,0.2,0.0,0.1,0.28,0.12,0.0,0.0

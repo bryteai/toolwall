@@ -1,0 +1,48 @@
+{
+  "name": "create-toolwall-worker",
+  "version": "0.1.0",
+  "description": "Scaffold a Cloudflare Workers MCP server with @bryteai/toolwall-core, OAuth 2.1 PKCE, and Streamable HTTP transport pre-wired.",
+  "license": "Apache-2.0",
+  "author": "Muhammad Hasnain <hasnain@bryteai.studio>",
+  "homepage": "https://fence.bryteai.studio",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bryteai/toolwall.git",
+    "directory": "packages/create-toolwall-worker"
+  },
+  "keywords": [
+    "ai",
+    "mcp",
+    "cloudflare",
+    "workers",
+    "oauth",
+    "toolwall",
+    "create",
+    "scaffold"
+  ],
+  "type": "module",
+  "bin": {
+    "create-toolwall-worker": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "template",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "lint": "eslint src --max-warnings 0",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.1"
+  }
+}
