@@ -1,0 +1,48 @@
+{
+  "train_source": "training/_corpus/train_v0_1.jsonl",
+  "train_n": 4000,
+  "test_n": 200,
+  "ngram": 5,
+  "lsh_threshold": 0.5,
+  "leak_threshold": 0.4,
+  "leak_count": 2,
+  "leaks": [
+    {
+      "test_id": "mcp_v0_1-0123",
+      "attack_kind": "unicode_tag",
+      "max_jaccard5": 0.4125560538116592,
+      "max_train_idx": "train-1133",
+      "leak_flag": true
+    },
+    {
+      "test_id": "mcp_v0_1-0125",
+      "attack_kind": "unicode_tag",
+      "max_jaccard5": 0.44660194174757284,
+      "max_train_idx": "train-3062",
+      "leak_flag": true
+    }
+  ],
+  "per_family_max_jaccard5": {
+    "tool_poisoning": 0.0,
+    "rug_pull": 0.0,
+    "full_schema_poisoning": 0.0,
+    "markdown_exfil": 0.0,
+    "unicode_tag": 0.44660194174757284,
+    "base64_payload": 0.0,
+    "multi_hop": 0.0,
+    "benign": 0.328125
+  },
+  "per_family_mean_jaccard5": {
+    "tool_poisoning": 0.0,
+    "rug_pull": 0.0,
+    "full_schema_poisoning": 0.0,
+    "markdown_exfil": 0.0,
+    "unicode_tag": 0.03436631982236928,
+    "base64_payload": 0.0,
+    "multi_hop": 0.0,
+    "benign": 0.021875
+  },
+  "overall_max": 0.44660194174757284,
+  "overall_mean": 0.005936414977796161,
+  "ran_at": "2026-05-23"
+}

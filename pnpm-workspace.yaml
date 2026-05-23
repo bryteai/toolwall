@@ -1,0 +1,4 @@
+packages:
+  - "packages/*"
+  - "examples/fence"
+  - "eval/recorder"

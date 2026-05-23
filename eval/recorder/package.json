@@ -1,0 +1,26 @@
+{
+  "name": "@toolwall/recorder",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Deterministic Playwright recorder for fence.bryteai.studio — patches the in-page clock, drives virtual time, pipes PNG frames into ffmpeg image2pipe. Apache-2.0.",
+  "bin": {
+    "toolwall-record": "./dist/record.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "record": "node --enable-source-maps dist/record.js",
+    "record:portrait": "node --enable-source-maps dist/record.js --cut portrait-60s",
+    "record:landscape": "node --enable-source-maps dist/record.js --cut landscape-5min",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "playwright": "1.48.2"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "typescript": "5.7.2",
+    "vitest": "2.1.8"
+  }
+}

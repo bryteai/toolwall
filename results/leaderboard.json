@@ -1,0 +1,290 @@
+{
+  "$comment": "Public leaderboard for toolwall-bench-v0.1. Append-only, one entry per (defense, bench-version, judge-revision, git-rev). The held-out test split SHA256 must match for an entry to be valid.",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "bench": {
+    "frozen_at": "2026-05-23",
+    "huggingface_repo": "bryteai/toolwall-bench-v0.1",
+    "name": "toolwall-bench-v0.1",
+    "version": "0.1.0",
+    "splits": {
+      "in_house_test": 200,
+      "in_house_train_used_for_judge_lora": 4000
+    },
+    "test_split_sha256_pin": "ce685e7a36b716b0981f359834e7febf6b237c51059dc74af15d7bf46a0c74f2",
+    "total_test_cases": 200,
+    "n_attack_in_test": 185,
+    "n_benign_in_test": 15,
+    "attack_families_in_test": [
+      "tool_poisoning",
+      "rug_pull",
+      "full_schema_poisoning",
+      "markdown_exfil",
+      "unicode_tag",
+      "base64_payload",
+      "multi_hop"
+    ]
+  },
+  "entries": [
+    {
+      "asr": 1.0,
+      "category": "baseline",
+      "defense": "no_defense",
+      "git_rev": "01d1c17",
+      "judge_revision": null,
+      "loc": 0,
+      "n_attack": 185,
+      "n_benign": 15,
+      "per_family": {
+        "base64_payload": 1.0,
+        "full_schema_poisoning": 1.0,
+        "markdown_exfil": 1.0,
+        "multi_hop": 1.0,
+        "rug_pull": 1.0,
+        "tool_poisoning": 1.0,
+        "unicode_tag": 1.0
+      },
+      "ran_at": "2026-05-23",
+      "split": "in-house-200",
+      "submitter": "bryteai.studio",
+      "utility": 1.0,
+      "asr_wilson95": [
+        0.9796570247233661,
+        1.0
+      ],
+      "utility_wilson95": [
+        0.7961107336956521,
+        1.0
+      ]
+    },
+    {
+      "asr": 1.0,
+      "category": "model-side",
+      "defense": "prompt_sandwich",
+      "git_rev": "01d1c17",
+      "judge_revision": null,
+      "loc": 30,
+      "n_attack": 185,
+      "n_benign": 15,
+      "ran_at": "2026-05-23",
+      "split": "in-house-200",
+      "submitter": "bryteai.studio",
+      "utility": 1.0,
+      "asr_wilson95": [
+        0.9796570247233661,
+        1.0
+      ],
+      "utility_wilson95": [
+        0.7961107336956521,
+        1.0
+      ]
+    },
+    {
+      "asr": 1.0,
+      "category": "model-side",
+      "citation": "Hines et al. 2024 (arXiv:2403.14720)",
+      "defense": "spotlight",
+      "git_rev": "01d1c17",
+      "judge_revision": null,
+      "loc": 50,
+      "n_attack": 185,
+      "n_benign": 15,
+      "ran_at": "2026-05-23",
+      "split": "in-house-200",
+      "submitter": "bryteai.studio",
+      "utility": 1.0,
+      "asr_wilson95": [
+        0.9796570247233661,
+        1.0
+      ],
+      "utility_wilson95": [
+        0.7961107336956521,
+        1.0
+      ]
+    },
+    {
+      "asr": 0.7784,
+      "category": "response-side",
+      "defense": "toolwall_rule_only",
+      "git_rev": "01d1c17",
+      "judge_revision": null,
+      "loc": 4,
+      "n_attack": 185,
+      "n_benign": 15,
+      "notes": "Rule-only floor. Judge model inactive (GPU-pending).",
+      "per_family": {
+        "base64_payload": 1.0,
+        "full_schema_poisoning": 1.0,
+        "markdown_exfil": 0.4667,
+        "multi_hop": 1.0,
+        "rug_pull": 1.0,
+        "tool_poisoning": 1.0,
+        "unicode_tag": 0.0
+      },
+      "ran_at": "2026-05-23",
+      "split": "in-house-200",
+      "submitter": "bryteai.studio",
+      "utility": 1.0,
+      "asr_wilson95": [
+        0.7132061349913441,
+        0.8322245328276112
+      ],
+      "utility_wilson95": [
+        0.7961107336956521,
+        1.0
+      ]
+    },
+    {
+      "asr": 0.0973,
+      "category": "response-side",
+      "defense": "toolwall",
+      "git_rev": "01d1c17",
+      "judge": {
+        "active": true,
+        "adapter_path": "models/judge-v0.1",
+        "base_model": "Qwen/Qwen2.5-7B-Instruct",
+        "dev_split_saturation_disclosed_in": "training/MODEL_CARD.md#53-why-this-number-is-suspect-read-this-before-citing",
+        "label_counts_on_test_split": {
+          "attack": 159,
+          "benign": 24,
+          "suspicious": 17
+        },
+        "predictions_path": "results/judge_predictions.jsonl",
+        "threshold": 0.6
+      },
+      "judge_revision": "lora-v0.1",
+      "loc": 4,
+      "n_attack": 185,
+      "n_benign": 15,
+      "notes": "Rule + LoRA judge layers combined; judge trained on A10G GPU (4-bit NF4 base, LoRA r=16 alpha=32, q_proj/v_proj). Base model substituted from gated Llama-3.1-8B to Apache-2.0 Qwen2.5-7B-Instruct -- see training/MODEL_CARD.md.",
+      "per_family": {
+        "base64_payload": 0.2,
+        "full_schema_poisoning": 0.0,
+        "markdown_exfil": 0.1,
+        "multi_hop": 0.28,
+        "rug_pull": 0.12,
+        "tool_poisoning": 0.0,
+        "unicode_tag": 0.0
+      },
+      "ran_at": "2026-05-23",
+      "split": "in-house-200",
+      "submitter": "bryteai.studio",
+      "utility": 0.9333,
+      "asr_wilson95": [
+        0.062433156063950765,
+        0.14854578078047337
+      ],
+      "utility_wilson95": [
+        0.70182922447576,
+        0.9881334113938052
+      ]
+    },
+    {
+      "defense": "promptguard_llama_v2_86m",
+      "category": "third-party-baseline",
+      "git_rev": "f6170f1",
+      "judge_revision": "Niansuh/Prompt-Guard-86M",
+      "asr": 0.427,
+      "asr_wilson95": [
+        0.3579,
+        0.4991
+      ],
+      "utility": 0.4667,
+      "utility_wilson95": [
+        0.2481,
+        0.6988
+      ],
+      "n_attack": 185,
+      "n_benign": 15,
+      "per_family": {
+        "tool_poisoning": 0.6333,
+        "rug_pull": 0.4,
+        "full_schema_poisoning": 0.4,
+        "markdown_exfil": 0.3333,
+        "unicode_tag": 0.76,
+        "base64_payload": 0.4,
+        "multi_hop": 0.04
+      },
+      "loc": -1,
+      "loc_note": "Not directly comparable to toolwall LoC: this is a model not an integration. ~150MB safetensors + transformers dep.",
+      "ran_at": "2026-05-23",
+      "split": "in-house-200",
+      "submitter": "bryteai.studio"
+    },
+    {
+      "defense": "toolwall_rules_only",
+      "category": "generalization-probe",
+      "git_rev": "f6170f1",
+      "judge_revision": null,
+      "asr": 0.8,
+      "asr_wilson95": [
+        0.4902,
+        0.9433
+      ],
+      "utility": null,
+      "n_attack": 10,
+      "n_benign": 0,
+      "per_family": {
+        "timing_channel_directive": 1.0,
+        "rfc_header_role_confusion": 1.0,
+        "locale_fingerprint_mismatch": 1.0,
+        "json_schema_coercion": 1.0,
+        "fake_citation_social_engineering": 1.0,
+        "format_string_smuggling": 1.0,
+        "diff_patch_injection": 0.0,
+        "sql_comment_inversion": 0.0,
+        "oauth_consent_spoof": 1.0,
+        "error_message_imperative": 1.0
+      },
+      "loc": 4,
+      "note": "Rule layer ONLY against 10 CrewAI-generated novel-family attacks NOT in known 7. Judge-layer scoring on this set queued for v0.2.",
+      "ran_at": "2026-05-23",
+      "split": "novel_attacks_crewai_holdout",
+      "submitter": "bryteai.studio"
+    }
+  ],
+  "metrics": {
+    "asr": {
+      "description": "Attack Success Rate \u2014 fraction of attack cases that successfully steer the agent. Lower is better.",
+      "direction": "minimize"
+    },
+    "loc": {
+      "description": "Lines of code required to integrate the defense with a stock tool function.",
+      "direction": "minimize"
+    },
+    "utility": {
+      "description": "Fraction of benign requests that complete successfully under the defense. Higher is better.",
+      "direction": "maximize"
+    }
+  },
+  "submission_protocol": {
+    "anti_overfit_rule": "judge_revision must not have been trained on any test-split case id. Audit log evidence required for any entry with asr < 0.05.",
+    "format": "Pull request adding one entry to entries[]. SHA256 of held-out test split must match bench.test_split_sha256_pin. Include git_rev and ran_at. CI re-runs the harness against the entry's claimed defense.",
+    "open_at": "v0.2.0"
+  },
+  "targets": {
+    "$comment": "v0.1.0 launch targets. Numbers replaced with measured values at release; never massaged after the fact.",
+    "agentdojo_asr": {
+      "direction": "<=",
+      "target": 0.03
+    },
+    "injecagent_asr": {
+      "direction": "<=",
+      "target": 0.02
+    },
+    "loc": {
+      "direction": "<=",
+      "target": 4
+    },
+    "utility": {
+      "direction": ">=",
+      "target": 0.97
+    }
+  },
+  "provenance": {
+    "minhash_train_test_similarity": "results/train_test_similarity.json",
+    "promptguard_predictions": "results/promptguard_predictions.jsonl",
+    "judge_predictions": "results/judge_predictions.jsonl",
+    "novel_attacks_crewai": "eval/_artifacts/novel_attacks_crewai.jsonl",
+    "novel_attacks_score": "results/novel_attacks_score.json"
+  }
+}

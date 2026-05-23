@@ -1,0 +1,26 @@
+{
+  "name": "toolwall-monorepo",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Tool-boundary firewall for AI agents — monorepo root (Python + TypeScript).",
+  "license": "Apache-2.0",
+  "author": "Muhammad Hasnain <hasnain@bryteai.studio>",
+  "homepage": "https://fence.bryteai.studio",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bryteai/toolwall.git"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test",
+    "lint": "pnpm -r run lint",
+    "typecheck": "pnpm -r run typecheck"
+  }
+}
