@@ -107,10 +107,7 @@ def _quoted_spans(text: str) -> list[tuple[int, int]]:
 
 
 def _in_any_span(pos: int, spans: list[tuple[int, int]]) -> bool:
-    for s, e in spans:
-        if s <= pos < e:
-            return True
-    return False
+    return any(s <= pos < e for s, e in spans)
 
 
 # --- Encoded-payload decode-and-rescan ---------------------------------------

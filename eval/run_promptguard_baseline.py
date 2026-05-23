@@ -59,7 +59,7 @@ def load_model():
             mod = AutoModelForSequenceClassification.from_pretrained(mid, torch_dtype=torch.float32)
             mod.eval()
             return mid, tok, mod
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             print(f"[load] {mid} failed: {e}", flush=True)
             last_err = e
     raise RuntimeError(f"could not load any PromptGuard model: {last_err}")
