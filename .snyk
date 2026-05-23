@@ -1,0 +1,23 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known
+# vulnerabilities. The policy is reviewed annually -- entries below carry
+# explicit expiration dates so they cannot rot silently.
+
+version: v1.25.1
+
+ignore:
+  # Audit-log path traversal: src/toolwall/audit.py reads TOOLWALL_AUDIT_LOG
+  # from the environment. By design this is operator-controlled deploy-time
+  # configuration, not attacker-reachable input. Defense-in-depth: the
+  # _safe_log_path() helper rejects empty paths, NUL bytes, and '..' segments
+  # before the value reaches open(). The residual flow is accepted as a
+  # documented design decision (see SECURITY.md, threat model A3).
+  'python/PT':
+    - 'src/toolwall/audit.py':
+        reason: >-
+          Operator-controlled audit log path is design intent.
+          _safe_log_path() rejects NUL/empty/'..' traversal at function entry.
+          Threat model A3 treats audit log as operator-trusted host state.
+        expires: '2027-05-24T00:00:00.000Z'
+        created: '2026-05-24T00:00:00.000Z'
+
+patch: {}

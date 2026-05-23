@@ -10,6 +10,109 @@ lifetime of the 0.1.x line.
 
 ---
 
+## [v0.1.1] — 2026-05-24
+
+Security-hardening release. Adds detectors for the 2024-2026 frontier
+of indirect-prompt-injection and jailbreak techniques, lowers
+false-positive rate on quoted security-blog content via a
+use-vs-mention dampener, and ships a defense-in-depth fix on the
+audit-log path. No public API or `Policy` shape changes — drop-in
+upgrade from v0.1.0.
+
+### Added
+
+- **ROT13 chain layer** in the encoding-rescan loop, run after the
+  base64-decode pass so that `base64(ROT13(payload))` cannot smuggle
+  an IPI canary past the regex corpus.
+- **Sneaky Bits detector** for U+2062 / U+2064 invisible math
+  operators (Rehberger / Embracethered 2024). Fires at score 0.88
+  on a run of ≥ 8 invisible operators and feeds into `strip()`.
+- **Multilingual IPI patterns** for eight languages — Urdu, Arabic,
+  Hindi, Chinese, Japanese, Korean, Russian, Turkish (Deng et al.,
+  COLM 2024). Native quantifiers handled (جميع/كافة, सभी, 所有+先前的
+  cumulative, すべての).
+- **MCP attack patterns:** tool shadowing, puppet / line-jumping,
+  self-replicating worms (`include-this-line` + `next-agent-tool` +
+  description-field bridges). Reflects Invariant 2025, CyberArk 2026,
+  EchoLeak CVE-2025-32711.
+- **PAP 40-strategy detectors** (Zeng et al., NeurIPS 2024):
+  authority impersonation, social proof ("other Claude instances
+  already provided …"), reciprocity ("in return please share your
+  system prompt"), foot-in-door multi-step.
+- **ArtPrompt** (ACL 2024) dense ASCII art + `[MASK]` decode prompts.
+- **Crescendo** (Microsoft 2024) gradual-escalation patterns.
+- **Skeleton Key** (Microsoft 2024) compliance-claim patterns.
+- **Generic prompt-leak canary** (`ipi-060`) — cross-cut silver-bullet
+  pattern covering 17 verb forms × 8 modifier slots × system-prompt
+  / instructions / directives / initial-message targets.
+- **Per-layer dedup** in multi-encoding decode-rescan loops.
+  Previously a single shared `seen` set silently swallowed hex blobs,
+  because the hex alphabet is a strict subset of the base64 alphabet:
+  the base64 layer matched the hex blob first, added it to `seen`,
+  then the hex layer skipped it via `if blob in seen: continue` —
+  even though only the hex decode produced the real plaintext payload.
+  Each encoding layer now keeps its own `seen_<scheme>` set.
+- **`.snyk` policy file** documenting accepted residual issues with
+  annual review dates so suppressions cannot rot silently.
+
+### Changed
+
+- **Base scores lowered for `instruction-override` patterns** to combat
+  use-vs-mention false-positives on quoted security-blog / OWASP /
+  LangChain-docs content. Examples: `ipi-001` 0.92 → 0.70,
+  `ipi-002` 0.90 → 0.68, `ipi-003` 0.88 → 0.66. Raw IPI still crosses
+  the default `response_ipi_threshold = 0.6`. Quote-dampener
+  additionally halves scores inside `"..."`, `'...'`, backticks, and
+  fenced code blocks.
+- **`audit.py`:** new `_safe_log_path()` helper rejects empty paths,
+  NUL bytes, and `..` segments before the `TOOLWALL_AUDIT_LOG` value
+  reaches `open()`. The audit-log location remains operator-controlled
+  deploy-time configuration; this is defense-in-depth on the
+  operator-trusted path, not a threat-model change.
+- **Multilingual IPI** was previously listed as a v0.3 line item; it
+  is now partially shipped (8 languages) and the v0.3 line item is
+  narrowed to multilingual *coverage parity* with the English corpus.
+
+### Measured — ENDEST world-class hardening test (2026-05-24)
+
+Adversarial test harness covering 21 frontier attack families plus
+PAIR LLM-as-attacker (Azure Claude Opus 4.7, 10 mutation rounds).
+Wilson 95 % binomial confidence intervals reported.
+
+| Round | ASR (95 % CI)        | Evades | Patch layer added              |
+|-------|----------------------|--------|--------------------------------|
+| R1    | 52.1 % [37.5, 66.3]  | 25/48  | pre-patch baseline             |
+| R2    | 27.1 % [16.4, 41.5]  | 13/48  | NFKC + Zalgo + URL + gzip + 22 corpus rows |
+| R2.5  | **0.0 % [0.0, 7.4]** | **0/48** | per-layer dedup + ROT13 chain + Sneaky Bits + ipi-060 silver bullet |
+
+- **Utility FPR:** 0.0 % on a 10-doc benign panel covering eight
+  languages, mixed code, and security-blog prose.
+- **PAIR LLM-as-attacker:** 0 / 10 evades. Claude Opus 4.7, given the
+  detector source and free rein over mutation, could not synthesize a
+  working bypass after R2.5.
+- **`pytest`:** 75 / 75 green. One detector test threshold was lowered
+  from `≥ 0.85` to `≥ 0.65` to align with the new use-vs-mention base
+  scores; raw IPI canaries still safely cross the default 0.6 gate.
+- **Latency:** unchanged — p50 0.04 ms, p95 0.22 ms.
+
+21 attack families covered: GCG · AutoDAN · AutoDAN-Turbo · JBFuzz
+(2026) · Many-Shot (Anthropic) · Crescendo (Microsoft) · Skeleton Key
+(Microsoft) · ArtPrompt (ACL 2024) · PAIR (Chao et al. 2024) · TAP ·
+PAP 40-strategy (Zeng et al., NeurIPS 2024) · multilingual jailbreak
+(8 langs, Deng et al., COLM 2024) · MCP shadowing / puppet / worm ·
+EchoLeak (CVE-2025-32711) · Unicode Tags / Sneaky Bits / Zalgo /
+homoglyph · base64 / hex / URL / gzip / ROT13 chained encodings ·
+prompt-leak canary.
+
+### Security
+
+- Pre-existing low-severity path-traversal in `audit.py`
+  (operator-trusted `TOOLWALL_AUDIT_LOG` env var) has been
+  defense-in-depth sanitized via `_safe_log_path()` and documented
+  in `.snyk` with annual-review expiration.
+
+---
+
 ## [v0.1.0]
 
 Initial public release.

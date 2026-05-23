@@ -1,6 +1,6 @@
 [project]
 name = "toolwall"
-version = "0.1.0"
+version = "0.1.1"
 description = "A tool-boundary firewall for AI agents. Blocks indirect prompt injection at the tool–response boundary in four lines of code."
 readme = "README.md"
 requires-python = ">=3.10"
