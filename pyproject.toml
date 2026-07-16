@@ -63,7 +63,7 @@ adapters = [
     "openai>=1.50",
     "crewai>=0.80",
     "langgraph>=0.2",
-    "mcp>=1.0",
+    "mcp>=1.28.1",
 ]
 
 [build-system]
