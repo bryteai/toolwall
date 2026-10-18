@@ -24,6 +24,8 @@ If the page that comes back contains an instruction aimed at the agent ("ignore 
 
 Adapters for the Claude Agent SDK, CrewAI, LangGraph, OpenAI Agents SDK and MCP (Python) are in [`src/toolwall/adapters/`](src/toolwall/adapters/), with examples in [`examples/`](examples/).
 
+Documentation: [installation](docs/installation.md) · [usage and every policy field](docs/usage.md) · [evaluation](docs/evaluation.md). Offline demo: `python examples/arsenal_demo/demo.py`.
+
 ## How it works
 
 ```

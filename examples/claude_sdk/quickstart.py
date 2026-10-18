@@ -2,7 +2,7 @@
 
 Run with::
 
-    pip install toolwall claude-agent-sdk anthropic
+    pip install -e ".[adapters]"  # from a clone of the repo; then: pip install claude-agent-sdk anthropic
     export ANTHROPIC_API_KEY=...
     python examples/claude_sdk/quickstart.py
 

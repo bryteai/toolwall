@@ -35,12 +35,13 @@ model but were authored before:
 * MCP became the dominant tool protocol (CVE-2026-30615 disclosed
   ~200 K vulnerable MCP servers in April 2026);
 * **tool poisoning**, **rug-pull**, and **full-schema poisoning** were
-  named as distinct attack classes (Invariant Labs and CyberArk blogs,
-  March–May 2026);
+  named as distinct attack classes (Invariant Labs, April 2025; CyberArk,
+  May 2025);
 * **markdown-image exfil** was given a public CVE (EchoLeak,
   CVE-2025-32711, CVSS 9.3);
-* the OWASP **Agentic Security Initiative Top-10** ranked these as
-  A01 / A02 / A03 (Q1 2026).
+* the OWASP **Top 10 for Agentic Applications** (December 2025) covers
+  them under ASI01 Agent Goal Hijack, ASI02 Tool Misuse and ASI04 Agentic
+  Supply Chain Vulnerabilities.
 
 The 200 new cases target those gaps explicitly. Family budget:
 

@@ -20,7 +20,7 @@ def main(argv: list[str] | None = None) -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     chk = sub.add_parser("check", help="score one tool response")
     chk.add_argument("path", help="file to read, or - for stdin")
-    chk.add_argument("--judge", action="store_true", help="enable the LoRA judge layer")
+    chk.add_argument("--judge", action="store_true", help="also run the judge (classifier) layer")
     chk.add_argument("--threshold", type=float, default=0.6)
     a = ap.parse_args(argv)
 

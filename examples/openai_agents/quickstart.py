@@ -2,7 +2,7 @@
 
 Run with::
 
-    pip install toolwall openai-agents
+    pip install -e ".[adapters]"  # from a clone of the repo; then: pip install openai-agents
     python examples/openai_agents/quickstart.py
 
 We avoid pulling in the real ``agents`` import for this demo so the

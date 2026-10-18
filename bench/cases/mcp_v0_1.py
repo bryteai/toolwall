@@ -71,8 +71,8 @@ CITE = {
         "agents', NeurIPS D&B 2024."
     ),
     "cve_2026_30615": (
-        "OX Security, 'CVE-2026-30615: MCP supply-chain RCE chain "
-        "affecting ~200K MCP server instances', April 2026."
+        "OX Security, 'The Mother of All AI Supply Chains' (MCP STDIO "
+        "command execution), April 2026."
     ),
 }
 

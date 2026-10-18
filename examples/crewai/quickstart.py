@@ -2,7 +2,7 @@
 
 Run with::
 
-    pip install toolwall crewai
+    pip install -e ".[adapters]"  # from a clone of the repo; then: pip install crewai
     python examples/crewai/quickstart.py
 
 We avoid pulling in the real ``crewai`` import for this demo so the

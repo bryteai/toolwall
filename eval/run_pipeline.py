@@ -39,7 +39,7 @@ def main() -> None:
     p.add_argument(
         "--with-judge",
         action="store_true",
-        help="Enable the LoRA judge model (requires HF weights).",
+        help="Enable the judge model.",
     )
     p.add_argument(
         "--bench-version",

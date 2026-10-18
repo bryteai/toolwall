@@ -34,8 +34,8 @@ appended in chronological order of first merge.
 
 This project builds on the public work of the **InjecAgent**
 (Zhan et al., ACL Findings 2024), **AgentDojo** (Debenedetti
-et al., NeurIPS D&B 2024), and **MCPTox** (Pillai et al., 2025)
+et al., NeurIPS D&B 2024), and **MCPTox** (arXiv 2508.14925, 2025)
 authors, and on the **Spotlighting** defense pattern (Hines et
-al., 2024). Threat-model framing draws on the **OWASP ASI Top
-10 (2026)** and **NIST AI 600-1**. None of those authors endorse
+al., 2024). Threat-model framing draws on the **OWASP Top 10
+for Agentic Applications (December 2025)** and **NIST AI 600-1**. None of those authors endorse
 `toolwall`; we cite them because their work made ours possible.

@@ -3,6 +3,7 @@
 Defends against the simplest argument-smuggling attacks:
 * shell metacharacters when the policy bans them,
 * URLs outside the allowlist / inside the denylist,
+* outbound writes (POST/PUT/PATCH/DELETE) to hosts in ``egress_denylist``,
 * path arguments escaping ``Policy.path_scope``,
 * per-argument regex validators.
 
@@ -57,6 +58,36 @@ def _check_url(value: str, policy: Policy) -> None:
         )
 
 
+_WRITE_METHODS = frozenset({"POST", "PUT", "PATCH", "DELETE"})
+_METHOD_ARG_NAMES = ("method", "http_method", "verb")
+
+
+def _check_egress(bound_args: Mapping[str, Any], policy: Policy) -> None:
+    """Block outbound writes to denylisted hosts.
+
+    Applies when the tool takes a method-like argument (``method``,
+    ``http_method`` or ``verb``) whose value is POST, PUT, PATCH or DELETE.
+    Every URL-valued argument of that call is checked against
+    ``Policy.egress_denylist``.
+    """
+    if not policy.egress_denylist:
+        return
+    method = next(
+        (v.upper() for k, v in bound_args.items() if k.lower() in _METHOD_ARG_NAMES and isinstance(v, str)),
+        None,
+    )
+    if method not in _WRITE_METHODS:
+        return
+    for name, value in bound_args.items():
+        if isinstance(value, str) and _looks_like_url(value):
+            host = _host_of(value)
+            if _host_matches(host, policy.egress_denylist):
+                raise PolicyViolation(
+                    "egress-denied",
+                    {"host": host, "method": method, "argument": name, "field": "egress_denylist"},
+                )
+
+
 def _check_path(value: str, policy: Policy) -> None:
     if policy.path_scope is None:
         return
@@ -109,6 +140,7 @@ def inspect(
     way lies an unbounded checker. Tool authors who pass nested input must
     add ``arg_validators`` entries for the fields they care about.
     """
+    _check_egress(bound_args, policy)
     for name, value in bound_args.items():
         _check_validator(str(value) if not isinstance(value, str) else value, policy, name)
         if isinstance(value, str):

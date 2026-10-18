@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import asyncio
 import functools
+import hashlib
 import inspect
 from collections.abc import Awaitable, Callable
 from typing import Any, Protocol, TypeVar, cast, overload
@@ -122,6 +123,53 @@ def _enforce_response(
     return _restore(kind, redacted, result)
 
 
+def _schema_text(func: Callable[..., Any]) -> str:
+    """What the model is told about a tool: name, docstring, signature, description."""
+    try:
+        sig = str(inspect.signature(func))
+    except (TypeError, ValueError):
+        sig = ""
+    desc = getattr(func, "description", None)
+    parts = (getattr(func, "__name__", ""), inspect.getdoc(func) or "", sig, desc if isinstance(desc, str) else "")
+    return "\n".join(p for p in parts if p)
+
+
+def _make_schema_gate(
+    target: Callable[..., Any], policy: Policy, detector: Detector | None
+) -> Callable[[], None]:
+    """Build the per-call schema check for ``schema_lock`` and ``scan_schema``.
+
+    ``schema_lock`` pins the SHA-256 of the schema text at wrap time and blocks a
+    call if it has changed since (rug-pull). ``scan_schema`` runs the detector
+    over the schema text (full-schema poisoning); results are cached per hash.
+    Both see the wrapped Python function only, not a description stored
+    elsewhere (for example inside an MCP SDK's own registry).
+    """
+    approved = hashlib.sha256(_schema_text(target).encode("utf-8")).hexdigest()
+    scanned: dict[str, float] = {}
+
+    def _gate() -> None:
+        if not (policy.schema_lock or policy.scan_schema):
+            return
+        text = _schema_text(target)
+        digest = hashlib.sha256(text.encode("utf-8")).hexdigest()
+        if policy.schema_lock and digest != approved:
+            raise Blocked(
+                "schema-mismatch",
+                {"approved_sha256": approved[:16], "current_sha256": digest[:16], "field": "schema_lock"},
+            )
+        if policy.scan_schema and detector is not None:
+            if digest not in scanned:
+                scanned[digest] = float(detector.score(text)[0])
+            if scanned[digest] >= policy.response_ipi_threshold:
+                raise Blocked(
+                    "schema-poisoned",
+                    {"score": scanned[digest], "threshold": policy.response_ipi_threshold, "field": "scan_schema"},
+                )
+
+    return _gate
+
+
 def _qualname(func: Callable[..., Any]) -> str:
     mod = getattr(func, "__module__", "<unknown>")
     name = getattr(func, "__qualname__", None) or getattr(func, "__name__", repr(func))
@@ -163,6 +211,7 @@ def toolwall(
     def _decorate(target: Callable[..., Any]) -> Callable[..., Any]:
         tool_name = _qualname(target)
         is_coro = asyncio.iscoroutinefunction(target)
+        schema_gate = _make_schema_gate(target, policy, active_detector)
 
         if is_coro:
 
@@ -170,6 +219,7 @@ def toolwall(
             async def _async_wrapper(*args: Any, **kwargs: Any) -> Any:
                 bound = _bind(target, args, kwargs)
                 try:
+                    schema_gate()
                     _arg_inspect.inspect(bound, policy)
                     counter.admit(policy.calls_per_min, policy.cost_cents_max)
                 except Blocked as exc:
@@ -200,6 +250,7 @@ def toolwall(
         def _sync_wrapper(*args: Any, **kwargs: Any) -> Any:
             bound = _bind(target, args, kwargs)
             try:
+                schema_gate()
                 _arg_inspect.inspect(bound, policy)
                 counter.admit(policy.calls_per_min, policy.cost_cents_max)
             except Blocked as exc:

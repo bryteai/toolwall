@@ -2,7 +2,7 @@
 
 Run with::
 
-    pip install toolwall langgraph langchain-core
+    pip install -e ".[adapters]"  # from a clone of the repo; then: pip install langgraph langchain-core
     python examples/langgraph/quickstart.py
 
 We avoid pulling in the real ``langgraph`` import for this demo so the

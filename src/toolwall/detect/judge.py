@@ -3,10 +3,10 @@
 The judge is the third detector layer. It is invoked only on residual text
 that the pattern + unicode + markdown detectors did not already adjudicate.
 
-v0.1 ships a LoRA adapter trained on ``Qwen/Qwen2.5-7B-Instruct``
-(Apache-2.0; substituted for the gated ``meta-llama/Llama-3.1-8B-Instruct``
-which requires Meta licence approval). See ``training/MODEL_CARD.md``
-for the full rationale and dev-split metrics.
+v0.2 ships ``bryteai/toolwall-judge-v0.2``, a DeBERTa-v3-base sequence
+classifier (pinned revision below). See ``training/MODEL_CARD_v0_2.md``.
+The superseded v0.1 LoRA adapter (Qwen2.5-7B) loads only when
+``TOOLWALL_JUDGE_LOCAL_PATH`` points at it.
 
 The wrapper is lazy: importing ``toolwall.detect`` does NOT import torch /
 transformers. The model is materialised only when :func:`score` is called

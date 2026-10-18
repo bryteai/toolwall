@@ -57,7 +57,7 @@ def detect(text: str) -> list[Detection]:
                 score=0.95,
                 evidence={
                     "codepoints": [hex(ord(c)) for c in m.group(0)],
-                    "source": "Riley Goodside 2024 / DEFCON 32 demo",
+                    "source": "Riley Goodside, January 2024",
                 },
             )
         )
@@ -72,7 +72,7 @@ def detect(text: str) -> list[Detection]:
                 kind="zero-width-run",
                 span=(m.start(), m.end()),
                 score=score,
-                evidence={"length": run, "source": "ATTESTMCP / OWASP ASI A01"},
+                evidence={"length": run, "source": "Unicode tag-character smuggling (Rehberger, January 2024)"},
             )
         )
     for m in _BIDI.finditer(text):

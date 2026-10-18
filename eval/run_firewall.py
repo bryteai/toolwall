@@ -98,7 +98,7 @@ def _cli() -> None:
     p.add_argument(
         "--with-judge",
         action="store_true",
-        help="Enable the LoRA judge model (requires the HF weights).",
+        help="Enable the judge model.",
     )
     args = p.parse_args()
     n = run(args.attacks, args.out, use_judge=args.with_judge)

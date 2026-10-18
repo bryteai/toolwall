@@ -30,8 +30,10 @@ class Policy(BaseModel):
         Glob patterns. Requests whose URL host matches raise immediately,
         even if also in ``url_allowlist`` --- denies win.
     egress_denylist:
-        Glob patterns of hosts the tool MUST NOT POST / PUT / PATCH to.
-        Default ``["*"]`` --- deny-by-default outbound writes.
+        Glob patterns of hosts the tool MUST NOT write to. Checked when the
+        tool takes a ``method`` / ``http_method`` / ``verb`` argument set to
+        POST, PUT, PATCH or DELETE. Default ``["*"]`` --- deny-by-default
+        outbound writes.
     path_scope:
         Filesystem root the tool is permitted to read or write under. If
         set, every path argument is normalized and checked to be inside.
@@ -50,8 +52,9 @@ class Policy(BaseModel):
         Soft cap on cumulative cost in US cents over the same window.
         ``None`` disables.
     schema_lock:
-        If true, refuse calls whose tool schema SHA256 differs from the
-        first call observed (rug-pull defence; see threat model §4.3).
+        If true, refuse calls whose tool schema (name, docstring, signature,
+        ``description`` attribute) has changed since the tool was wrapped
+        (rug-pull defence; see threat model §4.3).
     scan_schema:
         If true, run detectors over tool *schema* in addition to response
         (full-schema poisoning defence; see threat model §4.4).
@@ -145,7 +148,7 @@ def mcp(
 
     Turns on ``schema_lock`` and ``scan_schema`` --- the rug-pull and
     full-schema-poisoning defences --- which are the table stakes
-    documented in OWASP ASI A02 and the CyberArk 2026 disclosure.
+    documented by Invariant Labs (April 2025) and CyberArk (May 2025).
     """
     base: dict[str, Any] = dict(
         url_allowlist=url_allowlist,

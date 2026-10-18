@@ -9,7 +9,8 @@ References
 ----------
 * EchoLeak --- CVE-2025-32711 (CVSS 9.3).
 * Microsoft MSRC advisory, June 2025.
-* OWASP ASI A07 (2026) --- "Excessive Agency" exfil case studies.
+* OWASP Top 10 for LLM Applications 2025 --- LLM02 Sensitive Information
+  Disclosure and LLM05 Improper Output Handling.
 """
 
 from __future__ import annotations

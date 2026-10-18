@@ -2,12 +2,11 @@
 
 Run with::
 
-    pip install toolwall "mcp[server]"
+    pip install -e ".[adapters]"  # from a clone of the repo; then: pip install "mcp[server]"
     python examples/mcp/quickstart.py
 
 This is the load-bearing adapter: MCP is where the live IPI attacks
-land (EchoLeak, MCPTox, the 200K vulnerable servers from
-CVE-2026-30615). With one call to ``wrap()`` every tool registered on
+land (EchoLeak, MCPTox, tool-poisoning disclosures). With one call to ``wrap()`` every tool registered on
 the server gets the firewall, no per-tool edits required.
 
 The example uses a tiny FastMCP stand-in so it runs without a network

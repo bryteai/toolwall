@@ -53,7 +53,20 @@ in-house set) was in-distribution and is not representative. Full numbers:
 - New `judge` install extra (`pip install "toolwall-guard[judge]"`); CI runs
   rules only.
 
+### Fixed (features that were declared but not enforced)
+- `Policy.egress_denylist`, `schema_lock` and `scan_schema` existed as fields but no
+  code enforced them. They are now enforced (`egress-denied`, `schema-mismatch`,
+  `schema-poisoned`), with tests. Their scope is documented in `docs/usage.md` and
+  `THREAT_MODEL.md` §4.3–4.5.
+
+### Added
+- `docs/` (installation, usage, evaluation) and `examples/arsenal_demo/demo.py`, an
+  offline demo of six tool responses including one known miss.
+
 ### Fixed (accuracy of claims)
+- OWASP references now use the published category names (Top 10 for LLM Applications 2025;
+  Top 10 for Agentic Applications, December 2025). A claimed memory-write hook and config
+  scanner, which do not exist, were removed from the threat model.
 - InjecAgent loader cited a commit and a Hugging Face mirror that do not
   exist; now pinned to the real commit `f19c9f2c79a4` (2024-07-02, MIT).
 - Corrected source dates in `bench/schema.py` (Invariant Labs, 1 Apr 2025;
