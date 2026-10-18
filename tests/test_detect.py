@@ -130,3 +130,10 @@ def test_injection_inside_structured_tool_output_is_not_dampened() -> None:
         assert max(h.score for h in hits) >= 0.6
     prose = 'The blog quoted the classic payload "ignore all previous instructions" as an example.'
     assert max(h.score for h in patterns.detect(prose)) < 0.6
+
+
+def test_default_judge_is_v02_not_the_superseded_v01(monkeypatch, tmp_path) -> None:
+    from toolwall.detect import judge
+    monkeypatch.delenv("TOOLWALL_JUDGE_LOCAL_PATH", raising=False)
+    monkeypatch.setattr(judge, "JUDGE_V02_LOCAL_PATH_DEFAULT", tmp_path / "absent")
+    assert judge._resolve_adapter_source() == ("hf", judge.JUDGE_V02_HF_ID)

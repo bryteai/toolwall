@@ -68,7 +68,9 @@ def _resolve_adapter_source() -> tuple[str, str] | None:
     """Return ``(kind, location)`` for the adapter, or ``None`` if absent.
 
     ``kind`` is ``"local"`` or ``"hf"``. ``location`` is a filesystem
-    path or HF id.
+    path or HF id. Order: ``TOOLWALL_JUDGE_LOCAL_PATH``, then a local
+    ``models/judge-v0.2``, then the pinned Hugging Face revision of
+    ``bryteai/toolwall-judge-v0.2``.
     """
     env_path = os.environ.get("TOOLWALL_JUDGE_LOCAL_PATH")
     if env_path:
@@ -81,8 +83,8 @@ def _resolve_adapter_source() -> tuple[str, str] | None:
         )
     if (JUDGE_V02_LOCAL_PATH_DEFAULT / "config.json").exists():
         return ("local", str(JUDGE_V02_LOCAL_PATH_DEFAULT))
-    if (JUDGE_LOCAL_PATH_DEFAULT / "adapter_config.json").exists():
-        return ("local", str(JUDGE_LOCAL_PATH_DEFAULT))
+    # The superseded v0.1 LoRA judge (models/judge-v0.1) is used only when
+    # TOOLWALL_JUDGE_LOCAL_PATH points at it; it is never picked by default.
     return ("hf", JUDGE_V02_HF_ID)
 
 
