@@ -6,8 +6,11 @@
 
 **Do not file a public GitHub issue for security reports.**
 
+Preferred: GitHub private vulnerability reporting — [open a private report](https://github.com/bryteai/toolwall/security/advisories/new).
 Email: `hasnain@bryteai.studio`
-PGP: not yet available — use email.
+PGP: not yet available.
+
+Known detection gaps are listed in the README ("Limitations"); a report that shows a new class of miss is still welcome.
 
 ## Disclosure window
 
@@ -27,7 +30,7 @@ In scope:
 - Bypasses of `toolwall` policy enforcement (e.g., a tool response that should be blocked but is not).
 - Detector evasion (a known IPI pattern that the shipped detectors miss).
 - Side-channel leaks via `toolwall`'s own audit log.
-- Supply-chain risks in our published PyPI / npm artifacts.
+- Supply-chain risks in published artifacts (the Hugging Face judge weights; PyPI once released).
 - Misuse-of-trust in the published Hugging Face datasets and judge model.
 
 Out of scope:
