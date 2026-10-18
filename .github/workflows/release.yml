@@ -1,8 +1,9 @@
 name: release
 
+# Manual only until PyPI trusted publishing is configured for toolwall-guard.
+# GitHub releases are created by hand meanwhile.
 on:
-  push:
-    tags: ["v*.*.*"]
+  workflow_dispatch:
 
 permissions:
   contents: write
