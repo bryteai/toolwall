@@ -75,7 +75,7 @@ These items are parked in `ROADMAP.md` and will open up later:
 ## Security
 
 If you find a vulnerability in `toolwall` itself, please **do not**
-open a public issue. Email `security@bryteai.studio` per
+open a public issue. Email `hasnain@bryteai.studio` per
 `SECURITY.md` — 90-day coordinated disclosure window.
 
 ## License

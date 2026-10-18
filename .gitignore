@@ -54,3 +54,18 @@ models/judge-v0.1/added_tokens.json
 # Local development notes — never commit
 CLAUDE.md
 .private-internal/
+
+# internal / local only (v0.2)
+CLAUDE.md
+.private-internal/
+.toolwall-audit.log
+.v02_backup/
+.hypothesis/
+bench/loaders/_upstream/
+bench/build_artifacts/heldout_v0_2/enron_requests.jsonl
+training/_corpus_v0_2_3/
+training/_corpus_v0_2_1/
+training/_corpus_v0_2_2/
+# v0.2 judge weights ship via Hugging Face (bryteai/toolwall-judge-v0.2), not git
+models/judge-v0.2*/
+models/_candidates/

@@ -1,0 +1,20 @@
+{
+  "calibration": {
+    "threshold": 0.5,
+    "dev_fpr": 0.0,
+    "dev_tpr": 0.9887005649717514
+  },
+  "dev_metrics": {
+    "eval_loss": 0.01566808857023716,
+    "eval_f1": 0.9943181818181819,
+    "eval_precision": 1.0,
+    "eval_recall": 0.9887005649717514,
+    "eval_fpr": 0.0,
+    "eval_runtime": 3.0907,
+    "eval_samples_per_second": 262.404,
+    "eval_steps_per_second": 8.412,
+    "epoch": 3.0
+  },
+  "judge_source": "local:/__modal/volumes/vo-t0cgp1DDurnnI4yzNb7Qup/judge-v0.2.2",
+  "judge_kind": "seqcls"
+}

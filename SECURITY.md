@@ -6,8 +6,8 @@
 
 **Do not file a public GitHub issue for security reports.**
 
-Email: `security@bryteai.studio`
-PGP key fingerprint: *to be added on first signed release*
+Email: `hasnain@bryteai.studio`
+PGP: not yet available — use email.
 
 ## Disclosure window
 

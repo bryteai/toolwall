@@ -98,7 +98,7 @@ For each attack class: definition, concrete real-world case, the `toolwall` mech
 
 ### 4.5 Exfiltration via tool side effects (Exfil-Sink)
 - **Definition.** Agent is tricked into POSTing data, fetching a markdown image with embedded data in the URL, encoding secrets into a search query, or writing to a file path the attacker controls.
-- **Real case.** EchoLeak (markdown image sink), and the Cymulate Codex CLI sandbox escape via `notify` (2026-03, sink in a *config field*).
+- **Real case.** EchoLeak (CVE-2025-32711, markdown image sink), and the configuration-based sandbox escapes in coding agents reported by Cymulate Research Labs (April 2026), where a configuration file written from inside the sandbox is executed outside it.
 - **Mechanism.** `Policy.egress_denylist`, `Policy.url_allowlist`, `Policy.path_scope`. Argument-side inspection rejects calls whose arguments contain markdown image references or unfamiliar hosts.
 - **Where it fails open.** A legitimately allowlisted host can still be a sink (e.g., a paste service inside the org). The allowlist is only as good as the operator's discipline.
 

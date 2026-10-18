@@ -48,6 +48,12 @@ JUDGE_HF_REVISION = "main"  # replaced with a sha pin at publish time
 # Default local adapter path that the trainer writes to.
 _REPO_ROOT = Path(__file__).resolve().parents[3]
 JUDGE_LOCAL_PATH_DEFAULT = _REPO_ROOT / "models" / "judge-v0.1"
+# v0.2: a plain (non-LoRA) DeBERTa-v3 sequence classifier with a calibrated threshold
+# stored next to the weights in ``toolwall_judge.json``. Preferred when present.
+JUDGE_V02_LOCAL_PATH_DEFAULT = _REPO_ROOT / "models" / "judge-v0.2"
+JUDGE_V02_HF_ID = "bryteai/toolwall-judge-v0.2"
+_kind: str | None = None          # "lora" (v0.1) or "seqcls" (v0.2)
+_threshold: float = 0.5
 
 _MAX_INPUT_CHARS = 4_000
 
@@ -65,15 +71,17 @@ def _resolve_adapter_source() -> tuple[str, str] | None:
     env_path = os.environ.get("TOOLWALL_JUDGE_LOCAL_PATH")
     if env_path:
         p = Path(env_path).expanduser().resolve()
-        if (p / "adapter_config.json").exists():
+        if (p / "adapter_config.json").exists() or (p / "config.json").exists():
             return ("local", str(p))
         _LOG.warning(
             "TOOLWALL_JUDGE_LOCAL_PATH=%s but adapter_config.json not found there; ignoring",
             p,
         )
+    if (JUDGE_V02_LOCAL_PATH_DEFAULT / "config.json").exists():
+        return ("local", str(JUDGE_V02_LOCAL_PATH_DEFAULT))
     if (JUDGE_LOCAL_PATH_DEFAULT / "adapter_config.json").exists():
         return ("local", str(JUDGE_LOCAL_PATH_DEFAULT))
-    return ("hf", JUDGE_HF_ID)
+    return ("hf", JUDGE_V02_HF_ID)
 
 
 def _try_load() -> Any | None:
@@ -89,7 +97,6 @@ def _try_load() -> Any | None:
 
     try:
         import torch  # type: ignore[import-not-found]
-        from peft import PeftModel  # type: ignore[import-not-found]
         from transformers import (  # type: ignore[import-not-found]
             AutoModelForSequenceClassification,
             AutoTokenizer,
@@ -108,6 +115,33 @@ def _try_load() -> Any | None:
         return None
     kind, location = source
     _source_used = f"{kind}:{location}"
+    global _kind, _threshold
+    is_lora = kind == "local" and (Path(location) / "adapter_config.json").exists()
+    if not is_lora:
+        try:
+            import json as _json
+            cfg_path = Path(location) / "toolwall_judge.json" if kind == "local" else None
+            if cfg_path is not None and cfg_path.exists():
+                _threshold = float(_json.loads(cfg_path.read_text())["threshold"])
+            elif kind == "hf":
+                from huggingface_hub import hf_hub_download  # type: ignore[import-not-found]
+                _threshold = float(_json.loads(Path(hf_hub_download(location, "toolwall_judge.json")).read_text())["threshold"])
+            _pipeline = pipeline(
+                "text-classification", model=location, tokenizer=location, top_k=None,
+                truncation=True, max_length=512, device=0 if torch.cuda.is_available() else -1,
+            )
+            _kind = "seqcls"
+        except Exception as exc:
+            _LOG.warning("judge load failed (%s); continuing without judge", exc)
+            _pipeline = None
+        return _pipeline
+    _kind = "lora"
+    try:
+        from peft import PeftModel  # type: ignore[import-not-found]  # only the v0.1 LoRA judge needs peft
+    except Exception:
+        _LOG.warning("peft not installed; the v0.1 LoRA judge needs `pip install peft`")
+        _pipeline = None
+        return None
 
     try:
         tokenizer = AutoTokenizer.from_pretrained(location if kind == "local" else JUDGE_HF_ID)
@@ -149,6 +183,23 @@ def score(text: str) -> Detection | None:
         return None
 
     snippet = text[:_MAX_INPUT_CHARS]
+    if _kind == "seqcls":
+        try:
+            scores = pipeline(snippet)
+            if scores and isinstance(scores[0], list):
+                scores = scores[0]
+            p_attack = next((float(r["score"]) for r in scores
+                             if str(r["label"]).lower() in ("attack", "label_1", "injection")), 0.0)
+        except Exception as exc:
+            _LOG.warning("judge inference failed: %s", exc)
+            return None
+        if p_attack < _threshold:
+            return None
+        # Map [threshold, 1] onto [0.6, 1] so a judge hit crosses the default block threshold.
+        mapped = 0.6 + 0.4 * (p_attack - _threshold) / max(1e-9, 1.0 - _threshold)
+        return Detection(kind="judge-attack", span=(0, len(text)), score=min(1.0, mapped),
+                         evidence={"p_attack": round(p_attack, 4), "threshold": _threshold,
+                                   "source": _source_used or "unknown"})
     try:
         result = pipeline(snippet)[0]
         if isinstance(result, list):

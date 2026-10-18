@@ -3,8 +3,10 @@
 We import 500 of the harder cases. InjecAgent ships at:
 
     https://github.com/uiuc-kang-lab/InjecAgent
-    pinned revision: 6f9c4b3a8e1d7f2c5a90b146e3d8c2719f4a0e6b
-    HuggingFace mirror: TIGER-Lab/InjecAgent (rev "1.0")
+    pinned revision: f19c9f2c79a41046eb13c03c51a24c567a8ffa07 (2024-07-02)
+    (v0.1 of this file named a revision and a HuggingFace mirror that do not
+    exist; corrected in v0.2. The v0.2 external evaluation builds directly
+    from the upstream repo: see bench/external/build_v0_2.py.)
 
 Network access at build time is optional --- we keep a frozen copy of
 the *case manifest* (IDs + SHA-256 fingerprints) in ``manifests/``.
@@ -12,7 +14,7 @@ If the repo is unavailable when ``python -m bench.build`` runs, the
 script raises with a clear message instead of producing a silently
 shorter dataset.
 
-License: MIT (per upstream LICENSE file at the pinned revision).
+License: MIT (upstream LICENCE file and GitHub licence metadata at the pinned revision).
 We attribute every case via :attr:`bench.schema.Case.citation`.
 """
 
@@ -25,7 +27,7 @@ from pathlib import Path
 from ..schema import AttackKind, Case, Source
 
 UPSTREAM_REPO = "https://github.com/uiuc-kang-lab/InjecAgent"
-PINNED_REVISION = "6f9c4b3a8e1d7f2c5a90b146e3d8c2719f4a0e6b"
+PINNED_REVISION = "f19c9f2c79a41046eb13c03c51a24c567a8ffa07"
 LICENSE_SPDX = "MIT"
 
 # ---------------------------------------------------------------------------

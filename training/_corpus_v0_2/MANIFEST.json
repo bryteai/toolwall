@@ -1,0 +1,46 @@
+{
+  "seed": 20261019,
+  "tool_split": {
+    "GmailSearchEmails": "train",
+    "GmailReadEmail": "train",
+    "WebBrowserNavigateTo": "train",
+    "TodoistSearchTasks": "train",
+    "ShopifyGetProductDetails": "train",
+    "GitHubSearchRepositories": "train",
+    "GoogleCalendarReadEvents": "train",
+    "TwilioGetReceivedSmsMessages": "train",
+    "GitHubGetRepositoryDetails": "train",
+    "EvernoteManagerSearchNotes": "train",
+    "TwitterManagerGetUserProfile": "dev",
+    "TwitterManagerSearchTweets": "dev",
+    "AmazonGetProductDetails": "test",
+    "GoogleCalendarGetEventsFromSharedCalendar": "test",
+    "GitHubGetUserDetails": "test",
+    "TeladocViewReviews": "test",
+    "TwitterManagerReadTweet": "test"
+  },
+  "n": {
+    "train": {
+      "total": 5431,
+      "attack": 2057,
+      "sha256": "43e7921ecd78a4463ec73ab3359863e3ec4fb779d3fc500f71ffe0cbc9226bdf"
+    },
+    "dev": {
+      "total": 606,
+      "attack": 157,
+      "sha256": "ff1659a97bce3be635e7d027e8176a915e63d6cab6b6e7f42eb0eb8b2d0e3879"
+    },
+    "ia_test_base": {
+      "total": 95,
+      "sha256": "d3b00278ea8f5a5174314e555dfd807675b0a6d605e46a620ee5c6f241fdb087"
+    },
+    "ia_test_enhanced": {
+      "total": 95,
+      "sha256": "df4472a05a6f60f6f692711ee0f142c2e529e1dc6380e5ad9735e64f29a337d4"
+    },
+    "ia_test_twin": {
+      "total": 150,
+      "sha256": "314139734414f4ce43c8fd714c263386ff19963a6befa4477e02475ac18533fa"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 [project]
-name = "toolwall"
-version = "0.1.0"
+name = "toolwall-guard"
+version = "0.2.0"
 description = "A tool-boundary firewall for AI agents. Blocks indirect prompt injection at the tool–response boundary in four lines of code."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -41,10 +41,10 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://fence.bryteai.studio"
-Repository = "https://github.com/bryteai/toolwall"
-Documentation = "https://fence.bryteai.studio/docs"
-Issues = "https://github.com/bryteai/toolwall/issues"
-Changelog = "https://github.com/bryteai/toolwall/releases"
+Repository = "https://github.com/mhasnain-code/toolwall"
+Documentation = "https://github.com/mhasnain-code/toolwall#readme"
+Issues = "https://github.com/mhasnain-code/toolwall/issues"
+Changelog = "https://github.com/mhasnain-code/toolwall/blob/main/CHANGELOG.md"
 
 [project.scripts]
 toolwall = "toolwall.cli:main"

@@ -24,18 +24,18 @@ class AttackKind(str, Enum):
     TOOL_POISONING = "tool_poisoning"
     """Malicious instructions embedded in a tool's *description* or
     side-channel metadata fields read by the agent.
-    Citation: Invariant Labs MCP tool poisoning blog, March 2026."""
+    Citation: Invariant Labs, "MCP Security Notification: Tool Poisoning Attacks", 1 April 2025."""
 
     RUG_PULL = "rug_pull"
     """A tool whose description was benign at approval time but mutated
     post-approval to issue exfiltration / privilege-escalation
     instructions.
-    Citation: Invariant Labs rug-pull disclosure, April 2026."""
+    Citation: Invariant Labs, "MCP Security Notification: Tool Poisoning Attacks" (rug-pull section), 1 April 2025."""
 
     FULL_SCHEMA_POISONING = "full_schema_poisoning"
     """Malicious content in tool input-schema fields the agent reads
     (default values, enum hints, JSON-Schema ``description``).
-    Citation: CyberArk full-schema poisoning post, May 2026."""
+    Citation: CyberArk (S. Kosman), "Poison everywhere: No output from your MCP server is safe", 30 May 2025."""
 
     MARKDOWN_EXFIL = "markdown_exfil"
     """EchoLeak-class: response contains a markdown image / link whose
@@ -46,8 +46,8 @@ class AttackKind(str, Enum):
     UNICODE_TAG = "unicode_tag"
     """Hidden instructions in invisible Unicode --- U+E0000 tag block,
     zero-width chars, Trojan-Source bidi overrides.
-    Citation: Trojan Source CVE-2021-42574; Riley Goodside Unicode tag
-    smuggling, July 2024."""
+    Citation: Trojan Source CVE-2021-42574; Unicode-tag "ASCII smuggling"
+    (J. Rehberger, Embrace The Red, January 2024, crediting R. Goodside)."""
 
     BASE64_PAYLOAD = "base64_payload"
     """Instructions concealed as base64-, hex- or URL-encoded blobs

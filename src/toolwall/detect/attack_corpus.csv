@@ -1,5 +1,5 @@
 id,kind,pattern,case_insensitive,score,source,notes
-ipi-001,instruction-override,"ignore (all )?(your )?previous (instructions|directions|prompts)",true,0.92,"InjecAgent (Zhan et al., ACL Findings 2024)","Canonical IPI canary; appears in roughly 18% of InjecAgent attack cases."
+ipi-001,instruction-override,"ignore (all )?(your )?previous (instructions|directions|prompts)",true,0.92,"InjecAgent (Zhan et al., ACL Findings 2024)","Canonical IPI canary. Measured on InjecAgent (commit f19c9f2): present in 1,054/1,054 enhanced-setting cases and 0/1,054 base-setting cases."
 ipi-002,instruction-override,"disregard (the |all )?(above|prior|earlier) (instructions|messages|context)",true,0.90,"InjecAgent (Zhan et al., 2024)","Variant of ipi-001 with different verb."
 ipi-003,instruction-override,"forget (everything|what) (you|i) (have|was) (told|said|read)",true,0.88,"InjecAgent (Zhan et al., 2024)",""
 ipi-004,role-smuggle,"(^|\n)\s*(system|assistant|user|tool)\s*:\s*",true,0.80,"InjecAgent + AgentDojo (Debenedetti et al., NeurIPS D&B 2024)","Role-prefix smuggling; tightened to start-of-line."

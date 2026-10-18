@@ -1,0 +1,26 @@
+{
+  "injecagent_commit": "f19c9f2c79a41046eb13c03c51a24c567a8ffa07",
+  "seed": 20261018,
+  "files": {
+    "injecagent_base": {
+      "n": 1054,
+      "sha256": "79187a177654360cba1d094194dba08f021be05fa72e196658fe2480724cda03"
+    },
+    "injecagent_enhanced": {
+      "n": 1054,
+      "sha256": "9cc4c60ed9438b2b8dfa1c023628e1dbe96fa0e201d501089a3a7db536a74208"
+    },
+    "injecagent_twin": {
+      "n": 1054,
+      "sha256": "18d77da9b80f41e28e60b9e9668fb97af5794ed8c75a15a6ee848b07d4a9729a"
+    },
+    "wiki_benign": {
+      "n": 400,
+      "sha256": "d2e1de976296ccc5d07eb091d46f2a82c4f562e161a5c2e03019cef54807dbf2"
+    },
+    "wiki_hardneg": {
+      "n": 91,
+      "sha256": "fa8e2e7c1b457667e5aabdac30938134a8d97d26e4c099a8be4c747cbe212b87"
+    }
+  }
+}

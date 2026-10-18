@@ -10,6 +10,44 @@ lifetime of the 0.1.x line.
 
 ---
 
+## [v0.2.0] — 2026-10-19
+
+### Why this release exists
+An external, held-out evaluation showed that the v0.1 judge (LoRA on
+Qwen2.5-7B, trained only on synthetic templates) does not generalise: on
+benign Wikipedia pages it blocked 98.0 % (392/400), and on benign InjecAgent
+tool responses 66.5 % (701/1,054). The v0.1 headline (ASR 0.097 on the
+in-house split) was in-distribution and is not representative. Full numbers:
+`results/external_v0_2/`.
+
+### Changed
+- New default judge `toolwall-judge-v0.2`: a DeBERTa-v3-base classifier
+  (runs on CPU), trained with a split-by-tool and split-by-instruction
+  protocol on InjecAgent plus Wikipedia benign pages, with the decision
+  threshold calibrated on a dev split (`training/build_corpus_v0_2.py`,
+  `training/modal_train_judge_v0_2.py`). The v0.1 LoRA judge is still
+  loadable via `TOOLWALL_JUDGE_LOCAL_PATH`.
+- Evaluation compares detectors with detectors. Prompt-level defences
+  (prompt sandwich, spotlighting) were removed from the comparison table:
+  they do not block anything by design, so an "ASR 1.0" row was misleading.
+- PyPI distribution renamed to `toolwall-guard` (the name `toolwall` on
+  PyPI belongs to an unrelated project). The import name stays `toolwall`.
+
+### Fixed (accuracy of claims)
+- InjecAgent loader cited a commit and a Hugging Face mirror that do not
+  exist; now pinned to the real commit `f19c9f2c79a4` (2024-07-02, MIT).
+- Corrected source dates in `bench/schema.py` (Invariant Labs, 1 Apr 2025;
+  CyberArk, 30 May 2025; Unicode-tag smuggling, Jan 2024).
+- Removed claims that could not be verified (a NIST quotation, an
+  over-broad description of CVE-2026-30615, an unsourced CVE count) and
+  corrected MCPTox figures and the OWASP Agentic Top 10 mapping.
+- Removed install instructions and badges for packages that were never
+  published (npm, PyPI under the old name, `create-toolwall-worker`).
+- Added the missing `toolwall` CLI (`toolwall check`), declared in v0.1
+  but absent.
+
+---
+
 ## [v0.1.0]
 
 Initial public release.
