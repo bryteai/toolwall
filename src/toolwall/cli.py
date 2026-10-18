@@ -2,7 +2,7 @@
 
     toolwall check response.json        # score a saved tool response (rules only)
     cat page.txt | toolwall check -      # read from stdin
-    toolwall check --judge response.json # also run the LoRA judge (needs toolwall-guard[judge] + GPU)
+    toolwall check --judge response.json # also run the judge (needs toolwall-guard[judge]; CPU is fine)
 
 Exit code: 0 = allowed, 2 = blocked.
 """

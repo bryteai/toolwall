@@ -69,6 +69,12 @@ in-house set) was in-distribution and is not representative. Full numbers:
 - Added the missing `toolwall` CLI (`toolwall check`), declared in v0.1
   but absent.
 
+### Known issues
+- Rule `ipi-053` (added in v0.1.1) matches ordinary phrases such as "LLMs are";
+  it causes 6 of the 11 false positives on Wikipedia security articles.
+- The judge's score can change with formatting: one BIPIA-style email scores
+  0.0 as compact JSON and 0.995 when indented. Not yet measured.
+
 ### Note on the v0.1.1 entry below
 Its "ENDEST" table was measured on a self-built panel of 48 attacks and
 10 benign documents. It is not comparable with the held-out results above.

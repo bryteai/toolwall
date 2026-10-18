@@ -3,22 +3,22 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "fence · toolwall live demo",
+  title: "toolwall v0.2 · fence",
   description:
-    "Side-by-side proof that toolwall stops indirect prompt injection at the tool–response boundary. Apache-2.0.",
+    "toolwall checks tool responses for indirect prompt injection. Real outputs of v0.2.0, including a miss, and its held-out results.",
   metadataBase: new URL("https://fence.bryteai.studio"),
   openGraph: {
-    title: "fence · toolwall live demo",
+    title: "toolwall v0.2 · fence",
     description:
-      "Watch an AI agent get exfil'd on the left, and the same agent firewalled on the right — toolwall, four lines of code.",
+      "Real outputs of toolwall v0.2.0 on three tool responses, including a miss, and its held-out results.",
     url: "https://fence.bryteai.studio",
     siteName: "fence",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "fence · toolwall live demo",
-    description: "AI tool-boundary firewall · Apache-2.0",
+    title: "toolwall v0.2 · fence",
+    description: "Indirect prompt injection detection at the tool-response boundary · Apache-2.0",
   },
 };
 

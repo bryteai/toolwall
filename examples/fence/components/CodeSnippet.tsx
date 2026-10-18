@@ -8,27 +8,17 @@ const PY = `from toolwall import toolwall, policy
 def fetch(url: str) -> str:
     return httpx.get(url).text`;
 
-const TS = `import { toolwall, policy } from "@bryteai/toolwall-core";
+const CLI = `pip install -e ".[judge]"     # from a clone of the repo
+toolwall check --judge response.json
+# {"blocked": true, "score": ..., "threshold": 0.6, "detections": ["judge-attack"]}; exit code 2 = blocked`;
 
-const fetchSafe = toolwall(
-  (url: string) => fetch(url).then(r => r.text()),
-  { policy: policy.webFetch() },
-);`;
-
-const MCP = `// Cloudflare Workers MCP server (create-toolwall-worker template)
-import { wireTools, EXAMPLE_TOOLS } from "./mcp.js";
-
-const tools = wireTools(EXAMPLE_TOOLS, env.AUDIT, sessionId);
-// every handler is now @toolwall-wrapped with mcpPolicy().`;
-
-type Tab = "py" | "ts" | "mcp";
+type Tab = "py" | "cli";
 const TABS: ReadonlyArray<readonly [Tab, string]> = [
-  ["py",  "Python"],
-  ["ts",  "TypeScript"],
-  ["mcp", "MCP server"],
+  ["py", "Python"],
+  ["cli", "CLI"],
 ];
 
-const SRC: Record<Tab, string> = { py: PY, ts: TS, mcp: MCP };
+const SRC: Record<Tab, string> = { py: PY, cli: CLI };
 
 export function CodeSnippet() {
   const [tab, setTab] = useState<Tab>("py");
@@ -37,7 +27,7 @@ export function CodeSnippet() {
     <div className="rounded-xl border border-[color:var(--color-edge)] bg-[color:var(--color-ink-1)] overflow-hidden">
       <header className="flex items-center gap-2 px-5 py-3 border-b border-[color:var(--color-edge)] bg-[color:var(--color-ink-2)]">
         <h2 className="text-sm font-mono text-[color:var(--color-paper)] mr-auto">
-          integrate in 4 lines
+          wrap a tool
         </h2>
         <div className="flex gap-1">
           {TABS.map(([id, label]) => (

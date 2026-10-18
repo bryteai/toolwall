@@ -95,6 +95,7 @@ The numbers below are for the **toolwall stack** (rules + this judge) as shipped
 
 - Misses most BIPIA-style attacks, which change the answer or add an unrelated task rather than override instructions or call tools.
 - Blocks about one in eight paragraphs from Wikipedia security articles (injection, phishing, LLMs); 10 of the 11 blocks come from toolwall's rules (mainly an over-broad v0.1.1 pattern, `ipi-053`), not the judge.
+- The score can depend on formatting: one BIPIA-style email scored 0.0 as compact JSON and 0.995 when indented. Not yet measured systematically.
 - Trained and tested mostly on English.
 - Not tested against adaptive attacks aimed at the classifier itself.
 - Detection only: it does not measure what an agent does after a response is passed or blocked.

@@ -101,6 +101,7 @@ We think the next step is a **task-aware judge**: give the classifier the user's
 - The strict InjecAgent test set is small (95 attacks per setting); intervals are wide.
 - deepset and Enron results are in-distribution for those sources; the in-house and novel sets were written for v0.1 and shaped its rules.
 - 12.1 % of paragraphs from Wikipedia security articles are blocked. Rules cause 10 of the 11 blocks: six come from one over-broad v0.1.1 pattern (`ipi-053`, which matches phrases such as "LLMs are"), four from the SQL-injection pattern. We will fix this against a fresh hard-negative set.
+- The judge is sensitive to formatting: after the release run we observed one BIPIA-style email that scores 0.0 as compact JSON and 0.995 when the same JSON is indented. We have not measured how often this happens.
 - English only, apart from deepset's German rows.
 - No adaptive attacks against the classifier were tried.
 - Detection only; no end-to-end agent runs.
