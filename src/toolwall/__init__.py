@@ -24,7 +24,7 @@ from .decorator import Detector, toolwall
 from .exceptions import Blocked, BudgetExceeded, PolicyViolation
 from .policy import Policy
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 __all__ = [
     "Blocked",

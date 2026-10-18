@@ -8,6 +8,7 @@ declarative policy, fast rule-based detectors and a small fine-tuned classifier.
 |---|---|
 | [Installation](installation.md) | Requirements, supported platforms, extras, offline use, environment variables |
 | [Usage](usage.md) | The decorator, policy presets and every policy field, decisions and exceptions, the audit log, the CLI, framework adapters, the demo |
+| [MCP proxy](proxy.md) | Protect any stdio MCP server from Claude Desktop, Claude Code or Cursor without code |
 | [Evaluation](evaluation.md) | What was measured, the results, and the known failure modes |
 
 ## Features

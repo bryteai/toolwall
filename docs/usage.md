@@ -83,6 +83,9 @@ toolwall check --threshold 0.8 page.txt
 
 Output is JSON (`blocked`, `score`, `threshold`, `detections`). Exit code 0 = allowed, 2 = blocked.
 
+## 6b. MCP proxy
+See [proxy.md](proxy.md): `toolwall proxy [--judge] [--threshold] [--mode block|warn] -- <server command>`.
+
 ## 7. Framework adapters
 Each adapter exposes one function, `wrap(..., policy=...)`:
 

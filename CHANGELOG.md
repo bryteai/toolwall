@@ -10,6 +10,19 @@ lifetime of the 0.1.x line.
 
 ---
 
+## [v0.2.1] — 2026-10-19
+
+### Added
+- `toolwall proxy`: a stdio proxy that protects any MCP server without code changes. It removes
+  tools whose descriptions score as injection or change after first use (rug-pull), and withholds
+  tool results that score as injection (`--mode block`), or only audits (`--mode warn`).
+  Docs: `docs/proxy.md`. Tests: `tests/test_proxy.py`.
+
+### Changed
+- The release workflow runs manually until PyPI publishing is configured.
+
+---
+
 ## [v0.2.0] — 2026-10-19
 
 ### Why this release exists

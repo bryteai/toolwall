@@ -45,6 +45,6 @@ continues with rules only. Check the log in production.
 
 ## Verify the installation
 ```bash
-python -m pytest -q                          # 77 tests, judge disabled
+python -m pytest -q                          # 86 tests, judge disabled
 python examples/arsenal_demo/demo.py         # six example responses
 ```
