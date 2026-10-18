@@ -71,3 +71,4 @@ training/_corpus_v0_2_2/
 # v0.2 judge weights ship via Hugging Face (bryteai/toolwall-judge-v0.2), not git
 models/judge-v0.2*/
 models/_candidates/
+assets/demo-thumbnails.png

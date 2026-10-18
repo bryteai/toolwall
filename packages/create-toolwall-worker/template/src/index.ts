@@ -23,6 +23,7 @@ export interface Env {
   readonly OAUTH_ISSUER: string;
   readonly OAUTH_CLIENT_ID: string;
   readonly OAUTH_CLIENT_SECRET: string;
+  readonly OAUTH_REDIRECT_URIS: string;
 }
 
 interface JsonRpcRequest {

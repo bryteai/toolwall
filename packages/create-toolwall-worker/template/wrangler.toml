@@ -29,3 +29,5 @@ id = "REPLACE_WITH_OAUTH_KV_ID"
 # in addition; never commit the secret.
 OAUTH_ISSUER = "https://__PROJECT_NAME__.workers.dev"
 OAUTH_CLIENT_ID = "REPLACE_WITH_CLIENT_ID"
+# Exact redirect URIs your client may use, comma-separated. /authorize rejects any other.
+OAUTH_REDIRECT_URIS = "http://localhost:6274/oauth/callback"

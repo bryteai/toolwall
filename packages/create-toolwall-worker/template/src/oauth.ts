@@ -21,6 +21,8 @@ export interface OAuthEnv {
   readonly OAUTH_ISSUER: string;
   readonly OAUTH_CLIENT_ID: string;
   readonly OAUTH_CLIENT_SECRET: string;
+  /** Comma-separated list of exact redirect URIs registered for OAUTH_CLIENT_ID. */
+  readonly OAUTH_REDIRECT_URIS: string;
 }
 
 const TOKEN_TTL_SECONDS = 60 * 60;
@@ -71,6 +73,16 @@ export async function authorize(
     !redirectUri
   ) {
     return new Response("invalid_request", { status: 400 });
+  }
+
+  // OAuth 2.1 §3.1.2.4: only redirect to a pre-registered URI (exact match),
+  // otherwise /authorize becomes an open redirect.
+  const registered = (env.OAUTH_REDIRECT_URIS ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (!registered.includes(redirectUri)) {
+    return new Response("invalid_request: redirect_uri not registered", { status: 400 });
   }
 
   // PRODUCTION: bounce the user to your real IdP and round-trip back.

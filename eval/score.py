@@ -77,6 +77,11 @@ def _utility(d: dict[str, Any]) -> float:
     return (d["n_benign"] - d["n_benign_blocked"]) / d["n_benign"] if d["n_benign"] else 1.0
 
 
+def _csv_safe(v: Any) -> Any:
+    """Prefix strings that a spreadsheet would read as a formula (OWASP CSV injection)."""
+    return "'" + v if isinstance(v, str) and v[:1] in ("=", "+", "-", "@") else v
+
+
 def write_csv(
     by_defense: dict[str, dict[str, Any]],
     out_path: Path,
@@ -85,8 +90,9 @@ def write_csv(
     out_path.parent.mkdir(parents=True, exist_ok=True)
     header = ["defense", "asr", "utility", "n_attack", "n_benign"] + [f"asr_{f}" for f in families]
     with out_path.open("w", encoding="utf-8", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(header)
+        # Quote every cell and neutralise leading = + - @ so the file is safe to open in a spreadsheet.
+        w = csv.writer(f, quoting=csv.QUOTE_ALL)
+        w.writerow([_csv_safe(h) for h in header])
         for name in DEFENSE_LABELS:
             if name not in by_defense:
                 continue
@@ -103,7 +109,7 @@ def write_csv(
                 row.append(
                     f"{(cell['n'] - cell['blocked']) / cell['n']:.4f}" if cell["n"] else "n/a"
                 )
-            w.writerow(row)
+            w.writerow([_csv_safe(c) for c in row])
 
 
 def write_markdown(
