@@ -1,3 +1,5 @@
+> **Superseded by `toolwall-judge-v0.2`** (see `MODEL_CARD_v0_2.md`). On held-out external data this v0.1 judge blocked 98.0 % of random Wikipedia pages and 66.5 % of benign InjecAgent tool responses; the in-house numbers below were in-distribution.
+
 # Model Card: `toolwall-judge-v0.1`
 
 > Third-layer IPI judge for `toolwall` — a LoRA adapter that scores

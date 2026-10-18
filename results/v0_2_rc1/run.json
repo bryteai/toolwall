@@ -1,0 +1,7 @@
+{
+  "toolwall_version": "0.2.0",
+  "judge_sha256": "34dc0cc929250b61ee2bc24f901ba31da87c38f923f7623bfe31924a796768fe",
+  "judge_source": "local:/__modal/volumes/vo-RvNBaXB1NPcFvgpU4m9tGl/judge-v0.2.3",
+  "judge_kind": "seqcls",
+  "judge_threshold": 0.5
+}

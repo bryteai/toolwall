@@ -110,6 +110,17 @@ def _in_any_span(pos: int, spans: list[tuple[int, int]]) -> bool:
     return any(s <= pos < e for s, e in spans)
 
 
+def _looks_structured(text: str) -> bool:
+    """True for JSON / dict / list payloads, where quotes are syntax, not a quotation.
+
+    v0.2.0 fix: the v0.1.1 dampener treated every quoted span as a "mention",
+    which includes every string value of a JSON tool response, so canonical
+    injections inside structured tool output were halved below the threshold.
+    """
+    head = text.lstrip()[:1]
+    return head in ("{", "[")
+
+
 # --- Encoded-payload decode-and-rescan ---------------------------------------
 
 _BASE64_RUN = re.compile(r"(?:[A-Za-z0-9+/]{60,}={0,2})")
@@ -378,14 +389,15 @@ def detect(text: str) -> list[Detection]:
 
     Layered score adjustments applied here:
         1. Quote-context dampener halves the score if the match starts
-           inside a quoted region or fenced code block.
+           inside a quoted region or fenced code block. Not applied to
+           structured payloads (JSON / dict / list), where quotes are syntax.
         2. Decode-and-rescan layers (base64 / gzip / hex / URL) append hits
            with ``-encoded-<scheme>`` kinds.
         3. Homoglyph rescan appends hits with ``-homoglyph`` kinds.
         4. NFKC rescan appends hits with ``-nfkc`` kinds.
         5. Combining-mark strip rescan appends hits with ``-stripped`` kinds.
     """
-    quoted = _quoted_spans(text)
+    quoted = [] if _looks_structured(text) else _quoted_spans(text)
     out: list[Detection] = []
     for kind, pat, score, source in _compiled():
         for m in pat.finditer(text):

@@ -17,6 +17,27 @@ a calendar.
 
 ---
 
+## Status, October 2026
+
+**v0.2.0** replaced the v0.1 judge after it failed on held-out data (see `CHANGELOG.md`).
+The items below for v0.2 and later were written in May 2026; where they conflict with this
+section, this section wins.
+
+Next, in order:
+
+1. **Task-aware judge (v0.3).** Give the classifier the user's request as well as the tool
+   response, so that "an instruction for the assistant" can be told apart from "a request
+   written to a person". Target: the BIPIA attacks that v0.2 misses (ASR 0.947), measured on
+   a BIPIA split and a new benchmark that v0.3 training never sees.
+2. **End-to-end agent evaluation** on AgentDojo: attack success and task utility with an
+   actual agent, not only per-response detection.
+3. **Review the v0.1.1 rule patterns** on a fresh hard-negative set; they account for most
+   of the 12.1 % false positives on Wikipedia security articles.
+4. **Adaptive attacks against the judge.**
+5. **PyPI release** as `toolwall-guard`.
+
+---
+
 ## v0.1.0 — Public release
 
 The minimum honest first release. Tracked in [`CHANGELOG.md`](CHANGELOG.md).

@@ -28,7 +28,11 @@ def main(argv: list[str] | None = None) -> int:
         os.environ.setdefault("TOOLWALL_DISABLE_JUDGE", "1")
     from .detect import CompositeDetector
 
-    text = sys.stdin.read() if a.path == "-" else open(a.path, encoding="utf-8").read()
+    if a.path == "-":
+        text = sys.stdin.read()
+    else:
+        with open(a.path, encoding="utf-8") as fh:
+            text = fh.read()
     score, spans = CompositeDetector(use_judge=a.judge).score(text)
     blocked = score >= a.threshold
     print(json.dumps({

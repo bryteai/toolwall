@@ -1,33 +1,19 @@
 cff-version: 1.2.0
-title: "Toolwall: A Defense-in-Depth Library for Indirect Prompt Injection at the Tool–Response Boundary"
-message: "If you use this software in academic work, please cite as below."
+title: "toolwall: a tool-boundary firewall for indirect prompt injection in AI agents"
+message: "If you use this software in academic work, please cite it as below."
 type: software
 authors:
   - family-names: Hasnain
     given-names: Muhammad
-    affiliation: "bryteai.studio (Bin Abdullah LLC, Brooklyn NY) — NVIDIA Inception member"
+    affiliation: "bryteai.studio (Bin Abdullah LLC)"
     email: hasnain@bryteai.studio
 repository-code: "https://github.com/bryteai/toolwall"
-url: "https://fence.bryteai.studio"
 license: Apache-2.0
 keywords:
   - "indirect prompt injection"
   - "ai agent security"
   - "tool-response boundary"
-  - "owasp llm top 10"
-  - "owasp asi top 10"
   - "model context protocol"
-  - "mcp security"
-version: 0.1.0
-date-released: 2026-06-06
-preferred-citation:
-  type: article
-  title: "Toolwall: A Defense-in-Depth Library for Indirect Prompt Injection at the Tool–Response Boundary"
-  authors:
-    - family-names: Hasnain
-      given-names: Muhammad
-      affiliation: "bryteai.studio (Bin Abdullah LLC, Brooklyn NY) — NVIDIA Inception member"
-      email: hasnain@bryteai.studio
-  year: 2026
-  month: 6
-  url: "https://arxiv.org/abs/PENDING"
+  - "prompt injection detection"
+version: 0.2.0
+date-released: 2026-10-19

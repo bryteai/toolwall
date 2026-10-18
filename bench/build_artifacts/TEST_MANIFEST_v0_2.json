@@ -1,0 +1,57 @@
+{
+ "bench/build_artifacts/external_v0_2/wiki_benign.jsonl": {
+  "rows": 400,
+  "sha256": "d2e1de976296ccc5d07eb091d46f2a82c4f562e161a5c2e03019cef54807dbf2"
+ },
+ "bench/build_artifacts/external_v0_2/wiki_hardneg.jsonl": {
+  "rows": 91,
+  "sha256": "fa8e2e7c1b457667e5aabdac30938134a8d97d26e4c099a8be4c747cbe212b87"
+ },
+ "bench/build_artifacts/final_bipia_v0_2.jsonl": {
+  "rows": 300,
+  "sha256": "a62b552726967257cbb740a4d8b771505f31aeb9cdeef9a5a0fd065b9e9f02c0"
+ },
+ "bench/build_artifacts/heldout_v0_2/deepset_test.jsonl": {
+  "rows": 116,
+  "sha256": "afc6c38bef2962f7e8e3ecb6bd19585d6213470b32a34b07b7983c2cce7c990c"
+ },
+ "bench/build_artifacts/heldout_v0_2/enron_requests.jsonl": {
+  "rows": 296,
+  "sha256": "2837db059f9012d34c7b18e14e4050b5541bd112ef5449605d48ab49f7545232"
+ },
+ "bench/build_artifacts/heldout_v0_2/gandalf_test.jsonl": {
+  "rows": 112,
+  "sha256": "aa51f9fc0d8da97da89c1d16a0571a5ae6181b31b36033e67df54176f54e68b0"
+ },
+ "bench/build_artifacts/heldout_v0_2/ia_test_base.jsonl": {
+  "rows": 95,
+  "sha256": "d3b00278ea8f5a5174314e555dfd807675b0a6d605e46a620ee5c6f241fdb087"
+ },
+ "bench/build_artifacts/heldout_v0_2/ia_test_enhanced.jsonl": {
+  "rows": 95,
+  "sha256": "df4472a05a6f60f6f692711ee0f142c2e529e1dc6380e5ad9735e64f29a337d4"
+ },
+ "bench/build_artifacts/heldout_v0_2/ia_test_twin.jsonl": {
+  "rows": 150,
+  "sha256": "314139734414f4ce43c8fd714c263386ff19963a6befa4477e02475ac18533fa"
+ },
+ "bench/build_artifacts/heldout_v0_2/short_benign_test.jsonl": {
+  "rows": 300,
+  "sha256": "b5f99d1d0520cbe66d3af46ff46e6854f6bf6bbb3f1999d8c8a89c1ed8a8aece"
+ },
+ "bench/build_artifacts/heldout_v0_2/short_probe.jsonl": {
+  "rows": 20,
+  "sha256": "bebf7013941ca946b63cd13c60c371e9dd31d4e7bd51dbfe208a23e86374fff7"
+ },
+ "eval/_artifacts/attacks.jsonl": {
+  "rows": 200,
+  "sha256": "26dc5faa35059370a8a45c6f2b31f0c7fd63d8014233edae81cac9ad87724678"
+ },
+ "eval/_artifacts/novel_attacks_crewai.jsonl": {
+  "rows": 10,
+  "sha256": "68219e7c158105f35456f9b8f39bf257ea55ebb9947298e961fa74d73173064e"
+ },
+ "models/judge-v0.2/model.safetensors": {
+  "sha256": "34dc0cc929250b61ee2bc24f901ba31da87c38f923f7623bfe31924a796768fe"
+ }
+}

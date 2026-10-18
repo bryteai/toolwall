@@ -40,11 +40,11 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://fence.bryteai.studio"
-Repository = "https://github.com/mhasnain-code/toolwall"
-Documentation = "https://github.com/mhasnain-code/toolwall#readme"
-Issues = "https://github.com/mhasnain-code/toolwall/issues"
-Changelog = "https://github.com/mhasnain-code/toolwall/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/bryteai/toolwall"
+Repository = "https://github.com/bryteai/toolwall"
+Documentation = "https://github.com/bryteai/toolwall#readme"
+Issues = "https://github.com/bryteai/toolwall/issues"
+Changelog = "https://github.com/bryteai/toolwall/blob/main/CHANGELOG.md"
 
 [project.scripts]
 toolwall = "toolwall.cli:main"
@@ -57,6 +57,13 @@ dev = [
     "hypothesis>=6.100",
     "ruff>=0.5",
     "mypy>=1.10",
+]
+judge = [
+    "torch>=2.2",
+    "transformers>=4.46",
+    "sentencepiece>=0.2",
+    "protobuf>=4.25",
+    "huggingface_hub>=0.25",
 ]
 adapters = [
     "anthropic>=0.40",
@@ -88,7 +95,6 @@ ignore = ["E501"]
 "src/toolwall/exceptions.py" = ["N818"]
 # Training + scoring entrypoints use uppercase names that mirror
 # ML-paper convention (BASE_MODEL, LABELS, MAX_LEN, etc.).
-"training/*.py" = ["N806"]
 # The homoglyph normalization table in patterns.py contains ambiguous
 # Unicode characters (Cyrillic/Greek/Armenian/Cherokee look-alikes) BY
 # DESIGN — they are the literal keys we map back to ASCII before scoring.
@@ -98,7 +104,10 @@ ignore = ["E501"]
 # Eval + scoring scripts use single-letter loop variables (l for label,
 # j for inner index) following ML-paper convention. They're entrypoints,
 # not library code.
-"eval/*.py" = ["E741", "B007", "B905"]
+"eval/*.py" = ["E741", "B007", "B905", "RUF001", "E702", "E731", "SIM115", "E401", "I001"]
+# Corpus builders and Modal entrypoints are one-shot research scripts.
+"training/*.py" = ["N806", "RUF001", "E702", "E731", "SIM115", "B905", "E401", "I001"]
+"bench/external/*.py" = ["RUF001", "E702", "E731", "SIM115", "B905", "I001"]
 "scripts/*.py" = ["E741"]
 
 [tool.pytest.ini_options]

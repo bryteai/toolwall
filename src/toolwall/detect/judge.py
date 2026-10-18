@@ -52,6 +52,8 @@ JUDGE_LOCAL_PATH_DEFAULT = _REPO_ROOT / "models" / "judge-v0.1"
 # stored next to the weights in ``toolwall_judge.json``. Preferred when present.
 JUDGE_V02_LOCAL_PATH_DEFAULT = _REPO_ROOT / "models" / "judge-v0.2"
 JUDGE_V02_HF_ID = "bryteai/toolwall-judge-v0.2"
+# Pinned Hugging Face commit; weights sha256 34dc0cc929250b61ee2bc24f901ba31da87c38f923f7623bfe31924a796768fe
+JUDGE_V02_HF_REVISION = "4427056d8d5b1636a82f3cf4fad940923eb05b29"
 _kind: str | None = None          # "lora" (v0.1) or "seqcls" (v0.2)
 _threshold: float = 0.5
 
@@ -96,8 +98,8 @@ def _try_load() -> Any | None:
         return None
 
     try:
-        import torch  # type: ignore[import-not-found]
-        from transformers import (  # type: ignore[import-not-found]
+        import torch  # type: ignore[import-not-found,unused-ignore]
+        from transformers import (  # type: ignore[import-not-found,unused-ignore]
             AutoModelForSequenceClassification,
             AutoTokenizer,
             pipeline,
@@ -106,7 +108,7 @@ def _try_load() -> Any | None:
         _LOG.warning(
             "transformers/peft/torch not installed; "
             "toolwall.detect.judge inactive. "
-            "`pip install toolwall[judge]` to enable."
+            "`pip install \"toolwall-guard[judge]\"` to enable."
         )
         return None
 
@@ -124,10 +126,13 @@ def _try_load() -> Any | None:
             if cfg_path is not None and cfg_path.exists():
                 _threshold = float(_json.loads(cfg_path.read_text())["threshold"])
             elif kind == "hf":
-                from huggingface_hub import hf_hub_download  # type: ignore[import-not-found]
-                _threshold = float(_json.loads(Path(hf_hub_download(location, "toolwall_judge.json")).read_text())["threshold"])
+                from huggingface_hub import (
+                    hf_hub_download,  # type: ignore[import-not-found,unused-ignore]
+                )
+                _threshold = float(_json.loads(Path(hf_hub_download(location, "toolwall_judge.json", revision=JUDGE_V02_HF_REVISION)).read_text())["threshold"])
             _pipeline = pipeline(
                 "text-classification", model=location, tokenizer=location, top_k=None,
+                revision=JUDGE_V02_HF_REVISION if kind == "hf" else None,
                 truncation=True, max_length=512, device=0 if torch.cuda.is_available() else -1,
             )
             _kind = "seqcls"
@@ -137,7 +142,8 @@ def _try_load() -> Any | None:
         return _pipeline
     _kind = "lora"
     try:
-        from peft import PeftModel  # type: ignore[import-not-found]  # only the v0.1 LoRA judge needs peft
+        # only the v0.1 LoRA judge needs peft
+        from peft import PeftModel  # type: ignore[import-not-found,unused-ignore]
     except Exception:
         _LOG.warning("peft not installed; the v0.1 LoRA judge needs `pip install peft`")
         _pipeline = None

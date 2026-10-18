@@ -1,54 +1,12 @@
-# `paper/` — arXiv preprint sources
+# `paper/`
 
-Preprint that ships with `toolwall` v0.1.0:
+**v0.2 technical report:** [`toolwall-v0.2-report.md`](toolwall-v0.2-report.md) ([PDF](toolwall-v0.2-report.pdf)).
 
-> **Toolwall: A Defense-in-Depth Library for Indirect Prompt Injection
-> at the Tool–Response Boundary**
-> Muhammad Hasnain · bryteai.studio · Bin Abdullah LLC (Brooklyn, NY) · NVIDIA Inception
-> arXiv: `cs.CR` primary · `cs.AI` cross-list (submission pending)
+## Note on the v0.1 preprint draft
 
-## Build locally
-
-`toolwall-arxiv.tex` compiles with a stock TeX Live install. The
-bibliography is inline (`\begin{thebibliography}`) to keep the
-preprint self-contained for arXiv's compile pipeline, which does
-not run BibTeX by default on first submission.
-
-```bash
-cd paper/
-pdflatex toolwall-arxiv.tex
-pdflatex toolwall-arxiv.tex   # second pass for refs
-# → toolwall-arxiv.pdf
-```
-
-Or with `latexmk`:
-
-```bash
-latexmk -pdf toolwall-arxiv.tex
-```
-
-## arXiv submission
-
-Upload the single `.tex` file. No external `.bib` is needed. arXiv's
-auto-classifier should pick `cs.CR`; cross-list to `cs.AI` is added
-on the submission form.
-
-The CITATION.cff at repo root mirrors the citation block so GitHub
-generates the "Cite this repository" button automatically.
-
-## Versioning
-
-The preprint is versioned in lockstep with `toolwall` releases:
-
-| Preprint | toolwall | What changed |
-|---|---|---|
-| v1 (this) | v0.1.0   | First public release; rule-only floor; judge-pending. |
-| v2        | v0.2.0   | Will add rules+judge measured numbers + held-out test split. |
-
-Numbers in the abstract and §5 are replaced — never massaged — when
-new measurements land.
-
-## License
-
-Apache-2.0, same as the codebase. Camera-ready figures and source
-images (when added) live under `paper/figures/`.
+A LaTeX preprint draft for v0.1 was kept in this folder but never submitted. It was
+withdrawn in October 2026 because its main results did not hold on held-out data:
+the v0.1 judge blocked 98.0 % of random Wikipedia pages and 66.5 % of benign
+InjecAgent tool responses (`results/external_v0_2/`). It also repeated several
+unverified background claims. The draft remains in the git history for the record;
+the v0.2 report replaces it.

@@ -6,6 +6,12 @@ license: apache-2.0
 
 # `toolwall-judge-v0.1` (in-repo adapter artifacts)
 
+> **Superseded by `toolwall-judge-v0.2` (October 2026).** On held-out external data this
+> v0.1 adapter blocked 98.0 % of random Wikipedia pages (392/400) and 66.5 % of benign
+> InjecAgent tool responses (701/1,054); its in-house numbers were in-distribution.
+> See `results/external_v0_2/` and the v0.2.0 entry in `CHANGELOG.md`. It is kept only
+> for reproducibility and loads only when `TOOLWALL_JUDGE_LOCAL_PATH` points at it.
+
 The full model card --- training data, dev-set evaluation, in-house
 200-case bench numbers, dev-saturation disclosure, MinHash overlap
 audit, and the published-vs-spec base-model substitution

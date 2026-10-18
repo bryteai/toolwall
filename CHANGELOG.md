@@ -17,21 +17,41 @@ An external, held-out evaluation showed that the v0.1 judge (LoRA on
 Qwen2.5-7B, trained only on synthetic templates) does not generalise: on
 benign Wikipedia pages it blocked 98.0 % (392/400), and on benign InjecAgent
 tool responses 66.5 % (701/1,054). The v0.1 headline (ASR 0.097 on the
-in-house split) was in-distribution and is not representative. Full numbers:
+in-house set) was in-distribution and is not representative. Full numbers:
 `results/external_v0_2/`.
+
+### Results (release run, `results/v0_2/`)
+- InjecAgent with unseen tools × unseen instructions: ASR 0.000 (0/95) in
+  both the base and enhanced settings; FPR 0.000 on 150 benign twins.
+- FPR 0.003 on 400 random Wikipedia pages, 0.000 on 296 Enron workplace
+  emails containing requests, 0.000 on 300 short tool outputs, 0.121 on 91
+  paragraphs from Wikipedia security articles.
+- ASR 0.217 on deepset (test split) and 0.205 on Lakera Gandalf (test split).
+- **BIPIA, run once after the judge was frozen: ASR 0.947 (142/150 attacks
+  get through), FPR 0.020.** The judge does not detect instructions that
+  change the answer or add an unrelated task.
 
 ### Changed
 - New default judge `toolwall-judge-v0.2`: a DeBERTa-v3-base classifier
-  (runs on CPU), trained with a split-by-tool and split-by-instruction
-  protocol on InjecAgent plus Wikipedia benign pages, with the decision
-  threshold calibrated on a dev split (`training/build_corpus_v0_2.py`,
-  `training/modal_train_judge_v0_2.py`). The v0.1 LoRA judge is still
-  loadable via `TOOLWALL_JUDGE_LOCAL_PATH`.
+  (runs on CPU). Training data: InjecAgent with a split-by-tool and
+  split-by-instruction protocol, Wikipedia benign pages, deepset train split,
+  Enron ham train emails, short benign outputs and the v0.1 templates, with
+  every source placed in every container type at equal rates. Threshold
+  calibrated on dev. Weights on the Hugging Face Hub at a pinned revision
+  (`JUDGE_V02_HF_REVISION`). The v0.1 LoRA judge is still loadable via
+  `TOOLWALL_JUDGE_LOCAL_PATH`.
+- Includes the v0.1.1 rule changes, with one fix: the quote dampener is no
+  longer applied to structured payloads (JSON, dicts, lists). In v0.1.1 it
+  halved the score of every match inside a JSON string, so the rules alone
+  missed every InjecAgent "enhanced" attack (`results/v0_2_rc1/`). The fix
+  was made after seeing those held-out numbers.
 - Evaluation compares detectors with detectors. Prompt-level defences
   (prompt sandwich, spotlighting) were removed from the comparison table:
   they do not block anything by design, so an "ASR 1.0" row was misleading.
 - PyPI distribution renamed to `toolwall-guard` (the name `toolwall` on
   PyPI belongs to an unrelated project). The import name stays `toolwall`.
+- New `judge` install extra (`pip install "toolwall-guard[judge]"`); CI runs
+  rules only.
 
 ### Fixed (accuracy of claims)
 - InjecAgent loader cited a commit and a Hugging Face mirror that do not
@@ -41,10 +61,17 @@ in-house split) was in-distribution and is not representative. Full numbers:
 - Removed claims that could not be verified (a NIST quotation, an
   over-broad description of CVE-2026-30615, an unsourced CVE count) and
   corrected MCPTox figures and the OWASP Agentic Top 10 mapping.
+- `ipi-001` note: the canonical override phrase appears in 1,054/1,054
+  enhanced-setting InjecAgent cases and 0/1,054 base cases (not "18 %").
 - Removed install instructions and badges for packages that were never
   published (npm, PyPI under the old name, `create-toolwall-worker`).
+- Withdrew the unsubmitted v0.1 preprint draft (`paper/README.md`).
 - Added the missing `toolwall` CLI (`toolwall check`), declared in v0.1
   but absent.
+
+### Note on the v0.1.1 entry below
+Its "ENDEST" table was measured on a self-built panel of 48 attacks and
+10 benign documents. It is not comparable with the held-out results above.
 
 ---
 
