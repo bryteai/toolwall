@@ -31,7 +31,7 @@ jobs:
         run: uv python install ${{ matrix.python-version }}
       - name: Install dependencies
         # The judge extra (torch + transformers) is not installed in CI; tests run rules only.
-        run: uv sync --extra adapters --dev
+        run: uv sync --extra adapters --extra dev
       - name: Lint
         run: uv run ruff check .
       - name: Type check

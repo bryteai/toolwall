@@ -60,7 +60,7 @@ dev = [
 ]
 judge = [
     "torch>=2.2",
-    "transformers>=4.46",
+    "transformers>=4.46,<6",  # tested with 4.46 and 5.9
     "sentencepiece>=0.2",
     "protobuf>=4.25",
     "huggingface_hub>=0.25",
