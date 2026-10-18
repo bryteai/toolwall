@@ -23,7 +23,7 @@ jobs:
         # requires-python in pyproject.toml stays >=3.10.
         python-version: ["3.11", "3.12", "3.13"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v3
         with:
           enable-cache: true
@@ -47,7 +47,7 @@ jobs:
     # require cp310 wheels that no longer exist upstream.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v3
       - run: uv build
       - uses: actions/upload-artifact@v4
