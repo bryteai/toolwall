@@ -21,16 +21,16 @@ declarative policy, fast rule-based detectors and a small fine-tuned classifier.
   - hidden Unicode (tag characters, zero-width, bidirectional controls);
   - markdown-image exfiltration sinks;
   - decode-and-rescan for base64, hex, URL encoding, gzip and ROT13;
-  - the judge, `toolwall-judge-v0.2` (DeBERTa-v3-base, 184M parameters, CPU).
+  - the judge, `toolwall-judge-v0.3` (DeBERTa-v3-base, 184M parameters, scores long responses in windows; a 71M variant for CPU).
 - **MCP protection**: tool-schema lock (rug-pull) and schema scanning (full-schema poisoning).
 - **Audit log**: one JSON record per decision.
 - **Adapters** for the Claude Agent SDK, CrewAI, LangGraph, OpenAI Agents SDK and MCP (Python).
 - **CLI**: `toolwall check` scores a saved response; exit code 2 means blocked.
 
 ## Status
-Research prototype, version 0.2.0. It detects many explicit injections and misses most
-instructions that change the content of the answer (see [Evaluation](evaluation.md)).
-Use it as one layer, not the only one.
+Research prototype, version 0.3.0. On LLMail-Inject it blocks 82 % of attacks with no false
+alarms; on long documents (LongPIBench) it fails, like every guard we tested (see
+[Evaluation](evaluation.md)). Use it as one layer, not the only one.
 
 ## License and changes
 - Code: Apache-2.0 ([LICENSE](../LICENSE)). Judge weights: Apache-2.0, base model MIT.

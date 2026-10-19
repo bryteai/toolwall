@@ -3,9 +3,12 @@
 The judge is the third detector layer. It is invoked only on residual text
 that the pattern + unicode + markdown detectors did not already adjudicate.
 
-v0.2 ships ``bryteai/toolwall-judge-v0.2``, a DeBERTa-v3-base sequence
-classifier (pinned revision below). See ``training/MODEL_CARD_v0_2.md``.
-The superseded v0.1 LoRA adapter (Qwen2.5-7B) loads only when
+v0.3 ships ``bryteai/toolwall-judge-v0.3``, a windowed DeBERTa-v3-base
+classifier (pinned revision below): the tool output is cut into overlapping
+512-token windows and the score is the highest window score. See
+``training/MODEL_CARD_v0_3.md``. ``TOOLWALL_JUDGE=v0.3-xsmall`` picks the
+smaller, faster variant; ``TOOLWALL_JUDGE=v0.2`` the previous judge. The
+superseded v0.1 LoRA adapter (Qwen2.5-7B) loads only when
 ``TOOLWALL_JUDGE_LOCAL_PATH`` points at it.
 
 The wrapper is lazy: importing ``toolwall.detect`` does NOT import torch /
@@ -20,10 +23,13 @@ baseline; the judge closes the long tail.
 
 Loading order
 -------------
-1.  If ``TOOLWALL_JUDGE_LOCAL_PATH`` is set, load the adapter from that
-    directory (this is the path the trainer writes to). The
-    in-repo default is ``models/judge-v0.1/``.
-2.  Otherwise, fall back to the HF id ``bryteai/toolwall-judge-v0.1``.
+1.  If ``TOOLWALL_JUDGE_LOCAL_PATH`` is set, load the model from that
+    directory (this is the path the trainer writes to).
+2.  If ``TOOLWALL_JUDGE`` names a published judge (``v0.3``, ``v0.3-xsmall``,
+    ``v0.2``), load ``models/judge-<name>`` from a repo checkout when present,
+    otherwise its pinned Hugging Face revision.
+3.  Otherwise a local ``models/judge-v0.3``, then ``models/judge-v0.2``, then
+    the pinned Hugging Face revision of ``bryteai/toolwall-judge-v0.3``.
 """
 
 from __future__ import annotations
@@ -58,7 +64,19 @@ JUDGE_V02_HF_REVISION = "4427056d8d5b1636a82f3cf4fad940923eb05b29"
 # ``stride``; the tool output is cut into overlapping token windows and the score is the maximum window score,
 # so benign text around an attack cannot dilute it. See training/modal_train_judge_v0_3.py.
 JUDGE_V03_LOCAL_PATH_DEFAULT = _REPO_ROOT / "models" / "judge-v0.3"
-_kind: str | None = None          # "lora" (v0.1), "seqcls" (v0.2) or "windowed" (v0.3)
+JUDGE_V03_HF_ID = "bryteai/toolwall-judge-v0.3"
+# Pinned Hugging Face commit; weights sha256 b4df0319…7d72 (full hash in training/MODEL_CARD_v0_3.md)
+JUDGE_V03_HF_REVISION = "9423f03cb20536a777ed0ecc46af483e48938b15"
+JUDGE_V03_XSMALL_HF_ID = "bryteai/toolwall-judge-v0.3-xsmall"
+# Pinned Hugging Face commit; weights sha256 aa1705ca…b138
+JUDGE_V03_XSMALL_HF_REVISION = "7fd8aee6b9014cd054a4937c5cee057baad1da1e"
+# Names accepted by TOOLWALL_JUDGE.
+PUBLISHED_JUDGES = {"v0.3": JUDGE_V03_HF_ID, "v0.3-xsmall": JUDGE_V03_XSMALL_HF_ID, "v0.2": JUDGE_V02_HF_ID}
+# The v0.3 judge was trained with short user requests as the task (median 12 tokens, none written as a role
+# prompt). With role-style system prompts as the task it flagged almost every benign document (LongPIBench).
+_TASK_WARN_TOKENS = 32
+_task_warned = False
+_kind: str | None = None         # "lora" (v0.1), "seqcls" (v0.2) or "windowed" (v0.3)
 _threshold: float = 0.5
 _win: dict[str, Any] = {}
 
@@ -75,9 +93,10 @@ def _resolve_adapter_source() -> tuple[str, str] | None:
     """Return ``(kind, location)`` for the adapter, or ``None`` if absent.
 
     ``kind`` is ``"local"`` or ``"hf"``. ``location`` is a filesystem
-    path or HF id. Order: ``TOOLWALL_JUDGE_LOCAL_PATH``, then a local
-    ``models/judge-v0.3``, then a local ``models/judge-v0.2``, then the pinned
-    Hugging Face revision of ``bryteai/toolwall-judge-v0.2``.
+    path or HF id. Order: ``TOOLWALL_JUDGE_LOCAL_PATH``; then the judge named by
+    ``TOOLWALL_JUDGE`` (local ``models/judge-<name>`` or its HF id); then a local
+    ``models/judge-v0.3``, a local ``models/judge-v0.2``, and finally the pinned
+    Hugging Face revision of ``bryteai/toolwall-judge-v0.3``.
     """
     env_path = os.environ.get("TOOLWALL_JUDGE_LOCAL_PATH")
     if env_path:
@@ -88,12 +107,20 @@ def _resolve_adapter_source() -> tuple[str, str] | None:
             "TOOLWALL_JUDGE_LOCAL_PATH=%s but adapter_config.json not found there; ignoring",
             p,
         )
+    choice = os.environ.get("TOOLWALL_JUDGE", "").strip()
+    if choice:
+        if choice in PUBLISHED_JUDGES:
+            local = _REPO_ROOT / "models" / f"judge-{choice}"
+            if (local / "config.json").exists():
+                return ("local", str(local))
+            return ("hf", PUBLISHED_JUDGES[choice])
+        _LOG.warning("TOOLWALL_JUDGE=%s is not one of %s; using the default judge", choice, sorted(PUBLISHED_JUDGES))
     for default in (JUDGE_V03_LOCAL_PATH_DEFAULT, JUDGE_V02_LOCAL_PATH_DEFAULT):
         if (default / "config.json").exists():
             return ("local", str(default))
     # The superseded v0.1 LoRA judge (models/judge-v0.1) is used only when
     # TOOLWALL_JUDGE_LOCAL_PATH points at it; it is never picked by default.
-    return ("hf", JUDGE_V02_HF_ID)
+    return ("hf", JUDGE_V03_HF_ID)
 
 
 def _try_load() -> Any | None:
@@ -128,6 +155,17 @@ def _try_load() -> Any | None:
     kind, location = source
     _source_used = f"{kind}:{location}"
     global _kind, _threshold
+    windowed_revisions = {JUDGE_V03_HF_ID: JUDGE_V03_HF_REVISION, JUDGE_V03_XSMALL_HF_ID: JUDGE_V03_XSMALL_HF_REVISION}
+    if kind == "hf" and location in windowed_revisions:
+        try:  # the windowed judge reads toolwall_judge.json next to the weights, so fetch the pinned snapshot
+            from huggingface_hub import (
+                snapshot_download,  # type: ignore[import-not-found,unused-ignore]
+            )
+            location = snapshot_download(location, revision=windowed_revisions[location])
+            kind = "local"
+        except Exception as exc:
+            _LOG.warning("judge download failed (%s); continuing without judge", exc)
+            return None
     is_lora = kind == "local" and (Path(location) / "adapter_config.json").exists()
     if not is_lora:
         try:
@@ -250,8 +288,10 @@ def _score_windowed(text: str, task: str) -> tuple[float, tuple[int, int], int]:
 def score(text: str, task: str = "") -> Detection | None:
     """Return a :class:`Detection` with score in ``[0,1]`` or ``None``.
 
-    ``task`` is the user's request, when the caller knows it. The v0.3 judge was trained with and without it;
-    giving it lets the judge tell instructions that fit the task from ones that do not. Older judges ignore it.
+    ``task`` is the user's request, when the caller knows it (a short sentence such as "Summarize my last
+    email"), never the agent's system prompt. The v0.3 judge was trained with and without it; older judges
+    ignore it. On the v0.3 final tests the task did not improve detection, and with LongPIBench's role-style
+    system prompts as the task the judge flagged almost every benign document, so the default is no task.
 
     ``None`` means the judge could not opine (model not present, input
     empty, etc.) --- callers treat this as "no signal" and rely on the
@@ -264,6 +304,12 @@ def score(text: str, task: str = "") -> Detection | None:
         return None
 
     if _kind == "windowed":
+        global _task_warned
+        if task and not _task_warned and (task.lstrip().lower().startswith("you are")
+                                          or len(_win["tok"](task, add_special_tokens=False)["input_ids"]) > _TASK_WARN_TOKENS):
+            _task_warned = True
+            _LOG.warning("judge task looks like a system prompt; the v0.3 judge was trained with short user requests "
+                         "and flags most benign text when given a system prompt. Pass the user's request or no task.")
         try:
             p_attack, span, n_windows = _score_windowed(text, task or "")
         except Exception as exc:
@@ -331,5 +377,9 @@ __all__ = [
     "JUDGE_HF_ID",
     "JUDGE_HF_REVISION",
     "JUDGE_LOCAL_PATH_DEFAULT",
+    "JUDGE_V03_HF_ID",
+    "JUDGE_V03_HF_REVISION",
+    "JUDGE_V03_XSMALL_HF_ID",
+    "PUBLISHED_JUDGES",
     "score",
 ]

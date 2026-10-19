@@ -134,12 +134,27 @@ def test_injection_inside_structured_tool_output_is_not_dampened() -> None:
     assert max(h.score for h in patterns.detect(prose)) < 0.6
 
 
-def test_default_judge_is_v02_not_the_superseded_v01(monkeypatch, tmp_path) -> None:
+def test_default_judge_is_the_published_v03(monkeypatch, tmp_path) -> None:
     from toolwall.detect import judge
     monkeypatch.delenv("TOOLWALL_JUDGE_LOCAL_PATH", raising=False)
+    monkeypatch.delenv("TOOLWALL_JUDGE", raising=False)
     monkeypatch.setattr(judge, "JUDGE_V02_LOCAL_PATH_DEFAULT", tmp_path / "absent")
     monkeypatch.setattr(judge, "JUDGE_V03_LOCAL_PATH_DEFAULT", tmp_path / "absent3")
-    assert judge._resolve_adapter_source() == ("hf", judge.JUDGE_V02_HF_ID)
+    assert judge._resolve_adapter_source() == ("hf", judge.JUDGE_V03_HF_ID)
+
+
+def test_toolwall_judge_env_picks_a_published_judge(monkeypatch, tmp_path) -> None:
+    from toolwall.detect import judge
+    monkeypatch.delenv("TOOLWALL_JUDGE_LOCAL_PATH", raising=False)
+    monkeypatch.setattr(judge, "_REPO_ROOT", tmp_path)
+    for name, hf_id in judge.PUBLISHED_JUDGES.items():
+        monkeypatch.setenv("TOOLWALL_JUDGE", name)
+        assert judge._resolve_adapter_source() == ("hf", hf_id)
+    local = tmp_path / "models" / "judge-v0.3-xsmall"
+    local.mkdir(parents=True)
+    (local / "config.json").write_text("{}")
+    monkeypatch.setenv("TOOLWALL_JUDGE", "v0.3-xsmall")
+    assert judge._resolve_adapter_source() == ("local", str(local))
 
 
 def test_local_v03_judge_is_preferred_when_present(monkeypatch, tmp_path) -> None:

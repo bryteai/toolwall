@@ -10,6 +10,35 @@ lifetime of the 0.1.x line.
 
 ---
 
+## [0.3.0] — 2026-10-20
+
+### Changed
+- The default judge is now `bryteai/toolwall-judge-v0.3` (pinned revision). It scores the whole tool
+  response in overlapping 512-token windows and reports the character span of the most suspicious one,
+  so benign text around an attack no longer hides it. Model card: `training/MODEL_CARD_v0_3.md`.
+- Results in the README are the v0.3 final tests; the v0.2 tables moved to `docs/results_v0_2.md`.
+
+### Added
+- `TOOLWALL_JUDGE` selects a published judge: `v0.3` (default), `v0.3-xsmall` (71M parameters, about
+  2.5 times faster on CPU) or `v0.2`.
+- `CompositeDetector.score(text, task=...)` and `judge.score(text, task=...)` accept the user's request.
+  It is not passed by the decorator or the proxy, and a warning is logged when the task looks like a
+  system prompt.
+- Report: `docs/report_v0_3.md`. Per-row final-test decisions: `results/v0_3_final/`. Training and
+  evaluation scripts: `training/build_corpus_v0_3.py`, `training/modal_train_judge_v0_3.py`,
+  `eval/modal_final_v0_3.py`, `eval/report_final_v0_3.py`, `eval/latency_v0_3.py`.
+
+### Results (final tests, one run)
+- LLMail-Inject: 82.2 % of attacked inputs blocked, 0 of 703 benign inputs blocked (v0.2: 81.9 %, 0).
+- BIPIA: 78.0 % detected, 1 false alarm in 150 (v0.2: 5.3 %, 3).
+- LongPIBench: 63.2 % detected with 31.0 % false alarms; naive and authority-spoof attacks are barely
+  detected. Every guard we tested fails on this set.
+
+### Known issues
+- On CPU the judge takes about 9 s for an 8,000-character response (3.5 s with `v0.3-xsmall`).
+- The regex rule `pap-persuasive` causes most false alarms on long documents.
+- With a system prompt passed as the task, the judge flags almost every benign document.
+
 ## [0.2.2] — 2026-10-19
 
 First release on PyPI (`pip install toolwall-guard`). No code changes from 0.2.1.

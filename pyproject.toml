@@ -1,6 +1,6 @@
 [project]
 name = "toolwall-guard"
-version = "0.2.2"
+version = "0.3.0"
 description = "A firewall for AI agents that checks tool responses for indirect prompt injection: rules plus a small CPU classifier."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -107,9 +107,9 @@ ignore = ["E501"]
 # Eval + scoring scripts use single-letter loop variables (l for label,
 # j for inner index) following ML-paper convention. They're entrypoints,
 # not library code.
-"eval/*.py" = ["E741", "B007", "B905", "RUF001", "E702", "E731", "SIM115", "E401", "I001"]
+"eval/*.py" = ["E741", "B007", "B905", "RUF001", "RUF005", "E702", "E731", "SIM115", "E401", "I001"]
 # Corpus builders and Modal entrypoints are one-shot research scripts.
-"training/*.py" = ["N806", "RUF001", "E702", "E731", "SIM115", "B905", "E401", "I001"]
+"training/*.py" = ["N806", "RUF001", "RUF005", "E702", "E731", "SIM115", "B905", "E401", "I001"]
 "bench/external/*.py" = ["RUF001", "E702", "E731", "SIM115", "B905", "I001"]
 "scripts/*.py" = ["E741"]
 

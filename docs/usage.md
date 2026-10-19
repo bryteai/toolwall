@@ -83,6 +83,18 @@ toolwall check --threshold 0.8 page.txt
 
 Output is JSON (`blocked`, `score`, `threshold`, `detections`). Exit code 0 = allowed, 2 = blocked.
 
+## 6a. Calling the detectors directly
+```python
+from toolwall.detect import CompositeDetector
+
+score, detections = CompositeDetector().score(tool_output)   # score >= 0.6 means block
+```
+Each detection has `kind`, `score`, `evidence` and `span`; for the v0.3 judge the span is the
+character range of the most suspicious 512-token window. `score(text, task=...)` also gives the
+judge the user's request. Pass only a short request ("Summarize my last email"), never the
+agent's system prompt: with system prompts as the task, v0.3 blocked 97.5 % of clean documents
+in our tests, and the request did not improve detection. The decorator and the proxy pass no task.
+
 ## 6b. MCP proxy
 See [proxy.md](proxy.md): `toolwall proxy [--judge] [--threshold] [--mode block|warn] -- <server command>`.
 

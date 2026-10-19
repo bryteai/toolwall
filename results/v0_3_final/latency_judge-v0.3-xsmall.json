@@ -1,0 +1,33 @@
+{
+ "model": "judge-v0.3-xsmall",
+ "device": "cpu",
+ "torch_threads": 6,
+ "cpu": "AMD Ryzen 5 4500U with Radeon Graphics",
+ "cores": 6,
+ "rows": [
+  {
+   "chars": 500,
+   "windows": 1,
+   "p50_s": 0.095,
+   "p95_s": 0.104
+  },
+  {
+   "chars": 2000,
+   "windows": 2,
+   "p50_s": 0.664,
+   "p95_s": 0.731
+  },
+  {
+   "chars": 8000,
+   "windows": 11,
+   "p50_s": 3.49,
+   "p95_s": 3.598
+  },
+  {
+   "chars": 32000,
+   "windows": 40,
+   "p50_s": 13.07,
+   "p95_s": 14.995
+  }
+ ]
+}
