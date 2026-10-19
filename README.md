@@ -130,13 +130,14 @@ v0.1 reported that the full stack let through 9.7 % of attacks on its in-house s
 - **English first.** Little non-English text was evaluated, apart from deepset's German rows.
 - **The judge can be attacked.** A classifier is itself an attack surface, and adaptive attacks against it were not evaluated. Rules run first so that a judge failure is not the only line of defence ([`THREAT_MODEL.md`](https://github.com/bryteai/toolwall/blob/main/THREAT_MODEL.md)).
 
-## Install (from source)
+## Install
 
 ```bash
-git clone https://github.com/bryteai/toolwall && cd toolwall
-pip install -e .                      # rules only: pydantic + regex
-pip install -e ".[judge]"             # + transformers/torch for the judge
+pip install toolwall-guard            # rules only: pydantic + regex
+pip install "toolwall-guard[judge]"   # + transformers/torch for the judge
 ```
+
+The package is `toolwall-guard` on PyPI; the import name and the command are `toolwall` (the PyPI name `toolwall` belongs to an unrelated project). From source: `git clone https://github.com/bryteai/toolwall && cd toolwall && pip install -e ".[judge]"`.
 
 The judge weights are published at [`bryteai/toolwall-judge-v0.2`](https://huggingface.co/bryteai/toolwall-judge-v0.2) and load automatically when `transformers` is installed. Set `TOOLWALL_DISABLE_JUDGE=1` to run rules only.
 
@@ -144,8 +145,6 @@ The judge weights are published at [`bryteai/toolwall-judge-v0.2`](https://huggi
 toolwall check response.json          # rules only; exit code 2 = blocked
 toolwall check --judge response.json  # rules + judge
 ```
-
-PyPI release as `toolwall-guard` is planned. The name `toolwall` on PyPI belongs to an unrelated project.
 
 ## Reproduce
 

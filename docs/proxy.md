@@ -15,8 +15,7 @@ starts the proxy in — set the variable to an absolute path).
 
 ## Install
 ```bash
-git clone https://github.com/bryteai/toolwall && cd toolwall
-pip install -e ".[judge]"     # puts the `toolwall` command on your PATH
+pip install "toolwall-guard[judge]"     # puts the `toolwall` command on your PATH
 ```
 
 ## Use it

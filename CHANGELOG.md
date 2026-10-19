@@ -15,6 +15,7 @@ lifetime of the 0.1.x line.
 First release on PyPI (`pip install toolwall-guard`). No code changes from 0.2.1.
 
 ### Changed
+- Install instructions use PyPI (`pip install toolwall-guard`).
 - README links are absolute, so they work on the PyPI project page.
 - The source distribution contains only the package, tests and project files; evaluation data
   and results stay in the git repository.

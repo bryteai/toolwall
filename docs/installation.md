@@ -11,17 +11,21 @@
 Pure Python. Developed and tested on Linux (x86-64); expected to work on macOS and Windows
 wherever PyTorch is available.
 
+## Install from PyPI
+```bash
+pip install toolwall-guard                  # rules and policy only
+pip install "toolwall-guard[judge]"         # + the classifier
+pip install "toolwall-guard[adapters]"      # + framework adapters (Anthropic, OpenAI, CrewAI, LangGraph, MCP)
+```
+The distribution is called `toolwall-guard`; you import `toolwall` and run the `toolwall`
+command. The PyPI name `toolwall` belongs to an unrelated project.
+
 ## Install from source
 ```bash
 git clone https://github.com/bryteai/toolwall
 cd toolwall
-pip install -e .                    # rules and policy only
-pip install -e ".[judge]"           # + the classifier
-pip install -e ".[adapters]"        # + framework adapters (Anthropic, OpenAI, CrewAI, LangGraph, MCP)
-pip install -e ".[dev]"             # + tests and linters
+pip install -e ".[judge,dev]"       # classifier + tests and linters
 ```
-A PyPI release as `toolwall-guard` is planned; the PyPI name `toolwall` belongs to an
-unrelated project.
 
 ## The judge weights
 With the `judge` extra installed, the first scored response downloads
