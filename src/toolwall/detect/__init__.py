@@ -5,7 +5,7 @@ Three sub-detectors run in cheap-to-expensive order:
 1. :mod:`toolwall.detect.patterns`     --- regex over the cited corpus
 2. :mod:`toolwall.detect.unicode_tags` --- U+E0000 / zero-width / bidi
 3. :mod:`toolwall.detect.markdown_exfil` --- EchoLeak-class sinks
-4. :mod:`toolwall.detect.judge`         --- LoRA-tuned Qwen2.5-7B-Instruct (optional)
+4. :mod:`toolwall.detect.judge`         --- DeBERTa-v3 classifier, windowed and task-aware in v0.3 (optional)
 
 The composite :class:`CompositeDetector` returns ``(max_score, detections)``
 which fits the :class:`~toolwall.decorator.Detector` protocol. Importing this
@@ -49,7 +49,8 @@ class CompositeDetector:
         self._markdown_allowlist = markdown_allowlist
         self._use_judge = use_judge
 
-    def score(self, text: str) -> tuple[float, list[dict[str, Any]]]:
+    def score(self, text: str, task: str = "") -> tuple[float, list[dict[str, Any]]]:
+        """Score ``text``; ``task`` (the user's request, if known) is passed to the judge."""
         hits: list[Detection] = []
         hits.extend(patterns.detect(text))
         hits.extend(unicode_tags.detect(text))
@@ -57,7 +58,7 @@ class CompositeDetector:
         if self._use_judge:
             from . import judge as _judge
 
-            j = _judge.score(text)
+            j = _judge.score(text, task=task)
             if j is not None:
                 hits.append(j)
 

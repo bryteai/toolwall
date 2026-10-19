@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import itertools
+
 import pytest
 
 from toolwall.detect import CompositeDetector, markdown_exfil, patterns, unicode_tags
@@ -136,4 +138,43 @@ def test_default_judge_is_v02_not_the_superseded_v01(monkeypatch, tmp_path) -> N
     from toolwall.detect import judge
     monkeypatch.delenv("TOOLWALL_JUDGE_LOCAL_PATH", raising=False)
     monkeypatch.setattr(judge, "JUDGE_V02_LOCAL_PATH_DEFAULT", tmp_path / "absent")
+    monkeypatch.setattr(judge, "JUDGE_V03_LOCAL_PATH_DEFAULT", tmp_path / "absent3")
     assert judge._resolve_adapter_source() == ("hf", judge.JUDGE_V02_HF_ID)
+
+
+def test_local_v03_judge_is_preferred_when_present(monkeypatch, tmp_path) -> None:
+    from toolwall.detect import judge
+    monkeypatch.delenv("TOOLWALL_JUDGE_LOCAL_PATH", raising=False)
+    v3 = tmp_path / "judge-v0.3"
+    v3.mkdir()
+    (v3 / "config.json").write_text("{}")
+    monkeypatch.setattr(judge, "JUDGE_V03_LOCAL_PATH_DEFAULT", v3)
+    assert judge._resolve_adapter_source() == ("local", str(v3))
+
+
+class _WordTok:
+    """Whitespace tokenizer with offsets, enough to test the windowing arithmetic."""
+    cls_token_id, sep_token_id, pad_token_id = 1, 2, 0
+
+    def __call__(self, text, add_special_tokens=False, return_offsets_mapping=False):
+        import re
+        spans = [(m.start(), m.end()) for m in re.finditer(r"\S+", text)]
+        out = {"input_ids": [10 + i for i in range(len(spans))]}
+        if return_offsets_mapping:
+            out["offset_mapping"] = spans
+        return out
+
+
+def test_windows_cover_the_whole_text_and_respect_the_length_limit(monkeypatch) -> None:
+    from toolwall.detect import judge
+    monkeypatch.setattr(judge, "_win", {"tok": _WordTok(), "max_len": 32, "stride": 16, "task_max": 8})
+    text = " ".join(f"w{i}" for i in range(200))
+    for task in ("", "Summarize these emails please"):
+        ws = judge._windows(task, text)
+        assert all(len(ids) <= 32 for ids, _ in ws)
+        assert ws[0][1][0] == 0 and ws[-1][1][1] == len(text)
+        assert all(a[1][0] <= b[1][0] for a, b in itertools.pairwise(ws))
+        covered = set()
+        for _, (lo, hi) in ws:
+            covered.update(range(lo, hi))
+        assert all(i in covered for i, ch in enumerate(text) if ch != " ")

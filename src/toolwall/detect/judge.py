@@ -54,10 +54,17 @@ JUDGE_V02_LOCAL_PATH_DEFAULT = _REPO_ROOT / "models" / "judge-v0.2"
 JUDGE_V02_HF_ID = "bryteai/toolwall-judge-v0.2"
 # Pinned Hugging Face commit; weights sha256 34dc0cc929250b61ee2bc24f901ba31da87c38f923f7623bfe31924a796768fe
 JUDGE_V02_HF_REVISION = "4427056d8d5b1636a82f3cf4fad940923eb05b29"
-_kind: str | None = None          # "lora" (v0.1) or "seqcls" (v0.2)
+# v0.3: task-aware, windowed DeBERTa-v3 classifier. ``toolwall_judge.json`` carries ``max_len`` and
+# ``stride``; the tool output is cut into overlapping token windows and the score is the maximum window score,
+# so benign text around an attack cannot dilute it. See training/modal_train_judge_v0_3.py.
+JUDGE_V03_LOCAL_PATH_DEFAULT = _REPO_ROOT / "models" / "judge-v0.3"
+_kind: str | None = None          # "lora" (v0.1), "seqcls" (v0.2) or "windowed" (v0.3)
 _threshold: float = 0.5
+_win: dict[str, Any] = {}
 
 _MAX_INPUT_CHARS = 4_000
+# Windowed judge: texts longer than this are scored on their first and last halves of this size.
+_MAX_WINDOWED_CHARS = int(os.environ.get("TOOLWALL_JUDGE_MAX_CHARS", "200000"))
 
 _pipeline: Any | None = None
 _load_attempted = False
@@ -69,8 +76,8 @@ def _resolve_adapter_source() -> tuple[str, str] | None:
 
     ``kind`` is ``"local"`` or ``"hf"``. ``location`` is a filesystem
     path or HF id. Order: ``TOOLWALL_JUDGE_LOCAL_PATH``, then a local
-    ``models/judge-v0.2``, then the pinned Hugging Face revision of
-    ``bryteai/toolwall-judge-v0.2``.
+    ``models/judge-v0.3``, then a local ``models/judge-v0.2``, then the pinned
+    Hugging Face revision of ``bryteai/toolwall-judge-v0.2``.
     """
     env_path = os.environ.get("TOOLWALL_JUDGE_LOCAL_PATH")
     if env_path:
@@ -81,8 +88,9 @@ def _resolve_adapter_source() -> tuple[str, str] | None:
             "TOOLWALL_JUDGE_LOCAL_PATH=%s but adapter_config.json not found there; ignoring",
             p,
         )
-    if (JUDGE_V02_LOCAL_PATH_DEFAULT / "config.json").exists():
-        return ("local", str(JUDGE_V02_LOCAL_PATH_DEFAULT))
+    for default in (JUDGE_V03_LOCAL_PATH_DEFAULT, JUDGE_V02_LOCAL_PATH_DEFAULT):
+        if (default / "config.json").exists():
+            return ("local", str(default))
     # The superseded v0.1 LoRA judge (models/judge-v0.1) is used only when
     # TOOLWALL_JUDGE_LOCAL_PATH points at it; it is never picked by default.
     return ("hf", JUDGE_V02_HF_ID)
@@ -125,8 +133,21 @@ def _try_load() -> Any | None:
         try:
             import json as _json
             cfg_path = Path(location) / "toolwall_judge.json" if kind == "local" else None
-            if cfg_path is not None and cfg_path.exists():
-                _threshold = float(_json.loads(cfg_path.read_text())["threshold"])
+            meta = _json.loads(cfg_path.read_text()) if cfg_path is not None and cfg_path.exists() else {}
+            if "stride" in meta:
+                tok = AutoTokenizer.from_pretrained(location)
+                tok.model_max_length = 10**9  # we window ourselves; silence the length warning
+                model = AutoModelForSequenceClassification.from_pretrained(location).eval()
+                device = "cuda" if torch.cuda.is_available() else "cpu"
+                _win.update(tok=tok, model=model.to(device), device=device, torch=torch, max_len=int(meta["max_len"]),
+                            stride=int(meta["stride"]), task_max=int(meta.get("task_max_tokens", 64)),
+                            version=str(meta.get("version", "0.3")))
+                _threshold = float(meta["threshold"])
+                _kind = "windowed"
+                _pipeline = model
+                return _pipeline
+            if meta:
+                _threshold = float(meta["threshold"])
             elif kind == "hf":
                 from huggingface_hub import (
                     hf_hub_download,  # type: ignore[import-not-found,unused-ignore]
@@ -177,8 +198,60 @@ def _try_load() -> Any | None:
     return _pipeline
 
 
-def score(text: str) -> Detection | None:
+def _windows(task: str, text: str) -> list[tuple[list[int], tuple[int, int]]]:
+    """Token windows exactly as in training: ``[CLS] task [SEP] piece [SEP]`` (or ``[CLS] piece [SEP]``)."""
+    tok, max_len, stride = _win["tok"], _win["max_len"], _win["stride"]
+    task_ids = tok(task, add_special_tokens=False)["input_ids"][: _win["task_max"]] if task else []
+    enc = tok(text, add_special_tokens=False, return_offsets_mapping=True)
+    ids, offs = enc["input_ids"], enc["offset_mapping"]
+    room = max_len - len(task_ids) - (4 if task_ids else 2)
+    step = max(1, min(stride, room))
+    cls, sep = tok.cls_token_id, tok.sep_token_id
+    out, start = [], 0
+    while True:
+        end = min(len(ids), start + room)
+        piece = ids[start:end]
+        model_in = [cls, *task_ids, sep, *piece, sep] if task_ids else [cls, *piece, sep]
+        chars = (offs[start][0], offs[end - 1][1]) if piece else (0, 0)
+        out.append((model_in, chars))
+        if end >= len(ids):
+            break
+        start += step
+    return out
+
+
+def _score_windowed(text: str, task: str) -> tuple[float, tuple[int, int], int]:
+    torch, model, tok = _win["torch"], _win["model"], _win["tok"]
+    segments = [(0, text)]
+    if len(text) > _MAX_WINDOWED_CHARS:
+        half = _MAX_WINDOWED_CHARS // 2
+        segments = [(0, text[:half]), (len(text) - half, text[-half:])]
+    best, best_span, n = 0.0, (0, 0), 0
+    for base, seg in segments:
+        ws = _windows(task, seg)
+        n += len(ws)
+        for i in range(0, len(ws), 16):
+            batch = ws[i:i + 16]
+            m = max(len(x) for x, _ in batch)
+            ids = torch.full((len(batch), m), tok.pad_token_id)
+            att = torch.zeros((len(batch), m), dtype=torch.long)
+            for j, (x, _) in enumerate(batch):
+                ids[j, :len(x)] = torch.tensor(x)
+                att[j, :len(x)] = 1
+            with torch.no_grad():
+                logits = model(input_ids=ids.to(_win["device"]), attention_mask=att.to(_win["device"])).logits
+            p = torch.softmax(logits.float(), -1)[:, 1].tolist()
+            for pj, (_, chars) in zip(p, batch, strict=True):
+                if pj > best:
+                    best, best_span = pj, (base + chars[0], base + chars[1])
+    return best, best_span, n
+
+
+def score(text: str, task: str = "") -> Detection | None:
     """Return a :class:`Detection` with score in ``[0,1]`` or ``None``.
+
+    ``task`` is the user's request, when the caller knows it. The v0.3 judge was trained with and without it;
+    giving it lets the judge tell instructions that fit the task from ones that do not. Older judges ignore it.
 
     ``None`` means the judge could not opine (model not present, input
     empty, etc.) --- callers treat this as "no signal" and rely on the
@@ -189,6 +262,19 @@ def score(text: str) -> Detection | None:
     pipeline = _try_load()
     if pipeline is None:
         return None
+
+    if _kind == "windowed":
+        try:
+            p_attack, span, n_windows = _score_windowed(text, task or "")
+        except Exception as exc:
+            _LOG.warning("judge inference failed: %s", exc)
+            return None
+        if p_attack < _threshold:
+            return None
+        mapped = 0.6 + 0.4 * (p_attack - _threshold) / max(1e-9, 1.0 - _threshold)
+        return Detection(kind="judge-attack", span=span, score=min(1.0, mapped),
+                         evidence={"p_attack": round(p_attack, 4), "threshold": _threshold, "windows": n_windows,
+                                   "task_given": bool(task), "source": _source_used or "unknown"})
 
     snippet = text[:_MAX_INPUT_CHARS]
     if _kind == "seqcls":

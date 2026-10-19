@@ -1,0 +1,392 @@
+{
+ "version": "0.3-deberta",
+ "base_model": "microsoft/deberta-v3-base",
+ "max_len": 512,
+ "stride": 256,
+ "task_max_tokens": 64,
+ "threshold": 0.5,
+ "train_windows": 36036,
+ "train_pos_windows": 12652,
+ "dev": {
+  "auroc": 0.9996922244709525,
+  "threshold_at_1pct_fpr": 0.5,
+  "tpr": 0.989983305509182,
+  "fpr": 0.002094972067039106,
+  "by_src": {
+   "aligned_short": {
+    "n": 243,
+    "flagged": 0,
+    "label": 0
+   },
+   "bipia_code": {
+    "n": 10,
+    "flagged": 5,
+    "label": 0
+   },
+   "bipia_email": {
+    "n": 10,
+    "flagged": 5,
+    "label": 0
+   },
+   "bipia_table": {
+    "n": 180,
+    "flagged": 91,
+    "label": 0
+   },
+   "dilution": {
+    "n": 796,
+    "flagged": 787,
+    "label": 1
+   },
+   "dilution_clean": {
+    "n": 800,
+    "flagged": 2,
+    "label": 0
+   },
+   "discussion_short": {
+    "n": 52,
+    "flagged": 0,
+    "label": 0
+   },
+   "gen_attack_short": {
+    "n": 145,
+    "flagged": 142,
+    "label": 1
+   },
+   "ia_base": {
+    "n": 12,
+    "flagged": 12,
+    "label": 1
+   },
+   "ia_enhanced": {
+    "n": 12,
+    "flagged": 12,
+    "label": 1
+   },
+   "ia_twin": {
+    "n": 30,
+    "flagged": 0,
+    "label": 0
+   },
+   "v0_1_short": {
+    "n": 340,
+    "flagged": 133,
+    "label": 0
+   }
+  },
+  "epoch": 0
+ },
+ "probe": {
+  "original": {
+   "attacks_caught": 80,
+   "benign_flagged": 0,
+   "n": 80
+  },
+  "indented JSON": {
+   "attacks_caught": 80,
+   "benign_flagged": 0,
+   "n": 80
+  },
+  "MCP content block": {
+   "attacks_caught": 80,
+   "benign_flagged": 0,
+   "n": 80
+  },
+  "+1000 chars before": {
+   "attacks_caught": 79,
+   "benign_flagged": 0,
+   "n": 80
+  },
+  "+1000 chars after": {
+   "attacks_caught": 79,
+   "benign_flagged": 0,
+   "n": 80
+  }
+ },
+ "padding_alone_score": 6.205048703122884e-05,
+ "log": [
+  {
+   "epoch": 0,
+   "step": 0,
+   "loss": 0.6825006008148193,
+   "min": 0.0
+  },
+  {
+   "epoch": 0,
+   "step": 200,
+   "loss": 0.1792861372232437,
+   "min": 1.1
+  },
+  {
+   "epoch": 0,
+   "step": 400,
+   "loss": 0.24413660168647766,
+   "min": 2.2
+  },
+  {
+   "epoch": 0,
+   "step": 600,
+   "loss": 0.00691615417599678,
+   "min": 3.4
+  },
+  {
+   "epoch": 0,
+   "step": 800,
+   "loss": 0.011023275554180145,
+   "min": 4.6
+  },
+  {
+   "epoch": 0,
+   "step": 1000,
+   "loss": 0.0012049395591020584,
+   "min": 5.8
+  },
+  {
+   "epoch": 0,
+   "step": 1200,
+   "loss": 0.21990591287612915,
+   "min": 6.9
+  },
+  {
+   "epoch": 0,
+   "step": 1400,
+   "loss": 0.000384883169317618,
+   "min": 8.0
+  },
+  {
+   "epoch": 0,
+   "step": 1600,
+   "loss": 0.48659801483154297,
+   "min": 9.2
+  },
+  {
+   "epoch": 0,
+   "step": 1800,
+   "loss": 0.0004916996695101261,
+   "min": 10.4
+  },
+  {
+   "epoch": 0,
+   "step": 2000,
+   "loss": 0.20020648837089539,
+   "min": 11.6
+  },
+  {
+   "epoch": 0,
+   "step": 2200,
+   "loss": 0.00019012198026757687,
+   "min": 12.8
+  },
+  {
+   "auroc": 0.9996922244709525,
+   "threshold_at_1pct_fpr": 0.5,
+   "tpr": 0.989983305509182,
+   "fpr": 0.002094972067039106,
+   "by_src": {
+    "aligned_short": {
+     "n": 243,
+     "flagged": 0,
+     "label": 0
+    },
+    "bipia_code": {
+     "n": 10,
+     "flagged": 5,
+     "label": 0
+    },
+    "bipia_email": {
+     "n": 10,
+     "flagged": 5,
+     "label": 0
+    },
+    "bipia_table": {
+     "n": 180,
+     "flagged": 91,
+     "label": 0
+    },
+    "dilution": {
+     "n": 796,
+     "flagged": 787,
+     "label": 1
+    },
+    "dilution_clean": {
+     "n": 800,
+     "flagged": 2,
+     "label": 0
+    },
+    "discussion_short": {
+     "n": 52,
+     "flagged": 0,
+     "label": 0
+    },
+    "gen_attack_short": {
+     "n": 145,
+     "flagged": 142,
+     "label": 1
+    },
+    "ia_base": {
+     "n": 12,
+     "flagged": 12,
+     "label": 1
+    },
+    "ia_enhanced": {
+     "n": 12,
+     "flagged": 12,
+     "label": 1
+    },
+    "ia_twin": {
+     "n": 30,
+     "flagged": 0,
+     "label": 0
+    },
+    "v0_1_short": {
+     "n": 340,
+     "flagged": 133,
+     "label": 0
+    }
+   },
+   "epoch": 0
+  },
+  {
+   "epoch": 1,
+   "step": 0,
+   "loss": 8.212340617319569e-05,
+   "min": 14.3
+  },
+  {
+   "epoch": 1,
+   "step": 200,
+   "loss": 6.285090057644993e-05,
+   "min": 15.4
+  },
+  {
+   "epoch": 1,
+   "step": 400,
+   "loss": 5.5601187341380864e-05,
+   "min": 16.5
+  },
+  {
+   "epoch": 1,
+   "step": 600,
+   "loss": 4.7823872591834515e-05,
+   "min": 17.7
+  },
+  {
+   "epoch": 1,
+   "step": 800,
+   "loss": 3.7795663956785575e-05,
+   "min": 18.8
+  },
+  {
+   "epoch": 1,
+   "step": 1000,
+   "loss": 7.28027371224016e-05,
+   "min": 20.0
+  },
+  {
+   "epoch": 1,
+   "step": 1200,
+   "loss": 4.809192614629865e-05,
+   "min": 21.2
+  },
+  {
+   "epoch": 1,
+   "step": 1400,
+   "loss": 5.808958667330444e-05,
+   "min": 22.3
+  },
+  {
+   "epoch": 1,
+   "step": 1600,
+   "loss": 3.552348061930388e-05,
+   "min": 23.5
+  },
+  {
+   "epoch": 1,
+   "step": 1800,
+   "loss": 4.723536767414771e-05,
+   "min": 24.6
+  },
+  {
+   "epoch": 1,
+   "step": 2000,
+   "loss": 4.878468462266028e-05,
+   "min": 25.8
+  },
+  {
+   "epoch": 1,
+   "step": 2200,
+   "loss": 4.340548548498191e-05,
+   "min": 27.0
+  },
+  {
+   "auroc": 0.9993739565943238,
+   "threshold_at_1pct_fpr": 0.5,
+   "tpr": 0.988313856427379,
+   "fpr": 0.0013966480446927375,
+   "by_src": {
+    "aligned_short": {
+     "n": 243,
+     "flagged": 0,
+     "label": 0
+    },
+    "bipia_code": {
+     "n": 10,
+     "flagged": 5,
+     "label": 0
+    },
+    "bipia_email": {
+     "n": 10,
+     "flagged": 5,
+     "label": 0
+    },
+    "bipia_table": {
+     "n": 180,
+     "flagged": 91,
+     "label": 0
+    },
+    "dilution": {
+     "n": 796,
+     "flagged": 786,
+     "label": 1
+    },
+    "dilution_clean": {
+     "n": 800,
+     "flagged": 1,
+     "label": 0
+    },
+    "discussion_short": {
+     "n": 52,
+     "flagged": 0,
+     "label": 0
+    },
+    "gen_attack_short": {
+     "n": 145,
+     "flagged": 141,
+     "label": 1
+    },
+    "ia_base": {
+     "n": 12,
+     "flagged": 12,
+     "label": 1
+    },
+    "ia_enhanced": {
+     "n": 12,
+     "flagged": 12,
+     "label": 1
+    },
+    "ia_twin": {
+     "n": 30,
+     "flagged": 0,
+     "label": 0
+    },
+    "v0_1_short": {
+     "n": 340,
+     "flagged": 133,
+     "label": 0
+    }
+   },
+   "epoch": 1
+  }
+ ],
+ "minutes": 28.9
+}

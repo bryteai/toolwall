@@ -1,0 +1,533 @@
+{
+ "version": "0.3-small",
+ "base_model": "microsoft/deberta-v3-small",
+ "max_len": 512,
+ "stride": 256,
+ "task_max_tokens": 64,
+ "threshold": 0.5,
+ "train_windows": 36036,
+ "train_pos_windows": 12652,
+ "dev": {
+  "auroc": 0.9971976688335307,
+  "threshold_at_1pct_fpr": 0.5,
+  "tpr": 0.988313856427379,
+  "fpr": 0.002793296089385475,
+  "by_src": {
+   "aligned_short": {
+    "n": 243,
+    "flagged": 0,
+    "label": 0
+   },
+   "bipia_code": {
+    "n": 10,
+    "flagged": 5,
+    "label": 0
+   },
+   "bipia_email": {
+    "n": 10,
+    "flagged": 5,
+    "label": 0
+   },
+   "bipia_table": {
+    "n": 180,
+    "flagged": 89,
+    "label": 0
+   },
+   "dilution": {
+    "n": 796,
+    "flagged": 785,
+    "label": 1
+   },
+   "dilution_clean": {
+    "n": 800,
+    "flagged": 4,
+    "label": 0
+   },
+   "discussion_short": {
+    "n": 52,
+    "flagged": 0,
+    "label": 0
+   },
+   "gen_attack_short": {
+    "n": 145,
+    "flagged": 143,
+    "label": 1
+   },
+   "ia_base": {
+    "n": 12,
+    "flagged": 12,
+    "label": 1
+   },
+   "ia_enhanced": {
+    "n": 12,
+    "flagged": 12,
+    "label": 1
+   },
+   "ia_twin": {
+    "n": 30,
+    "flagged": 0,
+    "label": 0
+   },
+   "v0_1_short": {
+    "n": 340,
+    "flagged": 133,
+    "label": 0
+   }
+  },
+  "epoch": 1
+ },
+ "probe": {
+  "original": {
+   "attacks_caught": 79,
+   "benign_flagged": 0,
+   "n": 80
+  },
+  "indented JSON": {
+   "attacks_caught": 76,
+   "benign_flagged": 0,
+   "n": 80
+  },
+  "MCP content block": {
+   "attacks_caught": 78,
+   "benign_flagged": 0,
+   "n": 80
+  },
+  "+1000 chars before": {
+   "attacks_caught": 78,
+   "benign_flagged": 0,
+   "n": 80
+  },
+  "+1000 chars after": {
+   "attacks_caught": 78,
+   "benign_flagged": 0,
+   "n": 80
+  }
+ },
+ "padding_alone_score": 1.6701422282494605e-05,
+ "log": [
+  {
+   "epoch": 0,
+   "step": 0,
+   "loss": 0.7081273794174194,
+   "min": 0.0
+  },
+  {
+   "epoch": 0,
+   "step": 200,
+   "loss": 0.05771137773990631,
+   "min": 0.6
+  },
+  {
+   "epoch": 0,
+   "step": 400,
+   "loss": 0.16150541603565216,
+   "min": 1.2
+  },
+  {
+   "epoch": 0,
+   "step": 600,
+   "loss": 0.004728233907371759,
+   "min": 1.8
+  },
+  {
+   "epoch": 0,
+   "step": 800,
+   "loss": 0.003977722954005003,
+   "min": 2.4
+  },
+  {
+   "epoch": 0,
+   "step": 1000,
+   "loss": 0.0010344521142542362,
+   "min": 3.1
+  },
+  {
+   "epoch": 0,
+   "step": 1200,
+   "loss": 0.00045977908303029835,
+   "min": 3.6
+  },
+  {
+   "epoch": 0,
+   "step": 1400,
+   "loss": 0.00012164367217337713,
+   "min": 4.2
+  },
+  {
+   "epoch": 0,
+   "step": 1600,
+   "loss": 0.032504234462976456,
+   "min": 4.9
+  },
+  {
+   "epoch": 0,
+   "step": 1800,
+   "loss": 0.20044617354869843,
+   "min": 5.5
+  },
+  {
+   "epoch": 0,
+   "step": 2000,
+   "loss": 0.00011864067346323282,
+   "min": 6.1
+  },
+  {
+   "epoch": 0,
+   "step": 2200,
+   "loss": 8.895452629076317e-05,
+   "min": 6.8
+  },
+  {
+   "auroc": 0.9961210373900635,
+   "threshold_at_1pct_fpr": 0.8888587189674377,
+   "tpr": 0.986644407345576,
+   "fpr": 0.009776536312849162,
+   "by_src": {
+    "aligned_short": {
+     "n": 243,
+     "flagged": 3,
+     "label": 0
+    },
+    "bipia_code": {
+     "n": 10,
+     "flagged": 5,
+     "label": 0
+    },
+    "bipia_email": {
+     "n": 10,
+     "flagged": 5,
+     "label": 0
+    },
+    "bipia_table": {
+     "n": 180,
+     "flagged": 89,
+     "label": 0
+    },
+    "dilution": {
+     "n": 796,
+     "flagged": 785,
+     "label": 1
+    },
+    "dilution_clean": {
+     "n": 800,
+     "flagged": 11,
+     "label": 0
+    },
+    "discussion_short": {
+     "n": 52,
+     "flagged": 0,
+     "label": 0
+    },
+    "gen_attack_short": {
+     "n": 145,
+     "flagged": 141,
+     "label": 1
+    },
+    "ia_base": {
+     "n": 12,
+     "flagged": 12,
+     "label": 1
+    },
+    "ia_enhanced": {
+     "n": 12,
+     "flagged": 12,
+     "label": 1
+    },
+    "ia_twin": {
+     "n": 30,
+     "flagged": 0,
+     "label": 0
+    },
+    "v0_1_short": {
+     "n": 340,
+     "flagged": 133,
+     "label": 0
+    }
+   },
+   "epoch": 0
+  },
+  {
+   "epoch": 1,
+   "step": 0,
+   "loss": 0.00013138260692358017,
+   "min": 7.6
+  },
+  {
+   "epoch": 1,
+   "step": 200,
+   "loss": 3.211136572645046e-05,
+   "min": 8.2
+  },
+  {
+   "epoch": 1,
+   "step": 400,
+   "loss": 4.8176152631640434e-05,
+   "min": 8.8
+  },
+  {
+   "epoch": 1,
+   "step": 600,
+   "loss": 3.640949580585584e-05,
+   "min": 9.4
+  },
+  {
+   "epoch": 1,
+   "step": 800,
+   "loss": 4.6273267798824236e-05,
+   "min": 10.0
+  },
+  {
+   "epoch": 1,
+   "step": 1000,
+   "loss": 5.23458729730919e-05,
+   "min": 10.6
+  },
+  {
+   "epoch": 1,
+   "step": 1200,
+   "loss": 5.9830308600794524e-05,
+   "min": 11.3
+  },
+  {
+   "epoch": 1,
+   "step": 1400,
+   "loss": 7.589228334836662e-05,
+   "min": 11.9
+  },
+  {
+   "epoch": 1,
+   "step": 1600,
+   "loss": 2.770071296254173e-05,
+   "min": 12.5
+  },
+  {
+   "epoch": 1,
+   "step": 1800,
+   "loss": 8.244405762525275e-05,
+   "min": 13.1
+  },
+  {
+   "epoch": 1,
+   "step": 2000,
+   "loss": 4.027689283248037e-05,
+   "min": 13.7
+  },
+  {
+   "epoch": 1,
+   "step": 2200,
+   "loss": 7.0912778028287e-05,
+   "min": 14.4
+  },
+  {
+   "auroc": 0.9971976688335307,
+   "threshold_at_1pct_fpr": 0.5,
+   "tpr": 0.988313856427379,
+   "fpr": 0.002793296089385475,
+   "by_src": {
+    "aligned_short": {
+     "n": 243,
+     "flagged": 0,
+     "label": 0
+    },
+    "bipia_code": {
+     "n": 10,
+     "flagged": 5,
+     "label": 0
+    },
+    "bipia_email": {
+     "n": 10,
+     "flagged": 5,
+     "label": 0
+    },
+    "bipia_table": {
+     "n": 180,
+     "flagged": 89,
+     "label": 0
+    },
+    "dilution": {
+     "n": 796,
+     "flagged": 785,
+     "label": 1
+    },
+    "dilution_clean": {
+     "n": 800,
+     "flagged": 4,
+     "label": 0
+    },
+    "discussion_short": {
+     "n": 52,
+     "flagged": 0,
+     "label": 0
+    },
+    "gen_attack_short": {
+     "n": 145,
+     "flagged": 143,
+     "label": 1
+    },
+    "ia_base": {
+     "n": 12,
+     "flagged": 12,
+     "label": 1
+    },
+    "ia_enhanced": {
+     "n": 12,
+     "flagged": 12,
+     "label": 1
+    },
+    "ia_twin": {
+     "n": 30,
+     "flagged": 0,
+     "label": 0
+    },
+    "v0_1_short": {
+     "n": 340,
+     "flagged": 133,
+     "label": 0
+    }
+   },
+   "epoch": 1
+  },
+  {
+   "epoch": 2,
+   "step": 0,
+   "loss": 2.9041850211797282e-05,
+   "min": 15.2
+  },
+  {
+   "epoch": 2,
+   "step": 200,
+   "loss": 7.220209954539314e-05,
+   "min": 15.8
+  },
+  {
+   "epoch": 2,
+   "step": 400,
+   "loss": 1.4908472621755209e-05,
+   "min": 16.4
+  },
+  {
+   "epoch": 2,
+   "step": 600,
+   "loss": 1.1600467587413732e-05,
+   "min": 17.1
+  },
+  {
+   "epoch": 2,
+   "step": 800,
+   "loss": 1.3597144970844965e-05,
+   "min": 17.7
+  },
+  {
+   "epoch": 2,
+   "step": 1000,
+   "loss": 1.0676599231373984e-05,
+   "min": 18.4
+  },
+  {
+   "epoch": 2,
+   "step": 1200,
+   "loss": 8.746910680201836e-06,
+   "min": 18.9
+  },
+  {
+   "epoch": 2,
+   "step": 1400,
+   "loss": 8.314746992255095e-06,
+   "min": 19.5
+  },
+  {
+   "epoch": 2,
+   "step": 1600,
+   "loss": 1.701686232991051e-05,
+   "min": 20.1
+  },
+  {
+   "epoch": 2,
+   "step": 1800,
+   "loss": 1.731496558932122e-05,
+   "min": 20.8
+  },
+  {
+   "epoch": 2,
+   "step": 2000,
+   "loss": 1.5616222299286164e-05,
+   "min": 21.4
+  },
+  {
+   "epoch": 2,
+   "step": 2200,
+   "loss": 1.672633516136557e-05,
+   "min": 22.0
+  },
+  {
+   "auroc": 0.9979318417101127,
+   "threshold_at_1pct_fpr": 0.5,
+   "tpr": 0.9874791318864775,
+   "fpr": 0.0034916201117318434,
+   "by_src": {
+    "aligned_short": {
+     "n": 243,
+     "flagged": 1,
+     "label": 0
+    },
+    "bipia_code": {
+     "n": 10,
+     "flagged": 5,
+     "label": 0
+    },
+    "bipia_email": {
+     "n": 10,
+     "flagged": 5,
+     "label": 0
+    },
+    "bipia_table": {
+     "n": 180,
+     "flagged": 89,
+     "label": 0
+    },
+    "dilution": {
+     "n": 796,
+     "flagged": 784,
+     "label": 1
+    },
+    "dilution_clean": {
+     "n": 800,
+     "flagged": 4,
+     "label": 0
+    },
+    "discussion_short": {
+     "n": 52,
+     "flagged": 0,
+     "label": 0
+    },
+    "gen_attack_short": {
+     "n": 145,
+     "flagged": 143,
+     "label": 1
+    },
+    "ia_base": {
+     "n": 12,
+     "flagged": 12,
+     "label": 1
+    },
+    "ia_enhanced": {
+     "n": 12,
+     "flagged": 12,
+     "label": 1
+    },
+    "ia_twin": {
+     "n": 30,
+     "flagged": 0,
+     "label": 0
+    },
+    "v0_1_short": {
+     "n": 340,
+     "flagged": 133,
+     "label": 0
+    }
+   },
+   "epoch": 2
+  }
+ ],
+ "minutes": 23.2
+}
