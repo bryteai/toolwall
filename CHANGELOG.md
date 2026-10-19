@@ -10,6 +10,17 @@ lifetime of the 0.1.x line.
 
 ---
 
+## [0.2.2] — 2026-10-19
+
+First release on PyPI (`pip install toolwall-guard`). No code changes from 0.2.1.
+
+### Changed
+- README links are absolute, so they work on the PyPI project page.
+- The source distribution contains only the package, tests and project files; evaluation data
+  and results stay in the git repository.
+- Package description no longer claims that toolwall "blocks" injection; see the README for
+  what it catches and misses.
+
 ## [v0.2.1] — 2026-10-19
 
 ### Added

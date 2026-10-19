@@ -1,7 +1,7 @@
 [project]
 name = "toolwall-guard"
-version = "0.2.1"
-description = "A tool-boundary firewall for AI agents. Blocks indirect prompt injection at the tool–response boundary in four lines of code."
+version = "0.2.2"
+description = "A firewall for AI agents that checks tool responses for indirect prompt injection: rules plus a small CPU classifier."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "Apache-2.0" }
@@ -79,6 +79,9 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/toolwall"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/src/toolwall", "/tests", "/README.md", "/LICENSE", "/AUTHORS.md", "/CHANGELOG.md", "/pyproject.toml"]
 
 [tool.ruff]
 line-length = 100
