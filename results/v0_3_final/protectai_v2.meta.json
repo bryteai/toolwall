@@ -1,0 +1,10 @@
+{
+ "model": "protectai/deberta-v3-base-prompt-injection-v2",
+ "revision": null,
+ "minutes": 5.9,
+ "rows": {
+  "llmail": 1703,
+  "bipia": 300,
+  "longpibench": 1600
+ }
+}

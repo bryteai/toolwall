@@ -1,0 +1,10 @@
+{
+ "model": "deepset/deberta-v3-base-injection",
+ "revision": null,
+ "minutes": 5.8,
+ "rows": {
+  "llmail": 1703,
+  "bipia": 300,
+  "longpibench": 1600
+ }
+}

@@ -1,0 +1,13 @@
+{
+ "judge_path": "/v03/judge-v0.3-xsmall",
+ "judge_sha256": "aa1705ca447955ce8e90bd74c29355cbc1e1073f73e9248110d2c181dd8fb138",
+ "judge_kind": "windowed",
+ "judge_source": "local:/__modal/volumes/vo-RDVqlkGjeBijJGyUaktyP1/judge-v0.3-xsmall",
+ "threshold": 0.5,
+ "minutes": 3.8,
+ "rows": {
+  "llmail": 1703,
+  "bipia": 300,
+  "longpibench": 1600
+ }
+}

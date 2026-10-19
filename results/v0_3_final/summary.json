@@ -1,0 +1,1772 @@
+{
+ "llmail": {
+  "toolwall_v0_3/toolwall": {
+   "all": {
+    "tp": 809,
+    "n_pos": 1000,
+    "fp": 0,
+    "n_neg": 703
+   },
+   "by_sub": {
+    "llmail_attack_bundle|1": [
+     419,
+     500
+    ],
+    "llmail_attack_single|1": [
+     390,
+     500
+    ],
+    "llmail_benign_bundle|0": [
+     0,
+     500
+    ],
+    "llmail_benign_single|0": [
+     0,
+     203
+    ]
+   }
+  },
+  "toolwall_v0_3_notask/toolwall": {
+   "all": {
+    "tp": 822,
+    "n_pos": 1000,
+    "fp": 0,
+    "n_neg": 703
+   },
+   "by_sub": {
+    "llmail_attack_bundle|1": [
+     424,
+     500
+    ],
+    "llmail_attack_single|1": [
+     398,
+     500
+    ],
+    "llmail_benign_bundle|0": [
+     0,
+     500
+    ],
+    "llmail_benign_single|0": [
+     0,
+     203
+    ]
+   }
+  },
+  "toolwall_v0_3_xsmall/toolwall": {
+   "all": {
+    "tp": 807,
+    "n_pos": 1000,
+    "fp": 3,
+    "n_neg": 703
+   },
+   "by_sub": {
+    "llmail_attack_bundle|1": [
+     418,
+     500
+    ],
+    "llmail_attack_single|1": [
+     389,
+     500
+    ],
+    "llmail_benign_bundle|0": [
+     3,
+     500
+    ],
+    "llmail_benign_single|0": [
+     0,
+     203
+    ]
+   }
+  },
+  "toolwall_v0_2/toolwall": {
+   "all": {
+    "tp": 819,
+    "n_pos": 1000,
+    "fp": 0,
+    "n_neg": 703
+   },
+   "by_sub": {
+    "llmail_attack_bundle|1": [
+     356,
+     500
+    ],
+    "llmail_attack_single|1": [
+     463,
+     500
+    ],
+    "llmail_benign_bundle|0": [
+     0,
+     500
+    ],
+    "llmail_benign_single|0": [
+     0,
+     203
+    ]
+   }
+  },
+  "protectai_v2/truncate512": {
+   "all": {
+    "tp": 187,
+    "n_pos": 1000,
+    "fp": 0,
+    "n_neg": 703
+   },
+   "by_sub": {
+    "llmail_attack_bundle|1": [
+     24,
+     500
+    ],
+    "llmail_attack_single|1": [
+     163,
+     500
+    ],
+    "llmail_benign_bundle|0": [
+     0,
+     500
+    ],
+    "llmail_benign_single|0": [
+     0,
+     203
+    ]
+   }
+  },
+  "protectai_v2/chunk512": {
+   "all": {
+    "tp": 249,
+    "n_pos": 1000,
+    "fp": 4,
+    "n_neg": 703
+   },
+   "by_sub": {
+    "llmail_attack_bundle|1": [
+     55,
+     500
+    ],
+    "llmail_attack_single|1": [
+     194,
+     500
+    ],
+    "llmail_benign_bundle|0": [
+     4,
+     500
+    ],
+    "llmail_benign_single|0": [
+     0,
+     203
+    ]
+   }
+  },
+  "piguard/truncate512": {
+   "all": {
+    "tp": 342,
+    "n_pos": 1000,
+    "fp": 3,
+    "n_neg": 703
+   },
+   "by_sub": {
+    "llmail_attack_bundle|1": [
+     138,
+     500
+    ],
+    "llmail_attack_single|1": [
+     204,
+     500
+    ],
+    "llmail_benign_bundle|0": [
+     3,
+     500
+    ],
+    "llmail_benign_single|0": [
+     0,
+     203
+    ]
+   }
+  },
+  "piguard/chunk512": {
+   "all": {
+    "tp": 449,
+    "n_pos": 1000,
+    "fp": 26,
+    "n_neg": 703
+   },
+   "by_sub": {
+    "llmail_attack_bundle|1": [
+     219,
+     500
+    ],
+    "llmail_attack_single|1": [
+     230,
+     500
+    ],
+    "llmail_benign_bundle|0": [
+     26,
+     500
+    ],
+    "llmail_benign_single|0": [
+     0,
+     203
+    ]
+   }
+  },
+  "promptguard2_86m/truncate512": {
+   "all": {
+    "tp": 160,
+    "n_pos": 1000,
+    "fp": 0,
+    "n_neg": 703
+   },
+   "by_sub": {
+    "llmail_attack_bundle|1": [
+     67,
+     500
+    ],
+    "llmail_attack_single|1": [
+     93,
+     500
+    ],
+    "llmail_benign_bundle|0": [
+     0,
+     500
+    ],
+    "llmail_benign_single|0": [
+     0,
+     203
+    ]
+   }
+  },
+  "promptguard2_86m/chunk512": {
+   "all": {
+    "tp": 215,
+    "n_pos": 1000,
+    "fp": 3,
+    "n_neg": 703
+   },
+   "by_sub": {
+    "llmail_attack_bundle|1": [
+     110,
+     500
+    ],
+    "llmail_attack_single|1": [
+     105,
+     500
+    ],
+    "llmail_benign_bundle|0": [
+     3,
+     500
+    ],
+    "llmail_benign_single|0": [
+     0,
+     203
+    ]
+   }
+  },
+  "promptguard2_22m/truncate512": {
+   "all": {
+    "tp": 41,
+    "n_pos": 1000,
+    "fp": 0,
+    "n_neg": 703
+   },
+   "by_sub": {
+    "llmail_attack_bundle|1": [
+     14,
+     500
+    ],
+    "llmail_attack_single|1": [
+     27,
+     500
+    ],
+    "llmail_benign_bundle|0": [
+     0,
+     500
+    ],
+    "llmail_benign_single|0": [
+     0,
+     203
+    ]
+   }
+  },
+  "promptguard2_22m/chunk512": {
+   "all": {
+    "tp": 89,
+    "n_pos": 1000,
+    "fp": 0,
+    "n_neg": 703
+   },
+   "by_sub": {
+    "llmail_attack_bundle|1": [
+     49,
+     500
+    ],
+    "llmail_attack_single|1": [
+     40,
+     500
+    ],
+    "llmail_benign_bundle|0": [
+     0,
+     500
+    ],
+    "llmail_benign_single|0": [
+     0,
+     203
+    ]
+   }
+  },
+  "deepset/truncate512": {
+   "all": {
+    "tp": 1000,
+    "n_pos": 1000,
+    "fp": 703,
+    "n_neg": 703
+   },
+   "by_sub": {
+    "llmail_attack_bundle|1": [
+     500,
+     500
+    ],
+    "llmail_attack_single|1": [
+     500,
+     500
+    ],
+    "llmail_benign_bundle|0": [
+     500,
+     500
+    ],
+    "llmail_benign_single|0": [
+     203,
+     203
+    ]
+   }
+  },
+  "deepset/chunk512": {
+   "all": {
+    "tp": 1000,
+    "n_pos": 1000,
+    "fp": 703,
+    "n_neg": 703
+   },
+   "by_sub": {
+    "llmail_attack_bundle|1": [
+     500,
+     500
+    ],
+    "llmail_attack_single|1": [
+     500,
+     500
+    ],
+    "llmail_benign_bundle|0": [
+     500,
+     500
+    ],
+    "llmail_benign_single|0": [
+     203,
+     203
+    ]
+   }
+  }
+ },
+ "longpibench": {
+  "toolwall_v0_3/toolwall": {
+   "all": {
+    "tp": 1176,
+    "n_pos": 1200,
+    "fp": 390,
+    "n_neg": 400
+   },
+   "by_sub": {
+    "code/authority_spoof|1": [
+     88,
+     100
+    ],
+    "code/combine|1": [
+     100,
+     100
+    ],
+    "code/naive|1": [
+     88,
+     100
+    ],
+    "code/no|0": [
+     90,
+     100
+    ],
+    "email/authority_spoof|1": [
+     100,
+     100
+    ],
+    "email/combine|1": [
+     100,
+     100
+    ],
+    "email/naive|1": [
+     100,
+     100
+    ],
+    "email/no|0": [
+     100,
+     100
+    ],
+    "paper/authority_spoof|1": [
+     100,
+     100
+    ],
+    "paper/combine|1": [
+     100,
+     100
+    ],
+    "paper/naive|1": [
+     100,
+     100
+    ],
+    "paper/no|0": [
+     100,
+     100
+    ],
+    "resume/authority_spoof|1": [
+     100,
+     100
+    ],
+    "resume/combine|1": [
+     100,
+     100
+    ],
+    "resume/naive|1": [
+     100,
+     100
+    ],
+    "resume/no|0": [
+     100,
+     100
+    ]
+   }
+  },
+  "toolwall_v0_3_notask/toolwall": {
+   "all": {
+    "tp": 758,
+    "n_pos": 1200,
+    "fp": 124,
+    "n_neg": 400
+   },
+   "by_sub": {
+    "code/authority_spoof|1": [
+     37,
+     100
+    ],
+    "code/combine|1": [
+     100,
+     100
+    ],
+    "code/naive|1": [
+     40,
+     100
+    ],
+    "code/no|0": [
+     37,
+     100
+    ],
+    "email/authority_spoof|1": [
+     27,
+     100
+    ],
+    "email/combine|1": [
+     100,
+     100
+    ],
+    "email/naive|1": [
+     100,
+     100
+    ],
+    "email/no|0": [
+     11,
+     100
+    ],
+    "paper/authority_spoof|1": [
+     76,
+     100
+    ],
+    "paper/combine|1": [
+     100,
+     100
+    ],
+    "paper/naive|1": [
+     76,
+     100
+    ],
+    "paper/no|0": [
+     76,
+     100
+    ],
+    "resume/authority_spoof|1": [
+     0,
+     100
+    ],
+    "resume/combine|1": [
+     100,
+     100
+    ],
+    "resume/naive|1": [
+     2,
+     100
+    ],
+    "resume/no|0": [
+     0,
+     100
+    ]
+   }
+  },
+  "toolwall_v0_3_xsmall/toolwall": {
+   "all": {
+    "tp": 1200,
+    "n_pos": 1200,
+    "fp": 400,
+    "n_neg": 400
+   },
+   "by_sub": {
+    "code/authority_spoof|1": [
+     100,
+     100
+    ],
+    "code/combine|1": [
+     100,
+     100
+    ],
+    "code/naive|1": [
+     100,
+     100
+    ],
+    "code/no|0": [
+     100,
+     100
+    ],
+    "email/authority_spoof|1": [
+     100,
+     100
+    ],
+    "email/combine|1": [
+     100,
+     100
+    ],
+    "email/naive|1": [
+     100,
+     100
+    ],
+    "email/no|0": [
+     100,
+     100
+    ],
+    "paper/authority_spoof|1": [
+     100,
+     100
+    ],
+    "paper/combine|1": [
+     100,
+     100
+    ],
+    "paper/naive|1": [
+     100,
+     100
+    ],
+    "paper/no|0": [
+     100,
+     100
+    ],
+    "resume/authority_spoof|1": [
+     100,
+     100
+    ],
+    "resume/combine|1": [
+     100,
+     100
+    ],
+    "resume/naive|1": [
+     100,
+     100
+    ],
+    "resume/no|0": [
+     100,
+     100
+    ]
+   }
+  },
+  "toolwall_v0_2/toolwall": {
+   "all": {
+    "tp": 668,
+    "n_pos": 1200,
+    "fp": 134,
+    "n_neg": 400
+   },
+   "by_sub": {
+    "code/authority_spoof|1": [
+     49,
+     100
+    ],
+    "code/combine|1": [
+     100,
+     100
+    ],
+    "code/naive|1": [
+     49,
+     100
+    ],
+    "code/no|0": [
+     49,
+     100
+    ],
+    "email/authority_spoof|1": [
+     10,
+     100
+    ],
+    "email/combine|1": [
+     100,
+     100
+    ],
+    "email/naive|1": [
+     10,
+     100
+    ],
+    "email/no|0": [
+     10,
+     100
+    ],
+    "paper/authority_spoof|1": [
+     75,
+     100
+    ],
+    "paper/combine|1": [
+     100,
+     100
+    ],
+    "paper/naive|1": [
+     75,
+     100
+    ],
+    "paper/no|0": [
+     75,
+     100
+    ],
+    "resume/authority_spoof|1": [
+     0,
+     100
+    ],
+    "resume/combine|1": [
+     100,
+     100
+    ],
+    "resume/naive|1": [
+     0,
+     100
+    ],
+    "resume/no|0": [
+     0,
+     100
+    ]
+   }
+  },
+  "protectai_v2/truncate512": {
+   "all": {
+    "tp": 0,
+    "n_pos": 1200,
+    "fp": 0,
+    "n_neg": 400
+   },
+   "by_sub": {
+    "code/authority_spoof|1": [
+     0,
+     100
+    ],
+    "code/combine|1": [
+     0,
+     100
+    ],
+    "code/naive|1": [
+     0,
+     100
+    ],
+    "code/no|0": [
+     0,
+     100
+    ],
+    "email/authority_spoof|1": [
+     0,
+     100
+    ],
+    "email/combine|1": [
+     0,
+     100
+    ],
+    "email/naive|1": [
+     0,
+     100
+    ],
+    "email/no|0": [
+     0,
+     100
+    ],
+    "paper/authority_spoof|1": [
+     0,
+     100
+    ],
+    "paper/combine|1": [
+     0,
+     100
+    ],
+    "paper/naive|1": [
+     0,
+     100
+    ],
+    "paper/no|0": [
+     0,
+     100
+    ],
+    "resume/authority_spoof|1": [
+     0,
+     100
+    ],
+    "resume/combine|1": [
+     0,
+     100
+    ],
+    "resume/naive|1": [
+     0,
+     100
+    ],
+    "resume/no|0": [
+     0,
+     100
+    ]
+   }
+  },
+  "protectai_v2/chunk512": {
+   "all": {
+    "tp": 239,
+    "n_pos": 1200,
+    "fp": 74,
+    "n_neg": 400
+   },
+   "by_sub": {
+    "code/authority_spoof|1": [
+     39,
+     100
+    ],
+    "code/combine|1": [
+     55,
+     100
+    ],
+    "code/naive|1": [
+     30,
+     100
+    ],
+    "code/no|0": [
+     55,
+     100
+    ],
+    "email/authority_spoof|1": [
+     42,
+     100
+    ],
+    "email/combine|1": [
+     30,
+     100
+    ],
+    "email/naive|1": [
+     19,
+     100
+    ],
+    "email/no|0": [
+     17,
+     100
+    ],
+    "paper/authority_spoof|1": [
+     4,
+     100
+    ],
+    "paper/combine|1": [
+     10,
+     100
+    ],
+    "paper/naive|1": [
+     1,
+     100
+    ],
+    "paper/no|0": [
+     2,
+     100
+    ],
+    "resume/authority_spoof|1": [
+     6,
+     100
+    ],
+    "resume/combine|1": [
+     3,
+     100
+    ],
+    "resume/naive|1": [
+     0,
+     100
+    ],
+    "resume/no|0": [
+     0,
+     100
+    ]
+   }
+  },
+  "piguard/truncate512": {
+   "all": {
+    "tp": 423,
+    "n_pos": 1200,
+    "fp": 111,
+    "n_neg": 400
+   },
+   "by_sub": {
+    "code/authority_spoof|1": [
+     91,
+     100
+    ],
+    "code/combine|1": [
+     91,
+     100
+    ],
+    "code/naive|1": [
+     91,
+     100
+    ],
+    "code/no|0": [
+     91,
+     100
+    ],
+    "email/authority_spoof|1": [
+     3,
+     100
+    ],
+    "email/combine|1": [
+     3,
+     100
+    ],
+    "email/naive|1": [
+     3,
+     100
+    ],
+    "email/no|0": [
+     3,
+     100
+    ],
+    "paper/authority_spoof|1": [
+     17,
+     100
+    ],
+    "paper/combine|1": [
+     17,
+     100
+    ],
+    "paper/naive|1": [
+     17,
+     100
+    ],
+    "paper/no|0": [
+     17,
+     100
+    ],
+    "resume/authority_spoof|1": [
+     0,
+     100
+    ],
+    "resume/combine|1": [
+     90,
+     100
+    ],
+    "resume/naive|1": [
+     0,
+     100
+    ],
+    "resume/no|0": [
+     0,
+     100
+    ]
+   }
+  },
+  "piguard/chunk512": {
+   "all": {
+    "tp": 875,
+    "n_pos": 1200,
+    "fp": 233,
+    "n_neg": 400
+   },
+   "by_sub": {
+    "code/authority_spoof|1": [
+     100,
+     100
+    ],
+    "code/combine|1": [
+     100,
+     100
+    ],
+    "code/naive|1": [
+     100,
+     100
+    ],
+    "code/no|0": [
+     100,
+     100
+    ],
+    "email/authority_spoof|1": [
+     72,
+     100
+    ],
+    "email/combine|1": [
+     88,
+     100
+    ],
+    "email/naive|1": [
+     60,
+     100
+    ],
+    "email/no|0": [
+     58,
+     100
+    ],
+    "paper/authority_spoof|1": [
+     79,
+     100
+    ],
+    "paper/combine|1": [
+     98,
+     100
+    ],
+    "paper/naive|1": [
+     75,
+     100
+    ],
+    "paper/no|0": [
+     75,
+     100
+    ],
+    "resume/authority_spoof|1": [
+     3,
+     100
+    ],
+    "resume/combine|1": [
+     100,
+     100
+    ],
+    "resume/naive|1": [
+     0,
+     100
+    ],
+    "resume/no|0": [
+     0,
+     100
+    ]
+   }
+  },
+  "promptguard2_86m/truncate512": {
+   "all": {
+    "tp": 76,
+    "n_pos": 1200,
+    "fp": 0,
+    "n_neg": 400
+   },
+   "by_sub": {
+    "code/authority_spoof|1": [
+     0,
+     100
+    ],
+    "code/combine|1": [
+     0,
+     100
+    ],
+    "code/naive|1": [
+     0,
+     100
+    ],
+    "code/no|0": [
+     0,
+     100
+    ],
+    "email/authority_spoof|1": [
+     0,
+     100
+    ],
+    "email/combine|1": [
+     0,
+     100
+    ],
+    "email/naive|1": [
+     0,
+     100
+    ],
+    "email/no|0": [
+     0,
+     100
+    ],
+    "paper/authority_spoof|1": [
+     0,
+     100
+    ],
+    "paper/combine|1": [
+     0,
+     100
+    ],
+    "paper/naive|1": [
+     0,
+     100
+    ],
+    "paper/no|0": [
+     0,
+     100
+    ],
+    "resume/authority_spoof|1": [
+     0,
+     100
+    ],
+    "resume/combine|1": [
+     76,
+     100
+    ],
+    "resume/naive|1": [
+     0,
+     100
+    ],
+    "resume/no|0": [
+     0,
+     100
+    ]
+   }
+  },
+  "promptguard2_86m/chunk512": {
+   "all": {
+    "tp": 408,
+    "n_pos": 1200,
+    "fp": 23,
+    "n_neg": 400
+   },
+   "by_sub": {
+    "code/authority_spoof|1": [
+     2,
+     100
+    ],
+    "code/combine|1": [
+     86,
+     100
+    ],
+    "code/naive|1": [
+     2,
+     100
+    ],
+    "code/no|0": [
+     2,
+     100
+    ],
+    "email/authority_spoof|1": [
+     1,
+     100
+    ],
+    "email/combine|1": [
+     86,
+     100
+    ],
+    "email/naive|1": [
+     1,
+     100
+    ],
+    "email/no|0": [
+     1,
+     100
+    ],
+    "paper/authority_spoof|1": [
+     19,
+     100
+    ],
+    "paper/combine|1": [
+     94,
+     100
+    ],
+    "paper/naive|1": [
+     20,
+     100
+    ],
+    "paper/no|0": [
+     20,
+     100
+    ],
+    "resume/authority_spoof|1": [
+     0,
+     100
+    ],
+    "resume/combine|1": [
+     97,
+     100
+    ],
+    "resume/naive|1": [
+     0,
+     100
+    ],
+    "resume/no|0": [
+     0,
+     100
+    ]
+   }
+  },
+  "promptguard2_22m/truncate512": {
+   "all": {
+    "tp": 77,
+    "n_pos": 1200,
+    "fp": 1,
+    "n_neg": 400
+   },
+   "by_sub": {
+    "code/authority_spoof|1": [
+     0,
+     100
+    ],
+    "code/combine|1": [
+     0,
+     100
+    ],
+    "code/naive|1": [
+     0,
+     100
+    ],
+    "code/no|0": [
+     0,
+     100
+    ],
+    "email/authority_spoof|1": [
+     0,
+     100
+    ],
+    "email/combine|1": [
+     0,
+     100
+    ],
+    "email/naive|1": [
+     0,
+     100
+    ],
+    "email/no|0": [
+     0,
+     100
+    ],
+    "paper/authority_spoof|1": [
+     1,
+     100
+    ],
+    "paper/combine|1": [
+     1,
+     100
+    ],
+    "paper/naive|1": [
+     1,
+     100
+    ],
+    "paper/no|0": [
+     1,
+     100
+    ],
+    "resume/authority_spoof|1": [
+     0,
+     100
+    ],
+    "resume/combine|1": [
+     74,
+     100
+    ],
+    "resume/naive|1": [
+     0,
+     100
+    ],
+    "resume/no|0": [
+     0,
+     100
+    ]
+   }
+  },
+  "promptguard2_22m/chunk512": {
+   "all": {
+    "tp": 468,
+    "n_pos": 1200,
+    "fp": 106,
+    "n_neg": 400
+   },
+   "by_sub": {
+    "code/authority_spoof|1": [
+     0,
+     100
+    ],
+    "code/combine|1": [
+     34,
+     100
+    ],
+    "code/naive|1": [
+     0,
+     100
+    ],
+    "code/no|0": [
+     0,
+     100
+    ],
+    "email/authority_spoof|1": [
+     8,
+     100
+    ],
+    "email/combine|1": [
+     29,
+     100
+    ],
+    "email/naive|1": [
+     7,
+     100
+    ],
+    "email/no|0": [
+     7,
+     100
+    ],
+    "paper/authority_spoof|1": [
+     99,
+     100
+    ],
+    "paper/combine|1": [
+     99,
+     100
+    ],
+    "paper/naive|1": [
+     99,
+     100
+    ],
+    "paper/no|0": [
+     99,
+     100
+    ],
+    "resume/authority_spoof|1": [
+     1,
+     100
+    ],
+    "resume/combine|1": [
+     92,
+     100
+    ],
+    "resume/naive|1": [
+     0,
+     100
+    ],
+    "resume/no|0": [
+     0,
+     100
+    ]
+   }
+  },
+  "deepset/truncate512": {
+   "all": {
+    "tp": 1200,
+    "n_pos": 1200,
+    "fp": 400,
+    "n_neg": 400
+   },
+   "by_sub": {
+    "code/authority_spoof|1": [
+     100,
+     100
+    ],
+    "code/combine|1": [
+     100,
+     100
+    ],
+    "code/naive|1": [
+     100,
+     100
+    ],
+    "code/no|0": [
+     100,
+     100
+    ],
+    "email/authority_spoof|1": [
+     100,
+     100
+    ],
+    "email/combine|1": [
+     100,
+     100
+    ],
+    "email/naive|1": [
+     100,
+     100
+    ],
+    "email/no|0": [
+     100,
+     100
+    ],
+    "paper/authority_spoof|1": [
+     100,
+     100
+    ],
+    "paper/combine|1": [
+     100,
+     100
+    ],
+    "paper/naive|1": [
+     100,
+     100
+    ],
+    "paper/no|0": [
+     100,
+     100
+    ],
+    "resume/authority_spoof|1": [
+     100,
+     100
+    ],
+    "resume/combine|1": [
+     100,
+     100
+    ],
+    "resume/naive|1": [
+     100,
+     100
+    ],
+    "resume/no|0": [
+     100,
+     100
+    ]
+   }
+  },
+  "deepset/chunk512": {
+   "all": {
+    "tp": 1200,
+    "n_pos": 1200,
+    "fp": 400,
+    "n_neg": 400
+   },
+   "by_sub": {
+    "code/authority_spoof|1": [
+     100,
+     100
+    ],
+    "code/combine|1": [
+     100,
+     100
+    ],
+    "code/naive|1": [
+     100,
+     100
+    ],
+    "code/no|0": [
+     100,
+     100
+    ],
+    "email/authority_spoof|1": [
+     100,
+     100
+    ],
+    "email/combine|1": [
+     100,
+     100
+    ],
+    "email/naive|1": [
+     100,
+     100
+    ],
+    "email/no|0": [
+     100,
+     100
+    ],
+    "paper/authority_spoof|1": [
+     100,
+     100
+    ],
+    "paper/combine|1": [
+     100,
+     100
+    ],
+    "paper/naive|1": [
+     100,
+     100
+    ],
+    "paper/no|0": [
+     100,
+     100
+    ],
+    "resume/authority_spoof|1": [
+     100,
+     100
+    ],
+    "resume/combine|1": [
+     100,
+     100
+    ],
+    "resume/naive|1": [
+     100,
+     100
+    ],
+    "resume/no|0": [
+     100,
+     100
+    ]
+   }
+  }
+ },
+ "bipia": {
+  "toolwall_v0_3/toolwall": {
+   "all": {
+    "tp": 117,
+    "n_pos": 150,
+    "fp": 1,
+    "n_neg": 150
+   },
+   "by_sub": {
+    "email|0": [
+     1,
+     50
+    ],
+    "email|1": [
+     33,
+     50
+    ],
+    "table|0": [
+     0,
+     100
+    ],
+    "table|1": [
+     84,
+     100
+    ]
+   }
+  },
+  "toolwall_v0_3_notask/toolwall": {
+   "all": {
+    "tp": 117,
+    "n_pos": 150,
+    "fp": 1,
+    "n_neg": 150
+   },
+   "by_sub": {
+    "email|0": [
+     1,
+     50
+    ],
+    "email|1": [
+     33,
+     50
+    ],
+    "table|0": [
+     0,
+     100
+    ],
+    "table|1": [
+     84,
+     100
+    ]
+   }
+  },
+  "toolwall_v0_3_xsmall/toolwall": {
+   "all": {
+    "tp": 121,
+    "n_pos": 150,
+    "fp": 3,
+    "n_neg": 150
+   },
+   "by_sub": {
+    "email|0": [
+     3,
+     50
+    ],
+    "email|1": [
+     34,
+     50
+    ],
+    "table|0": [
+     0,
+     100
+    ],
+    "table|1": [
+     87,
+     100
+    ]
+   }
+  },
+  "toolwall_v0_2/toolwall": {
+   "all": {
+    "tp": 8,
+    "n_pos": 150,
+    "fp": 3,
+    "n_neg": 150
+   },
+   "by_sub": {
+    "email|0": [
+     2,
+     50
+    ],
+    "email|1": [
+     8,
+     50
+    ],
+    "table|0": [
+     1,
+     100
+    ],
+    "table|1": [
+     0,
+     100
+    ]
+   }
+  },
+  "protectai_v2/truncate512": {
+   "all": {
+    "tp": 27,
+    "n_pos": 150,
+    "fp": 33,
+    "n_neg": 150
+   },
+   "by_sub": {
+    "email|0": [
+     31,
+     50
+    ],
+    "email|1": [
+     26,
+     50
+    ],
+    "table|0": [
+     2,
+     100
+    ],
+    "table|1": [
+     1,
+     100
+    ]
+   }
+  },
+  "protectai_v2/chunk512": {
+   "all": {
+    "tp": 30,
+    "n_pos": 150,
+    "fp": 37,
+    "n_neg": 150
+   },
+   "by_sub": {
+    "email|0": [
+     31,
+     50
+    ],
+    "email|1": [
+     26,
+     50
+    ],
+    "table|0": [
+     6,
+     100
+    ],
+    "table|1": [
+     4,
+     100
+    ]
+   }
+  },
+  "piguard/truncate512": {
+   "all": {
+    "tp": 136,
+    "n_pos": 150,
+    "fp": 0,
+    "n_neg": 150
+   },
+   "by_sub": {
+    "email|0": [
+     0,
+     50
+    ],
+    "email|1": [
+     48,
+     50
+    ],
+    "table|0": [
+     0,
+     100
+    ],
+    "table|1": [
+     88,
+     100
+    ]
+   }
+  },
+  "piguard/chunk512": {
+   "all": {
+    "tp": 142,
+    "n_pos": 150,
+    "fp": 1,
+    "n_neg": 150
+   },
+   "by_sub": {
+    "email|0": [
+     0,
+     50
+    ],
+    "email|1": [
+     48,
+     50
+    ],
+    "table|0": [
+     1,
+     100
+    ],
+    "table|1": [
+     94,
+     100
+    ]
+   }
+  },
+  "promptguard2_86m/truncate512": {
+   "all": {
+    "tp": 1,
+    "n_pos": 150,
+    "fp": 0,
+    "n_neg": 150
+   },
+   "by_sub": {
+    "email|0": [
+     0,
+     50
+    ],
+    "email|1": [
+     1,
+     50
+    ],
+    "table|0": [
+     0,
+     100
+    ],
+    "table|1": [
+     0,
+     100
+    ]
+   }
+  },
+  "promptguard2_86m/chunk512": {
+   "all": {
+    "tp": 2,
+    "n_pos": 150,
+    "fp": 1,
+    "n_neg": 150
+   },
+   "by_sub": {
+    "email|0": [
+     0,
+     50
+    ],
+    "email|1": [
+     1,
+     50
+    ],
+    "table|0": [
+     1,
+     100
+    ],
+    "table|1": [
+     1,
+     100
+    ]
+   }
+  },
+  "promptguard2_22m/truncate512": {
+   "all": {
+    "tp": 14,
+    "n_pos": 150,
+    "fp": 0,
+    "n_neg": 150
+   },
+   "by_sub": {
+    "email|0": [
+     0,
+     50
+    ],
+    "email|1": [
+     1,
+     50
+    ],
+    "table|0": [
+     0,
+     100
+    ],
+    "table|1": [
+     13,
+     100
+    ]
+   }
+  },
+  "promptguard2_22m/chunk512": {
+   "all": {
+    "tp": 15,
+    "n_pos": 150,
+    "fp": 0,
+    "n_neg": 150
+   },
+   "by_sub": {
+    "email|0": [
+     0,
+     50
+    ],
+    "email|1": [
+     1,
+     50
+    ],
+    "table|0": [
+     0,
+     100
+    ],
+    "table|1": [
+     14,
+     100
+    ]
+   }
+  },
+  "deepset/truncate512": {
+   "all": {
+    "tp": 150,
+    "n_pos": 150,
+    "fp": 150,
+    "n_neg": 150
+   },
+   "by_sub": {
+    "email|0": [
+     50,
+     50
+    ],
+    "email|1": [
+     50,
+     50
+    ],
+    "table|0": [
+     100,
+     100
+    ],
+    "table|1": [
+     100,
+     100
+    ]
+   }
+  },
+  "deepset/chunk512": {
+   "all": {
+    "tp": 150,
+    "n_pos": 150,
+    "fp": 150,
+    "n_neg": 150
+   },
+   "by_sub": {
+    "email|0": [
+     50,
+     50
+    ],
+    "email|1": [
+     50,
+     50
+    ],
+    "table|0": [
+     100,
+     100
+    ],
+    "table|1": [
+     100,
+     100
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,13 @@
+{
+ "judge_path": "/v03/judge-v0.3-deberta",
+ "judge_sha256": "b4df0319a7e0e0db0599bfe87dfabe3a29736b299377df7f4c32d3e5c3807d72",
+ "judge_kind": "windowed",
+ "judge_source": "local:/__modal/volumes/vo-RDVqlkGjeBijJGyUaktyP1/judge-v0.3-deberta",
+ "threshold": 0.5,
+ "minutes": 7.4,
+ "rows": {
+  "llmail": 1703,
+  "bipia": 300,
+  "longpibench": 1600
+ }
+}

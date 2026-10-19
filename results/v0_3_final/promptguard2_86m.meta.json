@@ -1,0 +1,10 @@
+{
+ "model": "meta-llama/Llama-Prompt-Guard-2-86M",
+ "revision": null,
+ "minutes": 6.2,
+ "rows": {
+  "llmail": 1703,
+  "bipia": 300,
+  "longpibench": 1600
+ }
+}

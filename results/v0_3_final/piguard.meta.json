@@ -1,0 +1,10 @@
+{
+ "model": "leolee99/PIGuard",
+ "revision": "dd78b24e330193a22d2293ac66922dd4f982f563",
+ "minutes": 5.8,
+ "rows": {
+  "llmail": 1703,
+  "bipia": 300,
+  "longpibench": 1600
+ }
+}
