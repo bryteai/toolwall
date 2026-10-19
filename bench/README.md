@@ -144,3 +144,15 @@ We refuse to game the rule layer to inflate detector-only numbers.
   `bench/build.py` and the fingerprint is published in `MANIFEST.json`.
 * We will not silently degrade a published number. Bench version bumps
   (v0.2 etc.) get new fingerprints and a new model card.
+
+## v0.3 final test (frozen 19-Oct-2026, before any v0.3 training)
+
+`build_artifacts/final_v0_3/llmail_final_v0_3.jsonl` is built by `bench/external/build_final_v0_3.py` from
+[LLMail-Inject](https://huggingface.co/datasets/microsoft/llmail-inject-challenge) (Abdelnabi et al., 2025; MIT licence,
+© Microsoft), revision `1063bdf`. Attacks are phase-2 submissions that made the defended LLMail assistant call its
+send-email API (3,165 → 1,490 after exact and near-duplicate removal → 500 sampled, seed 20261019). Each attack appears
+once as a single retrieved email and once inside a bundle of 5, 10 or 20 retrieved emails with the user's request.
+Benign rows are Microsoft's false-positive test emails (203) and 500 attack-free bundles. Benign single emails are
+shorter than attack emails (median 259 vs 702 characters), so single-email results should be read with that in mind.
+
+`MANIFEST.json` records the SHA-256 of the file. No LLMail-Inject text is used for v0.3 training or model selection.

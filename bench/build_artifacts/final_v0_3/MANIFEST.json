@@ -1,0 +1,14 @@
+{
+ "source": "microsoft/llmail-inject-challenge",
+ "revision": "1063bdf01ec8762b812d5e06ee768a06faa5a6f7",
+ "licence": "MIT",
+ "seed": 20261019,
+ "attacks_api_triggered": 3165,
+ "attacks_after_dedupe": 1490,
+ "attacks_sampled": 500,
+ "benign_fp_emails": 203,
+ "rows": 1703,
+ "file": "bench/build_artifacts/final_v0_3/llmail_final_v0_3.jsonl",
+ "sha256": "2fd96422ea0825a4b4d618d386880ac48160a63f6ed4f0892510a979a697a594",
+ "rule": "Frozen before v0.3 training. No LLMail-Inject text in any v0.3 training or selection data."
+}
