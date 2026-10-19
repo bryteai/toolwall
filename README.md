@@ -4,7 +4,12 @@
 
 **Checks every tool response before it reaches the model: fast rules plus a small classifier that runs on CPU.**
 
-Apache-2.0 · Python ≥ 3.10 · research prototype (v0.2)
+[![PyPI](https://img.shields.io/pypi/v/toolwall-guard)](https://pypi.org/project/toolwall-guard/)
+[![Python](https://img.shields.io/pypi/pyversions/toolwall-guard)](https://pypi.org/project/toolwall-guard/)
+[![CI](https://github.com/bryteai/toolwall/actions/workflows/ci.yml/badge.svg)](https://github.com/bryteai/toolwall/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](https://github.com/bryteai/toolwall/blob/main/LICENSE)
+
+`pip install toolwall-guard` · research prototype (v0.2)
 
 </div>
 
