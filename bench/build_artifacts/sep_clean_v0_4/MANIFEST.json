@@ -1,0 +1,10 @@
+{
+ "source": "SEP (Zverev et al., ICLR 2025), github.com/egozverev/Should-It-Be-Executed-Or-Processed, SEP_dataset/SEP_dataset.json, MIT",
+ "source_sha256": "9f81a52ba089073251793f8499fbb79bb4112e94cf48d31b7f8805e8b44fa3ce",
+ "fields_kept": [
+  "system_prompt_clean -> task",
+  "prompt_clean -> text"
+ ],
+ "rows": 9160,
+ "sha256": "8d66f273b95c3c6c0762fc3b4d59920402df2d1294c91be9051302dcac4fd751"
+}
