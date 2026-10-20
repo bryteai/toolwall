@@ -1,0 +1,22 @@
+{
+ "secpo_repo": "Sizhe-Chen/Llama-3.1-8B-Instruct-SecPO",
+ "secpo_revision": "c72f78efafdefbcd587cc9abefcd3da518ec7c57",
+ "cases": 20000,
+ "seed": 20261021,
+ "changed_by_filter": 18443,
+ "mismatches": 0,
+ "benign_changed": {
+  "sep_clean (data + task)": {
+   "changed": 0,
+   "n": 18320
+  },
+  "llmail_benign": {
+   "changed": 0,
+   "n": 703
+  },
+  "bipia_benign": {
+   "changed": 0,
+   "n": 150
+  }
+ }
+}

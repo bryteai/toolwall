@@ -69,6 +69,11 @@ class Policy(BaseModel):
         Behaviour when the detector score is in the uncertain band
         (0.3 <= score < ``response_ipi_threshold``):
         ``"redact"`` (default), ``"block"``, ``"allow"``.
+    untrusted_delimiters:
+        Control tokens removed from string responses before anything else
+        sees them, for agents whose model reads tool output in a separate
+        untrusted role (see :mod:`toolwall.boundary`; for Llama 3 use
+        ``boundary.LLAMA3_DELIMITERS``). Empty (default) disables.
     """
 
     model_config = ConfigDict(
@@ -91,6 +96,7 @@ class Policy(BaseModel):
     shell_metachar_block: bool = True
     arg_validators: dict[str, str] = Field(default_factory=dict)
     on_low_confidence: OnLowConfidence = "redact"
+    untrusted_delimiters: tuple[str, ...] = ()
 
 
 def web_fetch(
