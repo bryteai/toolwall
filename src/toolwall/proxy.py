@@ -13,7 +13,11 @@ It inspects two kinds of server messages:
 * **``tools/call`` results.** The text content is scored. In ``block`` mode a result at or above
   the threshold is replaced by an error result that tells the model the output was withheld.
 
-``warn`` mode never changes messages; it only writes audit records. Every decision is written
+``warn`` mode never changes messages because of a detection; it only writes audit records.
+
+With ``--untrusted-delimiters llama3`` the proxy also removes the model's control tokens from every
+string in a ``tools/call`` result (in both modes), so a tool output cannot close the untrusted role
+that role-separated models such as Meta-SecAlign or SecPO read it in (see ``toolwall.boundary``). Every decision is written
 to the audit log (``$TOOLWALL_AUDIT_LOG`` or ``./.toolwall-audit.log``). Messages the proxy
 cannot parse are passed through unchanged.
 """
@@ -26,9 +30,13 @@ import json
 import subprocess
 import sys
 import threading
+from collections.abc import Sequence
 from typing import IO, Any
 
 from . import audit
+from .boundary import LLAMA3_DELIMITERS, filter_untrusted
+
+DELIMITER_PRESETS: dict[str, tuple[str, ...]] = {"llama3": LLAMA3_DELIMITERS}
 
 BLOCK_TEXT = (
     "[toolwall] The output of tool '{tool}' was withheld because it looks like a prompt-injection "
@@ -63,13 +71,29 @@ def _result_text(result: dict[str, Any]) -> str:
     return "\n".join(parts)
 
 
+def _strip_strings(value: Any, delimiters: Sequence[str]) -> tuple[Any, bool]:
+    """Filter every string inside ``value`` (dicts and lists are walked); report whether anything changed."""
+    if isinstance(value, str):
+        out = filter_untrusted(value, delimiters)
+        return out, out != value
+    if isinstance(value, list):
+        pairs = [_strip_strings(v, delimiters) for v in value]
+        return [v for v, _ in pairs], any(c for _, c in pairs)
+    if isinstance(value, dict):
+        items = {k: _strip_strings(v, delimiters) for k, v in value.items()}
+        return {k: v for k, (v, _) in items.items()}, any(c for _, c in items.values())
+    return value, False
+
+
 class Proxy:
-    def __init__(self, detector: Any, *, threshold: float = 0.6, mode: str = "block") -> None:
+    def __init__(self, detector: Any, *, threshold: float = 0.6, mode: str = "block",
+                 delimiters: Sequence[str] = ()) -> None:
         if mode not in ("block", "warn"):
             raise ValueError("mode must be 'block' or 'warn'")
         self.detector = detector
         self.threshold = threshold
         self.mode = mode
+        self.delimiters = tuple(delimiters)
         self.state = _State()
 
     # ---- client -> server -------------------------------------------------
@@ -131,17 +155,26 @@ class Proxy:
         return out
 
     def _filter_call(self, result: dict[str, Any], tool: str) -> dict[str, Any]:
+        boundary: dict[str, Any] = {}
+        if self.delimiters:
+            result, removed = _strip_strings(result, self.delimiters)
+            boundary = {"control_tokens_removed": removed}
         text = _result_text(result)
         if not text:
+            if boundary.get("control_tokens_removed"):
+                audit.emit(decision="redact", tool=f"mcp:{tool}", reason=None, evidence=boundary)
             return result
         score, spans = self.detector.score(text)
         score = float(score)
         if score < self.threshold:
-            audit.emit(decision="allow", tool=f"mcp:{tool}", reason=None, evidence={"score": round(score, 3)})
+            decision = "redact" if boundary.get("control_tokens_removed") else "allow"
+            audit.emit(decision=decision, tool=f"mcp:{tool}", reason=None,
+                       evidence={"score": round(score, 3), **boundary})
             return result
         kinds = sorted({str(s.get("kind")) for s in spans if isinstance(s, dict)})
         audit.emit(decision="block" if self.mode == "block" else "allow", tool=f"mcp:{tool}",
-                   reason="ipi-detected", evidence={"score": round(score, 3), "detections": kinds, "mode": self.mode})
+                   reason="ipi-detected",
+                   evidence={"score": round(score, 3), "detections": kinds, "mode": self.mode, **boundary})
         if self.mode == "warn":
             return result
         return {"content": [{"type": "text", "text": BLOCK_TEXT.format(tool=tool, score=score)}], "isError": True}
@@ -169,7 +202,7 @@ def _pump(src: IO[str], dst: IO[str], handle: Any) -> None:
             break
 
 
-def run(command: list[str], *, judge: bool, threshold: float, mode: str) -> int:
+def run(command: list[str], *, judge: bool, threshold: float, mode: str, untrusted_delimiters: str | None = None) -> int:
     """Launch ``command`` as the MCP server and relay stdio through the proxy."""
     import os
 
@@ -181,7 +214,8 @@ def run(command: list[str], *, judge: bool, threshold: float, mode: str) -> int:
     # must go to stderr, or it would corrupt the JSON-RPC stream.
     protocol_out = sys.stdout
     sys.stdout = sys.stderr
-    proxy = Proxy(CompositeDetector(use_judge=judge), threshold=threshold, mode=mode)
+    delimiters = DELIMITER_PRESETS[untrusted_delimiters] if untrusted_delimiters else ()
+    proxy = Proxy(CompositeDetector(use_judge=judge), threshold=threshold, mode=mode, delimiters=delimiters)
     child = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True,
                              encoding="utf-8", bufsize=1)
     assert child.stdin is not None and child.stdout is not None

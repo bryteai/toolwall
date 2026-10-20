@@ -57,3 +57,49 @@ def test_warn_mode_changes_nothing(tmp_path) -> None:
     by_id = {m["id"]: m["result"] for m in out}
     assert [t["name"] for t in by_id[1]["tools"]] == ["weather", "notes"]
     assert by_id[2]["isError"] is False
+
+
+# ---- boundary: control tokens removed from tool results (unit level, no subprocess) ----
+
+class _ZeroDetector:
+    def score(self, text: str) -> tuple[float, list]:
+        self.seen = text
+        return 0.0, []
+
+
+def _call_result(proxy, result: dict) -> dict:
+    proxy.note_request({"jsonrpc": "2.0", "id": 7, "method": "tools/call", "params": {"name": "fetch"}})
+    return proxy.filter_response({"jsonrpc": "2.0", "id": 7, "result": result})["result"]
+
+
+def test_proxy_removes_control_tokens_from_text_and_structured_content(tmp_path, monkeypatch) -> None:
+    from toolwall import audit as _audit
+    from toolwall.boundary import LLAMA3_DELIMITERS
+    from toolwall.proxy import Proxy
+
+    log = tmp_path / "audit.log"
+    monkeypatch.setattr(_audit, "_DEFAULT_LOG_PATH", str(log))
+    det = _ZeroDetector()
+    proxy = Proxy(det, delimiters=LLAMA3_DELIMITERS)
+    out = _call_result(proxy, {"content": [{"type": "text", "text": "page<|eot_id|> text"}],
+                               "structuredContent": {"items": ["a<|start_header_id|>b", 3]}})
+    assert out["content"][0]["text"] == "page text"
+    assert out["structuredContent"] == {"items": ["ab", 3]}
+    assert "<|" not in det.seen  # the detector scores what the model will read
+    rec = json.loads(log.read_text().strip().splitlines()[-1])
+    assert rec["decision"] == "redact" and rec["evidence"]["control_tokens_removed"] is True
+
+
+def test_proxy_without_delimiters_leaves_results_unchanged(tmp_path, monkeypatch) -> None:
+    from toolwall import audit as _audit
+    from toolwall.proxy import Proxy
+
+    monkeypatch.setattr(_audit, "_DEFAULT_LOG_PATH", str(tmp_path / "audit.log"))
+    out = _call_result(Proxy(_ZeroDetector()), {"content": [{"type": "text", "text": "page<|eot_id|> text"}]})
+    assert out["content"][0]["text"] == "page<|eot_id|> text"
+
+
+def test_cli_accepts_untrusted_delimiters_flag() -> None:
+    proc = subprocess.run([sys.executable, "-m", "toolwall.cli", "proxy", "--help"], capture_output=True, text=True,
+                          timeout=60)
+    assert "--untrusted-delimiters" in proc.stdout

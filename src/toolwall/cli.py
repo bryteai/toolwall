@@ -28,6 +28,8 @@ def main(argv: list[str] | None = None) -> int:
     prx.add_argument("--threshold", type=float, default=0.6)
     prx.add_argument("--mode", choices=("block", "warn"), default="block",
                      help="block: remove poisoned tools and withhold injected results; warn: audit only")
+    prx.add_argument("--untrusted-delimiters", choices=("llama3",), default=None,
+                     help="remove this model family's control tokens from tool results (see toolwall.boundary)")
     prx.add_argument("server", nargs=argparse.REMAINDER, help="-- followed by the MCP server command")
     a = ap.parse_args(argv)
 
@@ -36,7 +38,8 @@ def main(argv: list[str] | None = None) -> int:
         if not command:
             ap.error("proxy needs the server command after --")
         from .proxy import run
-        return run(command, judge=a.judge, threshold=a.threshold, mode=a.mode)
+        return run(command, judge=a.judge, threshold=a.threshold, mode=a.mode,
+                   untrusted_delimiters=a.untrusted_delimiters)
 
     if not a.judge:
         os.environ.setdefault("TOOLWALL_DISABLE_JUDGE", "1")

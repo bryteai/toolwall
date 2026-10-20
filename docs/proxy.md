@@ -46,6 +46,7 @@ If the client cannot find `toolwall`, use the full path printed by `which toolwa
 | `--judge` | also run the classifier (first use downloads about 750 MB; CPU is fine) |
 | `--threshold` | block threshold, default 0.6 |
 | `--mode block` / `--mode warn` | enforce (default) or only audit |
+| `--untrusted-delimiters llama3` | remove Llama 3 control tokens from every string in tool results (both modes), for models that read tool output in a separate untrusted role, such as Meta-SecAlign or SecPO; see [boundary.md](boundary.md) |
 | `--` | everything after it is the server command |
 
 ## What it does not do
