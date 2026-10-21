@@ -1,0 +1,61 @@
+{
+ "model": "JoyYizhu/DataFilter",
+ "revision": "f1841ddf786325a1e00c4b56bd00f100a7f711d7",
+ "rows": 9160,
+ "changed": 191,
+ "rate": 0.020851528384279477,
+ "wilson95": [
+  0.01811993604615675,
+  0.02398485109900735
+ ],
+ "changed_similarity_lt_0_9": 163,
+ "by_type": {
+  "Analytical and Evaluative Tasks": {
+   "changed": 30,
+   "n": 3230
+  },
+  "Creative and Generative Tasks": {
+   "changed": 139,
+   "n": 2940
+  },
+  "Information Processing and Retrieval": {
+   "changed": 22,
+   "n": 2990
+  }
+ },
+ "top_subtasks": {
+  "Function Implementation": [
+   14,
+   30
+  ],
+  "Contextual Customization": [
+   13,
+   30
+  ],
+  "Follow-up Reminder": [
+   12,
+   30
+  ],
+  "Alternative Endings Creation": [
+   10,
+   30
+  ],
+  "Prompt Variability Generation": [
+   10,
+   30
+  ],
+  "Email Drafting": [
+   9,
+   30
+  ],
+  "Multi-Lingual Prompt Adaptation": [
+   9,
+   30
+  ],
+  "Feature Extension": [
+   9,
+   30
+  ]
+ },
+ "emptied": 80
+}
