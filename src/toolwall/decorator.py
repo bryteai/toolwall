@@ -27,6 +27,7 @@ from typing import Any, Protocol, TypeVar, cast, overload
 
 from . import _arg_inspect, _redact, audit
 from ._budget import _Counter
+from .boundary import filter_untrusted
 from .exceptions import Blocked, BudgetExceeded, PolicyViolation
 from .policy import Policy
 
@@ -90,6 +91,13 @@ def _enforce_response(
 
     decision = "allow"
     detector_score: float | None = None
+    control_tokens_removed = False
+    if policy.untrusted_delimiters and kind in ("str", "bytes"):
+        filtered = filter_untrusted(text, policy.untrusted_delimiters)
+        control_tokens_removed = filtered != text
+        if control_tokens_removed:
+            decision = "redact"
+        text = filtered
     redacted, redactions = _redact.apply(text, policy.redact)
     if redactions:
         decision = "redact"
@@ -115,6 +123,7 @@ def _enforce_response(
         reason=None,
         evidence={
             "redactions": [r["pattern"] for r in redactions],
+            "control_tokens_removed": control_tokens_removed,
             "score": detector_score,
             "bytes": len(text),
         },

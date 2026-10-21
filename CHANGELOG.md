@@ -10,6 +10,20 @@ lifetime of the 0.1.x line.
 
 ---
 
+## [Unreleased]
+
+### Added
+- `toolwall.boundary`: keep tool outputs in the untrusted channel of role-separated models (StruQ, SecAlign,
+  Meta-SecAlign, SecPO). `filter_untrusted` removes control tokens to a fixed point (0 differences from the SecPO
+  Llama template's filter on 20,000 random strings), `untrusted_messages` builds `user` / `input` messages, and
+  `Policy(untrusted_delimiters=...)` filters every string response before redaction and detection. Design note:
+  `docs/boundary.md`.
+- `toolwall proxy --untrusted-delimiters llama3` applies the same filter to every string in MCP tool results.
+- `examples/role_separated/quickstart.py`: toolwall in front of `Sizhe-Chen/Llama-3.1-8B-Instruct-SecPO`, with one
+  recorded run on three benign tool outputs (`results/v0_4_role_separated_example.json`).
+- Utility check: false alarms on all 9,160 clean SEP rows for eight guards (toolwall v0.3: 1.12 %), one run:
+  `results/v0_4_sep_clean/`.
+
 ## [0.3.0] — 2026-10-20
 
 ### Changed
