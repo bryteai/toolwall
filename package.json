@@ -22,5 +22,10 @@
     "test": "pnpm -r run test",
     "lint": "pnpm -r run lint",
     "typecheck": "pnpm -r run typecheck"
+  },
+  "pnpm": {
+    "overrides": {
+      "vite": "^7.3.7"
+    }
   }
 }
