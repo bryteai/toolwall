@@ -1,6 +1,6 @@
 [project]
 name = "toolwall-guard"
-version = "0.3.0"
+version = "0.4.0"
 description = "A firewall for AI agents that checks tool responses for indirect prompt injection: rules plus a small CPU classifier."
 readme = "README.md"
 requires-python = ">=3.10"

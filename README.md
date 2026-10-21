@@ -31,6 +31,8 @@ Adapters for the Claude Agent SDK, CrewAI, LangGraph, OpenAI Agents SDK and MCP 
 
 **Protect any MCP server without code:** `toolwall proxy --judge -- <server command>` ([how](https://github.com/bryteai/toolwall/blob/main/docs/proxy.md)).
 
+**Trust boundary for role-separated models (v0.4):** `Policy(untrusted_delimiters=boundary.LLAMA3_DELIMITERS)` and `toolwall proxy --untrusted-delimiters llama3` put tool outputs in the untrusted `input` role that StruQ, SecAlign, Meta-SecAlign and SecPO expect, with control tokens removed; `boundary.frame_untrusted` adds BIPIA's reminder and border framing for models without that role ([design and evidence](https://github.com/bryteai/toolwall/blob/main/docs/boundary.md)).
+
 Documentation: [installation](https://github.com/bryteai/toolwall/blob/main/docs/installation.md) · [usage and every policy field](https://github.com/bryteai/toolwall/blob/main/docs/usage.md) · [evaluation](https://github.com/bryteai/toolwall/blob/main/docs/evaluation.md). Offline demo: `python examples/arsenal_demo/demo.py`.
 
 ## How it works
@@ -173,7 +175,7 @@ Seeds are fixed in each script. `training/generate_v0_3_deepseek.py` made the ge
   title  = {toolwall: a tool-boundary firewall for indirect prompt injection in AI agents},
   author = {Hasnain, Muhammad},
   year   = {2026},
-  version = {0.3.0},
+  version = {0.4.0},
   url    = {https://github.com/bryteai/toolwall}
 }
 ```
