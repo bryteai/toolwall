@@ -10,7 +10,7 @@ lifetime of the 0.1.x line.
 
 ---
 
-## [Unreleased]
+## [0.4.0] — 2026-10-21
 
 ### Added
 - `toolwall.boundary`: keep tool outputs in the untrusted channel of role-separated models (StruQ, SecAlign,
