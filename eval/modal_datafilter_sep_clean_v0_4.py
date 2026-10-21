@@ -36,7 +36,7 @@ SYSTEM_PROMPT = ("You are a data filter designed to clean and sanitize input dat
 app = modal.App("toolwall-datafilter-sep-clean-v0-4")
 hf_cache = modal.Volume.from_name("toolwall-hf-cache", create_if_missing=True)
 image = (modal.Image.debian_slim(python_version="3.12")
-         .pip_install("vllm==0.11.0", "huggingface_hub>=0.27")
+         .pip_install("vllm==0.11.0", "transformers==4.57.1", "huggingface_hub>=0.27")
          .env({"HF_HOME": "/hf", "VLLM_LOGGING_LEVEL": "WARNING"})
          .add_local_dir(str(DATA), remote_path="/data"))
 
