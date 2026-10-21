@@ -18,6 +18,8 @@ lifetime of the 0.1.x line.
   Llama template's filter on 20,000 random strings), `untrusted_messages` builds `user` / `input` messages, and
   `Policy(untrusted_delimiters=...)` filters every string response before redaction and detection. Design note:
   `docs/boundary.md`.
+- `boundary.frame_untrusted`: BIPIA's black-box framing (explicit reminder + border strings) for models
+  without an `input` role; border strings are stripped from the content.
 - `toolwall proxy --untrusted-delimiters llama3` applies the same filter to every string in MCP tool results.
 - `examples/role_separated/quickstart.py`: toolwall in front of `Sizhe-Chen/Llama-3.1-8B-Instruct-SecPO`, with one
   recorded run on three benign tool outputs (`results/v0_4_role_separated_example.json`).
