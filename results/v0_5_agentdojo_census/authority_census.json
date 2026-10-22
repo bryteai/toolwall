@@ -1,0 +1,51 @@
+{
+ "classes": {
+  "workspace": {
+   "NO_AUTHORITY_ARG": 22,
+   "PROMPT": 2,
+   "CLEAN": 16
+  },
+  "travel": {
+   "PROMPT": 2,
+   "NO_AUTHORITY_ARG": 18
+  },
+  "banking": {
+   "TAINTED": 1,
+   "NO_AUTHORITY_ARG": 5,
+   "CLEAN": 3,
+   "PROMPT": 6,
+   "UNOBSERVED": 1
+  },
+  "slack": {
+   "PROMPT": 2,
+   "CLEAN": 9,
+   "TAINTED": 10
+  }
+ },
+ "flags": {
+  "workspace": {
+   "side_effect": 23,
+   "instr_in_data": 2,
+   "repeated_data_targets": 1,
+   "selection_influenced": 2
+  },
+  "travel": {
+   "side_effect": 6,
+   "instr_in_data": 0,
+   "repeated_data_targets": 0,
+   "selection_influenced": 0
+  },
+  "banking": {
+   "side_effect": 12,
+   "instr_in_data": 1,
+   "repeated_data_targets": 0,
+   "selection_influenced": 0
+  },
+  "slack": {
+   "side_effect": 21,
+   "instr_in_data": 2,
+   "repeated_data_targets": 5,
+   "selection_influenced": 0
+  }
+ }
+}

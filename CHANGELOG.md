@@ -10,6 +10,20 @@ lifetime of the 0.1.x line.
 
 ---
 
+## [Unreleased]
+
+### Added
+- `toolwall.handoff`: checks for type-directed privilege separation (Jacob et al., arXiv 2509.25926).
+  `parse_handoff` validates a quarantined model's output against a schema of `Int`, `Float`, `Bool`, `Enum`,
+  `ArrayOf`, `Record` and `Opaque` (booleans are not numbers, non-finite floats and strings outside an enum are
+  rejected, errors never include the value); opaque text is hidden from `str`/`repr`/`format`. `check_call` refuses
+  an opaque value in an authority parameter (recipient, IBAN, URL, participant, object id) and can enforce an
+  allow-list. Design note: `docs/handoff.md`.
+- Census of where AgentDojo v1.2.2's authority-bearing values come from in the ground-truth traces (97 tasks, no
+  model, no attack): in 11 tasks a target is observable only in a field that holds an injection vector (the IBAN in
+  "pay the bill" is part of the vector's default text), in 28 every non-prompt target occurs in a clean field, and in
+  12 all targets are in the user's request. `eval/agentdojo_census/`, `results/v0_5_agentdojo_census/`.
+
 ## [0.4.0] — 2026-10-21
 
 ### Added

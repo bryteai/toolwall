@@ -33,6 +33,8 @@ Adapters for the Claude Agent SDK, CrewAI, LangGraph, OpenAI Agents SDK and MCP 
 
 **Trust boundary for role-separated models (v0.4):** `Policy(untrusted_delimiters=boundary.LLAMA3_DELIMITERS)` and `toolwall proxy --untrusted-delimiters llama3` put tool outputs in the untrusted `input` role that StruQ, SecAlign, Meta-SecAlign and SecPO expect, with control tokens removed; `boundary.frame_untrusted` adds BIPIA's reminder and border framing for models without that role ([design and evidence](https://github.com/bryteai/toolwall/blob/main/docs/boundary.md)).
 
+**Typed handoffs for privilege-separated agents (unreleased):** `toolwall.handoff` validates what a quarantined model passes to the privileged one (ints, floats, booleans, designer-fixed enums, opaque text) and refuses opaque text in authority arguments such as a recipient or an IBAN ([design](https://github.com/bryteai/toolwall/blob/main/docs/handoff.md)). A [census of AgentDojo](https://github.com/bryteai/toolwall/blob/main/results/v0_5_agentdojo_census/README.md) shows where those arguments come from in each of its 97 tasks.
+
 Documentation: [installation](https://github.com/bryteai/toolwall/blob/main/docs/installation.md) · [usage and every policy field](https://github.com/bryteai/toolwall/blob/main/docs/usage.md) · [evaluation](https://github.com/bryteai/toolwall/blob/main/docs/evaluation.md). Offline demo: `python examples/arsenal_demo/demo.py`.
 
 ## How it works
