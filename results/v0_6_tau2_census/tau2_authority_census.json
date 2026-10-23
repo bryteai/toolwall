@@ -1,0 +1,12 @@
+{
+ "airline": {
+  "NO_WRITE": 24,
+  "DB_READ": 11,
+  "DB": 15
+ },
+ "retail": {
+  "DB_READ": 54,
+  "NO_WRITE": 10,
+  "DB": 50
+ }
+}
