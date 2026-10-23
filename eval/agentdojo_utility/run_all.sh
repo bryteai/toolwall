@@ -24,5 +24,7 @@ for rep in 1 2 3; do
   done
   wait
 done
+for pol in none provenance; do run deepseek:deepseek-v4-pro deepseek-v4-pro $pol 1 & done   # one repeat (balance)
+wait
 $PY -I eval/agentdojo_utility/content_sensitivity.py results/v0_6_agentdojo_utility/content_sensitivity.json
 python3 -I eval/agentdojo_utility/report.py results/v0_6_agentdojo_utility

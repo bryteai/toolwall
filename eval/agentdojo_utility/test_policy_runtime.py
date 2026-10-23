@@ -63,6 +63,21 @@ def test_a_url_with_a_scheme_names_the_same_target():
     assert rt.source("get_webpage", "url", "https://www.not-in-the-data.com") == "UNOBSERVED"
 
 
+def test_text_the_agent_wrote_does_not_launder_a_value():
+    # slack/20: Dora's address is only on her web page, next to a vector. Posting it to a channel and reading the
+    # channel back must not make it CLEAN.
+    suite = get_suites("v1.2.2")["slack"]
+    ut = suite.user_tasks["user_task_20"]
+    env = ut.init_environment(suite.load_and_inject_default_environment({}))
+    shadow = ut.init_environment(suite.load_and_inject_default_environment(canary_injections(suite)))
+    rt = PolicyRuntime(suite.tools, suite_name="slack", prompt=ut.PROMPT, shadow_env=shadow, policy="provenance")
+    rt.run_function(env, "get_webpage", {"url": "www.dora-website.com"})
+    rt.run_function(env, "send_channel_message", {"channel": "random", "body": "Dora: dora@gmail.com"})
+    rt.run_function(env, "read_channel_messages", {"channel": "random"})
+    assert rt.source("invite_user_to_slack", "user_email", "dora@gmail.com") == "TAINTED"
+    assert env.slack.channel_inbox["random"][-1].body == "Dora: dora@gmail.com"   # the real post is unmarked
+
+
 def test_unknown_policy_is_rejected():
     with pytest.raises(ValueError):
         PolicyRuntime([], suite_name="banking", prompt="", shadow_env=None, policy="allow_everything")

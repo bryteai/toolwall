@@ -12,6 +12,8 @@ A refused call does not run; the agent receives an error and may go on. Which ou
 read from a shadow copy of the task environment with every injection vector filled with a canary: each executed call
 also runs there, and a leaf is attacker-writable if the shadow output holds a canary at the same place. The shadow
 uses the benchmark's declared vectors, an oracle a deployed system does not have; prompt_only needs no such labels.
+Free text the agent writes (a message body, a file's content) goes into the shadow marked as attacker text, so a value
+the agent copies out of a vector field and reads back later stays TAINTED.
 """
 import os
 import sys
@@ -25,6 +27,7 @@ from tool_roles import SIDE_EFFECT
 POLICIES = ("none", "prompt_only", "provenance")
 SOURCES = ["PROMPT", "CLEAN", "TAINTED", "UNOBSERVED"]
 ALLOWED = {"none": None, "prompt_only": {"PROMPT"}, "provenance": {"PROMPT", "CLEAN"}}
+TEXT_CONTENT = {"body", "subject", "title", "description", "content"}   # free text the agent composes
 
 
 def canary_injections(suite):
@@ -82,7 +85,11 @@ class PolicyRuntime(FunctionsRuntime):
         # A tool error goes back to the agent instead of ending the run: after a refusal the ground-truth replay calls
         # tools on state the refused call never created ("User Dora not found"), as an agent might.
         result, error = super().run_function(env, function, kwargs, raise_on_error=False)
-        shadow, _ = super().run_function(self.shadow_env, function, dict(kwargs), raise_on_error=False)
+        # slack/20: an agent posted a web page's text, with the address from its vector, to a channel and read the
+        # channel back; unmarked, the address then counted as CLEAN.
+        shadow_kwargs = {p: f"{CANARY}{v}" if roles.get(p) == "content" and p in TEXT_CONTENT and isinstance(v, str)
+                         else v for p, v in (kwargs or {}).items()}
+        shadow, _ = super().run_function(self.shadow_env, function, shadow_kwargs, raise_on_error=False)
         self.records.append((plain(result), plain(shadow), bad_args))
         return result, error
 
